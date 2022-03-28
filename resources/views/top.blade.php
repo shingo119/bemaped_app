@@ -158,7 +158,7 @@
                         minLat = minLat < lat ? minLat:lat;
                         minLon = minLon < lon ? minLon:lon;
                         const x = map.pinText(lat, lon, " ", " ", ' ');
-                        map.infoboxHtml(lat, lon,`<div id='pin_id${i}' class='relative -left-12 -top-28'><img class='w-24' src='{{asset('img/pin.png')}}'><img class='absolute left-2 top-2 w-20' src='{{asset('img/susuru.png')}}'></div>`);
+                        map.infoboxHtml(lat, lon,`<div id='pin_id${i}' class='relative -left-12 -top-2'><img class='w-24' src='{{asset('img/pin.png')}}'><img class='absolute left-2 top-2 w-20' src='{{asset('img/susuru.png')}}'></div>`);
                         map.infoboxHtml(lat, lon, `<div id="info_id${i}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
