@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Spot;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class SpotController extends Controller
 {
@@ -21,6 +22,16 @@ class SpotController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mapping_map()
+    {
+        return view('mapping_map');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -31,14 +42,93 @@ class SpotController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mapping()
+    {
+        $categories = DB::table('categories')->get();
+        return view('mapping', ['categories' => $categories]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function profile_edit()
+    {
+        $user = User::where('id', '=', \Auth::id())->first();
+        return view('profile_edit', ['user' => $user]);
+    }
+
+    //fileUpload("送信名","アップロード先フォルダ");
+    // function fileUpload($fname,$path){
+    // if (isset($request->file('fname') ) && $request->file('fname')["error"] ==0 ) {
+    //     //ファイル名取得
+    //     $file_name = $request->file('fname')["name"];
+    //     //一時保存場所取得
+    //     $tmp_path  = $request->file('fname')["tmp_name"];
+    //     //拡張子取得
+    //     $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+    //     //ユニークファイル名作成
+    //     $file_name = date("YmdHis").md5(session_id()) . "." . $extension;
+    //     // FileUpload [--Start--]
+    //     $file_dir_path = $path.$file_name;
+    //     if ( is_uploaded_file( $tmp_path ) ) {
+    //         if ( move_uploaded_file( $tmp_path, $file_dir_path ) ) {
+    //             chmod( $file_dir_path, 0644 );
+    //             return $file_name; //成功時：ファイル名を返す
+    //         } else {
+    //             return 1; //失敗時：ファイル移動に失敗
+    //         }
+    //     }
+    //     }else{
+    //         return 2; //失敗時：ファイル取得エラー
+    //     }
+    // }
+
+
+//************************************************ */
+//************************************************ */
+    //明日ここからUser::updateで更新、それとuser_idごとに情報更新しないといけない！
+    public function profile_store(Request $request)
+    {
+        $profile = $request->all();
+        User::upload(['name' => $profile['name'], 'email' => $profile['email']]);
+        $spots = ' ';
+        return view('top', ['spots' => $spots]);
+    }
+
+
+    
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    //YouTubeのURLからVIDEO_IDを取得する関数
+    function video_id($movie_url) {
+    $res = explode('/', $movie_url);
+    $res = $res[count($res)-1];
+    $res = explode('v=', $res);
+    $res = $res[count($res)-1];
+    $res = explode('&', $res);
+    $res = $res[0];
+    return $res;
+    }
+
     public function store(Request $request)
     {
-        //
+        $spot = $request->all();
+        $spot['movie_url'] = $this->video_id($spot['movie_url']);
+        Spot::insert(['movie_title' => $spot['movie_title'], 'comment' => $spot['comment'], 'youtube_id' => $spot['movie_url'], 'tag' => $spot['tag'], 'lat' => $spot['lat'], 'lon' => $spot['lon'], 'user_id' => \Auth::id(), 'category_id' => $spot['category_id']]);
+        $spots = ' ';
+        return view('top', ['spots' => $spots]);
     }
 
     public function search(Request $request)
@@ -90,6 +180,8 @@ class SpotController extends Controller
             return view('view', ['spots' => $spots]);
         }
     }
+
+
 
     /**
      * Display the specified resource.

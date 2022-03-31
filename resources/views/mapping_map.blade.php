@@ -36,39 +36,25 @@
     </head>
     <body>
         <div id="myMap" class="w-screen h-screen"></div>
-        <form method="POST" action="{{ route('search')}}">
-            @csrf
-            <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg">
-                <div class="mr-1 bg-white rounded-full">
-                    <img id="menu" class="block w-6 p-1 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
-                </div>
-                <div class="search-bar w-1/2 h-8 bg-white rounded-2xl flex justify-between  items-center md:max-w-md">
-                    <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt="">
-                    <input class="w-3/4" type="text" id="search" name="search_word">
-                    <input type="image" name="submit" class="cursor-pointer w-4 m-2 drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="送信する" >
-                    {{-- <button type="submit" class="btn btn-primary">送信</button> --}}
-                </div>
-                <img class="w-4 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}">
+        <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg">
+            <div class="mr-1 bg-white rounded-full">
+                <img id="menu" class="block w-6 p-1 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
             </div>
-        </form>
-        <form method="POST" action="{{ route('category')}}">
-            @csrf
-            {{-- <div class="absolute bg-white inset-x-0 top-24 mx-auto mt-4">
-                <div class="w-1/2 m-auto overflow-x-scroll bg-green-300">
-                    <div class="flex m-auto w-80 bg-blue-400"> --}}
-            <div class="absolute inset-x-0 top-24 mx-auto mt-4">
-                <div class="w-1/2 m-auto overflow-x-scroll">
-                    <div class="flex m-auto w-80">
-                        <button id="shokuji" type="submit" name="category_id" value=1 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-orange-400 flex justify-center items-center">食事</button>
-                        <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-red-400 flex justify-center items-center">観光</button>
-                        <button id="kouen" type="submit" name="category_id" value=3 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-green-300 flex justify-center items-center">公園</button>
-                        <button id="outdoor" type="submit" name="category_id" value=4 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-blue-400 flex justify-center items-center">アウトドア</button>
-                        <button id="fashion" type="submit" name="category_id" value=5 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-purple-400 flex justify-center items-center">ファッション</button>
-                        <button id="tomaru" type="submit" name="category_id" value=6 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-pink-300 flex justify-center items-center">泊まる</button>
-                    </div>
+            <div class="search-bar w-1/2 h-8 bg-white rounded-2xl flex justify-between  items-center md:max-w-md">
+                <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt="">
+                <input class="w-3/4" type="text" id="search" name="search_word">
+                <img id="search_button" class="cursor-pointer w-4 m-2 drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="位置検索" />
+                {{-- <button type="submit" class="btn btn-primary">送信</button> --}}
+            </div>
+            <img onclick="keyword" class="w-4 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}">
+        </div>
+        <div class="absolute bg-white inset-x-0 top-24 mx-auto mt-4">
+            <div class="w-1/2 m-auto bg-green-300 flex justify-center">
+                <div class="flex m-auto w-80 bg-blue-400 justify-center">
+                    <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-red-400 flex justify-center items-center">マッピングモード</button>                   
                 </div>
             </div>
-        </form>
+        </div>
         <div class="absolute top-28 w-full bg-green-300 grid">
             <div class="justify-self-center  w-3/5 bg-orange-300 md:max-w-md">
                 <div id="hiddenMenu" class="hidden w-[120px] rounded-md shadow-lg p-2 bg-white ">
@@ -76,32 +62,17 @@
                     <div class="border-b text-gray-600 font-semibold p-1"><a href="{{ route('register') }}">サインアップ</a></div>
                     <div class="border-b text-gray-600 font-semibold p-1"><a href="{{ route('login') }}">ログイン</a></div>
                     @else
-                    <div class="border-b text-gray-600 font-semibold p-1"><a href="{{ route('mapping_map') }}">マッピングMAP</a></div>
+                    <div class="border-b text-gray-600 font-semibold p-1"><a href="{{ route('index') }}">動画検索MAP</a></div>
                     <div class="border-b text-gray-600 font-semibold p-1"><a href="{{ route('logout') }}"
                            class="no-underline hover:underline"
                            onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">ログアウト</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             {{ csrf_field() }}
-                        </form>
-                    </div>
+                        </form></div>
                     <div class="text-gray-600 font-semibold p-1"><a href="{{ route('profile_edit') }}">プロフィール</a></div>
                     @endguest
                 </div>
-            </div>
-        </div>
-
-        {{-- <div class="non_height spot_card_container absolute bg-white inset-x-0 top-2/3 mx-auto mt-4">
-            <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll bg-green-300 snap-y flex flex-col items-center"> --}}
-        <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
-            <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center">
-        @if(gettype($spots) == "object")
-            @foreach($spots as $spot)
-                <x-spot-card :spot="$spot" />
-            @endforeach
-        @else
-            <div></div>
-        @endif
             </div>
         </div>
         
@@ -111,11 +82,25 @@
             }
 
             const windowWidth = $(window).width();
-            const windowSm = 820;
+            const windowSm = 750;
 
             // $('#view_button').on('click', function(){
             //     $('#hidden_veiw').removeClass('hidden');
             // })
+
+            function addressSearch(map) {
+                $('#search_button').on('click', function () {
+                    map.pinLayerClear();
+                    let address = String(document.querySelector("#search").value);
+                    map.getGeocode(address, function (data) {
+                        lat = data.latitude;  //Get latitude
+                        lon = data.longitude; //Get longitude
+                        pin = map.pinLayer(lat, lon, "#0000ff");
+                        // document.getElementById("pin_lat").value = lat;
+                        // document.getElementById("pin_lon").value = lon;
+                    });
+                });
+            }
 
             function GetMap() {
                 //------------------------------------------------------------------------
@@ -130,13 +115,40 @@
                 //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
                 //--------------------------------------------------
                 map.startMap(35.712772, 139.750443, "canvasLight", 13);
+                addressSearch(map);
+                map.onGeocode("click", function(data){
+                    map.crearInfobox();
+                    const lat = data.location.latitude;  //Get latitude
+                    const lon = data.location.longitude; //Get longitude
+                    //Create Event to Infobox
+                    map.infobox(lat, lon,'動画を', '<a href="{{ url('mapping') }}">マッピング</a>');
+                    // map.infobox(47.6149, -122.1941, "Title", '<a href="">aaa</a>');
+                    const obj = {
+                        'lat':lat,
+                        'lon':lon
+                    }
+                    const setjson = JSON.stringify(obj)
+                    localStorage.setItem('str',setjson)
+                });
+
+                
+                // キーワード検索で座標を取ってきて、その座標を表示
+                // map.getGeocode(, function (data) {
+                //     console.log(data);          //Get Geocode ObjectData
+                //     const lat = data.latitude;  //Get latitude
+                //     const lon = data.longitude; //Get longitude
+                //     console.log(lat); 
+                //     console.log(lon);
+                //     // document.querySelector("#geocode").innerHTML = lat + '<br>' + lon;
+                // });
+                
 
                 // キーワード検索で座標を取ってきて、その座標を表示
                 // map.getGeocode("Seattle", function (data) {
                 //     console.log(data);          //Get Geocode ObjectData
                 //     const lat = data.latitude;  //Get latitude
                 //     const lon = data.longitude; //Get longitude
-                //     document.querySelector("#geocode").innerHTML = lat + '<br>' + lon;
+                //     // document.querySelector("#geocode").innerHTML = lat + '<br>' + lon;
                 // });
 
                 //----------------------------------------------------
@@ -146,66 +158,6 @@
                 //----------------------------------------------------
                 //let pin = map.pinIcon(47.6130, -122.1945, "../img/poi_custom.png", 1.0, 0, 0);
                 
-                //配列をmapで回してマッピング
-                let maxLat = -90;
-                let maxLon = -180;
-                let minLat = 90;
-                let minLon = 180;
-                let latZoom = 0;
-                let lonZoom = 0;
-                //マッピング関数
-                const mappingFunction = (datas) => {
-                    datas.forEach((el,i) => {
-                        const lat = el['lat'];
-                        const lon = el['lon'];
-                        maxLat = maxLat > lat ? maxLat:lat;
-                        maxLon = maxLon > lon ? maxLon:lon;
-                        minLat = minLat < lat ? minLat:lat;
-                        minLon = minLon < lon ? minLon:lon;
-                        const x = map.pinText(lat, lon, " ", " ", ' ');
-                        map.infoboxHtml(lat, lon,`<div id='pin_id${i}' class='relative -left-12 -top-28'><img class='w-24' src='{{asset('img/pin.png')}}'><img class='absolute left-2 top-2 w-20' src='{{asset('img/susuru.png')}}'></div>`);
-                        map.infoboxHtml(lat, lon, `<div id="info_id${i}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
-                        // ホバーした時のみ説明を表示する
-                        if(windowWidth <= windowSm){
-                            map.onPin(x,"click", function(){
-                                $('#info_id'+i).removeAttr('hidden');
-                                $('[id^=pin_id]').addClass('hidden');
-                            })
-                            map.onMap("click", function () {
-                                $('[id^=info_id]').attr('hidden', true);
-                                $('[id^=pin_id]').removeClass('hidden');
-                            });
-                        }else{
-                            map.onPin(x, "mouseout", function () {
-                                $('#info_id'+i).attr('hidden', true);
-                                $('[id^=pin_id]').removeClass('hidden');
-                            });
-                            map.onPin(x, "mouseover", function () {
-                                $('#info_id'+i).removeAttr('hidden');
-                                $('[id^=pin_id]').addClass('hidden');
-                            });
-                        }
-                        
-                    })
-                    if(typeof(datas) == 'object'){
-                        $('.non_height').addClass('h-1/4');
-                        $('#non_height').addClass('h-full');
-                    }
-                    console.log(datas)
-                    const latLength = (maxLat - minLat)*91;
-                    const lonLength = (maxLon - minLon)*110;
-                    const latLengthList = [36615, 14646, 7323, 3661, 2929, 1464, 732, 366, 146, 73, 29, 14, 7.3, 3.6, 1.4, 0.7]
-                    const lonLengthList = [55961, 22384, 11192, 5596, 4476, 2238, 1119, 559, 223, 111, 44, 22, 11, 5, 2.2, 1.1]
-                    latLengthList.forEach(el => latLength < el ? latZoom++:null);
-                    lonLengthList.forEach(el => lonLength < el ? lonZoom++:null);
-                    const zoom = Math.min(...[latZoom,lonZoom]);
-                    const maxLength = Math.max(...[latLength,lonLength]);
-                    // console.log("maxLength:"+maxLength);
-                    // console.log("zoom:"+zoom);
-                    // console.log("currentGiocord:"+(Number(maxLat) + Number(minLat))/2+','+(Number(maxLon) + Number(minLon))/2);
-                    map.changeMap((Number(maxLat) + Number(minLat))/2, (Number(maxLon) + Number(minLon))/2, "load", zoom); //ここも毎回changeMapを入れるのは無駄になりそうなので、良い位置が表示されるように検討する                    
-                }
-                mappingFunction(@json($spots));
             }
 
         </script>

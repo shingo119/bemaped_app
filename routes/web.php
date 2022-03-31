@@ -26,3 +26,9 @@ Route::post('/category', [SpotController::class, 'category'])->name('category');
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/view', [SpotController::class, 'view'])->name('view');
+Route::get('/mapping', [SpotController::class, 'mapping'])->name('mapping');
+Route::post('/store', [SpotController::class, 'store'])->name('store');
+
+Route::get('/mapping_map', [SpotController::class, 'mapping_map'])->name('mapping_map');
+Route::get('/profile_edit', [SpotController::class, 'profile_edit'])->name('profile_edit');
+Route::post('/profile_store', [SpotController::class, 'profile_store'])->name('profile_store');
