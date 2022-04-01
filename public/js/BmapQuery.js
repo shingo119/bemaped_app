@@ -78,6 +78,9 @@ var Bmap = (function () {
                                 "Microsoft.Maps.MapTypeId." + typeid
                             ),
                             zoom: size,
+                            enableClickableLogo: false,
+                            showDashboard: false,
+                            showScalebar: false,
                         }));
                 },
             },

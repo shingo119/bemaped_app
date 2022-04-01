@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>bemaped</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -40,37 +40,37 @@
             @csrf
             <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg">
                 <div class="mr-1 bg-white rounded-full">
-                    <img id="menu" class="block w-6 p-1 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
+                    <img id="menu" class="block w-8 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
                 </div>
-                <div class="search-bar w-1/2 h-8 bg-white rounded-2xl flex justify-between  items-center md:max-w-md">
-                    <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt="">
-                    <input class="w-3/4" type="text" id="search" name="search_word">
+                <div class="search-bar w-2/3 h-10 bg-aaa rounded-2xl flex justify-end  items-center md:max-w-md">
+                    {{-- <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt=""> --}}
+                    <input class="w-4/5 mr-1 h-8" type="text" id="search" name="search_word">
                     <input type="image" name="submit" class="cursor-pointer w-4 m-2 drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="送信する" >
                     {{-- <button type="submit" class="btn btn-primary">送信</button> --}}
                 </div>
-                <img class="w-4 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}">
+                {{-- <img class="w-6 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}"> --}}
             </div>
         </form>
         <form method="POST" action="{{ route('category')}}">
             @csrf
-            {{-- <div class="absolute bg-white inset-x-0 top-24 mx-auto mt-4">
-                <div class="w-1/2 m-auto overflow-x-scroll bg-green-300">
-                    <div class="flex m-auto w-80 bg-blue-400"> --}}
-            <div class="absolute inset-x-0 top-24 mx-auto mt-4">
-                <div class="w-1/2 m-auto overflow-x-scroll">
-                    <div class="flex m-auto w-80">
-                        <button id="shokuji" type="submit" name="category_id" value=1 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-orange-400 flex justify-center items-center">食事</button>
-                        <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-red-400 flex justify-center items-center">観光</button>
-                        <button id="kouen" type="submit" name="category_id" value=3 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-green-300 flex justify-center items-center">公園</button>
-                        <button id="outdoor" type="submit" name="category_id" value=4 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-blue-400 flex justify-center items-center">アウトドア</button>
-                        <button id="fashion" type="submit" name="category_id" value=5 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-purple-400 flex justify-center items-center">ファッション</button>
-                        <button id="tomaru" type="submit" name="category_id" value=6 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-pink-300 flex justify-center items-center">泊まる</button>
+            {{-- <div class="absolute w-full bg-white inset-x-0 top-28 mx-auto mt-4 flex justify-center">
+                <div class="w-11/12 bg-green-300 flex justify-center">
+                    <div class="flex w-full bg-blue-400 justify-center"> --}}
+            <div class="absolute w-full inset-x-0 -top-2 mx-auto mt-4 flex justify-center">
+                <div class="w-11/12 flex justify-center">
+                    <div class="flex w-full justify-center">
+                        <button id="shokuji" type="submit" name="category_id" value=1 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-orange-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">食事</button>
+                        <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-red-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">観光</button>
+                        {{-- <button id="kouen" type="submit" name="category_id" value=3 class="appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-green-300 flex justify-center items-center">公園</button> --}}
+                        {{-- <button id="outdoor" type="submit" name="category_id" value=4 class="p-1 box-border appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-blue-400 flex justify-center items-center">アウトドア</button> --}}
+                        {{-- <button id="fashion" type="submit" name="category_id" value=5 class="p-1 box-border appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-purple-400 flex justify-center items-center">ファッション</button> --}}
+                        {{-- <button id="tomaru" type="submit" name="category_id" value=6 class="appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-pink-300 flex justify-center items-center">泊まる</button> --}}
                     </div>
                 </div>
             </div>
         </form>
-        <div class="absolute top-28 w-full bg-green-300 grid">
-            <div class="justify-self-center  w-3/5 bg-orange-300 md:max-w-md">
+        <div class="absolute top-[122px] left-[-30px] w-full grid">
+            <div class="justify-self-center  w-3/5 md:max-w-md">
                 <div id="hiddenMenu" class="hidden w-[120px] rounded-md shadow-lg p-2 bg-white ">
                     @guest
                     <div class="border-b text-gray-600 font-semibold p-1"><a href="{{ route('register') }}">サインアップ</a></div>
@@ -91,10 +91,10 @@
             </div>
         </div>
 
-        {{-- <div class="non_height spot_card_container absolute bg-white inset-x-0 top-2/3 mx-auto mt-4">
-            <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll bg-green-300 snap-y flex flex-col items-center"> --}}
         <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
-            <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center">
+            <div id="non_height" class="spot_card_content w-4/5 m-auto overflow-x-scroll snap-y flex flex-col items-center">
+        {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
+            <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
         @if(gettype($spots) == "object")
             @foreach($spots as $spot)
                 <x-spot-card :spot="$spot" />
@@ -117,11 +117,13 @@
             //     $('#hidden_veiw').removeClass('hidden');
             // })
 
+
             function GetMap() {
                 //------------------------------------------------------------------------
                 //1. Instance
                 //------------------------------------------------------------------------
                 const map = new Bmap("#myMap");
+                // map.disableZooming = false;
                 //------------------------------------------------------------------------
                 //2. Display Map（表示されるマップの設定）
                 //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
@@ -129,7 +131,7 @@
                 //   マップの種類：↓色々ある
                 //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
                 //--------------------------------------------------
-                map.startMap(35.712772, 139.750443, "canvasLight", 13);
+                map.startMap(35.712772, 139.750443, "load", 13);
 
                 // キーワード検索で座標を取ってきて、その座標を表示
                 // map.getGeocode("Seattle", function (data) {

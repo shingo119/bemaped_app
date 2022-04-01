@@ -1,9 +1,13 @@
 module.exports = {
     purge: ["./resources/views/**/*.blade.php", "./resources/css/**/*.css"],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                aaa: "#f6f6f6",
+            },
+        },
         screens: {
-            ss: "600px",
+            ss: "520px",
 
             sm: "640px",
             // => @media (min-width: 640px) { ... }
@@ -16,7 +20,7 @@ module.exports = {
 
             xl: "1280px",
             // => @media (min-width: 1280px) { ... }
-        }
+        },
     },
     variants: {},
     plugins: [require("@tailwindcss/ui")],

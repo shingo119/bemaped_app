@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>bemaped</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -38,20 +38,20 @@
         <div id="myMap" class="w-screen h-screen"></div>
         <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg">
             <div class="mr-1 bg-white rounded-full">
-                <img id="menu" class="block w-6 p-1 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
+                <img id="menu" class="block w-8 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
             </div>
-            <div class="search-bar w-1/2 h-8 bg-white rounded-2xl flex justify-between  items-center md:max-w-md">
-                <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt="">
-                <input class="w-3/4" type="text" id="search" name="search_word">
+            <div class="search-bar w-2/3 h-10 bg-white rounded-2xl flex justify-between  items-center md:max-w-md">
+                {{-- <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt=""> --}}
+                <input class="w-4/5 mr-1 h-8" type="text" id="search" name="search_word">
                 <img id="search_button" class="cursor-pointer w-4 m-2 drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="位置検索" />
                 {{-- <button type="submit" class="btn btn-primary">送信</button> --}}
             </div>
-            <img onclick="keyword" class="w-4 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}">
+            {{-- <img onclick="keyword" class="w-4 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}"> --}}
         </div>
-        <div class="absolute bg-white inset-x-0 top-24 mx-auto mt-4">
-            <div class="w-1/2 m-auto bg-green-300 flex justify-center">
-                <div class="flex m-auto w-80 bg-blue-400 justify-center">
-                    <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-1 h-8 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-red-400 flex justify-center items-center">マッピングモード</button>                   
+        <div class="absolute w-full inset-x-0 top-28 mx-auto mt-4 flex justify-center">
+            <div class="w-1/2 flex justify-center">
+                    <div class="flex w-full bg-blue-400 justify-center rounded-lg">
+                    <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-full w-40 text-center text-xs bg-white text-red-400 flex justify-center items-center">マッピングモード</button>                   
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
                 //   マップの種類：↓色々ある
                 //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
                 //--------------------------------------------------
-                map.startMap(35.712772, 139.750443, "canvasLight", 13);
+                map.startMap(35.712772, 139.750443, "load", 13);
                 addressSearch(map);
                 map.onGeocode("click", function(data){
                     map.crearInfobox();
