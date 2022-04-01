@@ -958,6 +958,11 @@ Ensure the default browser behavior of the `hidden` attribute.
           user-select: none;
 }
 
+.snap-x {
+  -ms-scroll-snap-type: x var(--tw-scroll-snap-strictness);
+      scroll-snap-type: x var(--tw-scroll-snap-strictness);
+}
+
 .snap-y {
   -ms-scroll-snap-type: y var(--tw-scroll-snap-strictness);
       scroll-snap-type: y var(--tw-scroll-snap-strictness);
@@ -1039,6 +1044,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
 }
 
 .overflow-y-hidden {
@@ -1166,11 +1175,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-orange-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(253 186 140 / var(--tw-bg-opacity));
-}
-
-.bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(210 214 220 / var(--tw-bg-opacity));
 }
 
 .bg-aaa {
