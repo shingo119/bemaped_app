@@ -839,10 +839,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 25%;
 }
 
-.h-2\/5 {
-  height: 40%;
-}
-
 .h-4 {
   height: 1rem;
 }
@@ -956,11 +952,6 @@ Ensure the default browser behavior of the `hidden` attribute.
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
-
-.snap-x {
-  -ms-scroll-snap-type: x var(--tw-scroll-snap-strictness);
-      scroll-snap-type: x var(--tw-scroll-snap-strictness);
 }
 
 .snap-y {

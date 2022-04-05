@@ -41,7 +41,7 @@
                 <a href="{{route('index')}}"><img class="w-12 h-12 mt-3 ml-8" src="{{asset('img/back_button.png')}}" alt=""></a>
                 <div class="w-full h-full  flex justify-center">
                     <div class="view_container bg-yellow-300 rounded-3xl w-11/12 h-3/5 mt-2 max-w-4xl sm:h-3/5">
-                        <form id="spot" action="{{route('profile_store')}}" method="POST">
+                        <form id="spot" enctype="multipart/form-data" action="{{route('profile_store')}}" method="POST">
                             @csrf
                             <div class="flex justify-center h-full">
                                 <div class="input_item flex flex-col justify-between items-start w-4/6 h-4/5 mt-8" data-wow-delay=".5s">
@@ -53,6 +53,8 @@
                                     <div class="w-full font-bold my-3">Email：
                                     <input type="text" name="email" required="required" class="rounded-lg w-full h-8 p-2  sm:h-12" placeholder="メールアドレス（必須）" value="{{$user->email}}" />
                                     </div>
+                                    {{-- user_id --}}
+                                    <input type="hidden" name="id" name="id" value="{{$user->id}}" />
                                     <div class="my-3 font-bold">アイコン画像：<br><input type="file" accept="image/*" name="icon_upfile"></div>
                                     <div class="my-3 font-bold">背景画像：<br><input type="file" accept="image/*" name="background_upfile"></div>
                                 </div>

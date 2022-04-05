@@ -95,8 +95,12 @@ class SpotController extends Controller
     //明日ここからUser::updateで更新、それとuser_idごとに情報更新しないといけない！
     public function profile_store(Request $request)
     {
+        $icon = $request->file('icon_upfile')->store('','public');
+        $background = $request->file('background_upfile')->store('', 'public');
         $profile = $request->all();
-        User::upload(['name' => $profile['name'], 'email' => $profile['email']]);
+        $affected = DB::table('users')
+            ->where('id', \Auth::id())
+            ->update(['name' => $profile['name'], 'email' => $profile['email'], 'icon_img' => $icon, 'background_img' => $background]);
         $spots = ' ';
         return view('top', ['spots' => $spots]);
     }

@@ -34,6 +34,9 @@
             .calc-height{
                 height: calc(100vh - 48px);
             }
+            /* .calc-height2{
+                height: calc(100vh - 48px - 65px);
+            } */
         </style>
     </head>
     <body>
@@ -42,12 +45,12 @@
             <div class="bg-aaa absolute top-12 w-full calc-height rounded-3xl max-w-5xl">
                 <a href="{{route('index')}}"><img class="w-12 h-12 mt-3 ml-8" src="{{asset('img/back_button.png')}}" alt=""></a>
                 <div class="w-full">
-                    <div class="w-full h-full flex justify-center">
-                    <div id="view_screen" class="view_container bg-yellow-300 rounded-3xl w-11/12 h-2/5 mt-2 ss:h-3/5 max-w-4xl p-4">
+                    <div class="w-full flex justify-center">
+                    <div id="view_screen" class="view_container bg-yellow-300 rounded-3xl w-11/12 h-3/5 mt-2 ss:h-3/5 max-w-4xl p-4">
                     @foreach($spots as $spot)
                         <div class="view_content_wrap w-11/12 h-full mx-auto">
                             <div class="bg-white w-full mt-3 rounded-2xl flex items-center">
-                                <iframe class="w-full aspect-video rounded-md" src="https://www.youtube-nocookie.com/embed/{{ $spot->youtube_id }}?autoplay=1&mute=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&fs=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe class="w-full aspect-video rounded-md" src="https://www.youtube.com/embed/{{ $spot->youtube_id }}?autoplay=1&mute=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                             <div>
                                 <div class="title_text text-xs font-bold text-white mt-3">{{$spot->movie_title}}</div>
@@ -56,8 +59,6 @@
                                     {{-- <img class="w-4 h-4 mt-1 mx-2" src="{{asset('img/List_Add.png')}}" />
                                     <img class="w-4 h-4 mt-1 mx-2" src="{{asset('img/Chat_Circle.png')}}" />
                                     <img class="w-4 h-4 mt-1 mx-2" src="{{asset('img/Heart_02.png')}}" /> --}}
-                                    <a class="mb-0 text-white font-bold flex items-center mt-1 mx-2" href="#" id="sample-fullscreen"><img class="w-4 h-4" src="{{asset('img/fullscreen2.png')}}" alt="" /></a>
-                                    <a class="mb-0 text-white font-bold flex items-center mt-1 mx-2" href="#" id="sample-exitfullscreen"><img class="w-4 h-4" src="{{asset('img/defscreen2.png')}}" alt="" /></a>
                                 </div>
                             </div>
                         </div>
@@ -70,44 +71,7 @@
             </div>
         </div>
 
-        <script>
-        // 全画面モードにする
-        document.getElementById("sample-fullscreen" ).onclick = function() {
-            var successFlag = false ;
-            var methodName = "" ;
-            var rootElement = document.getElementById('view_screen') ;
-            if( rootElement.requestFullscreen ) {
-                rootElement.requestFullscreen() ;
-                successFlag = true ;
-                methodName = "requestFullscreen" ;
-            } else if( rootElement.webkitRequestFullscreen ) {
-                rootElement.webkitRequestFullscreen() ;
-                successFlag = true ;
-                methodName = "webkitRequestFullscreen" ;
-            } else if ( rootElement.mozRequestFullScreen ) {
-                rootElement.mozRequestFullScreen() ;
-                successFlag = true ;
-                methodName = "mozRequestFullScreen" ;
-            } else if( rootElement.msRequestFullscreen) {
-                rootElement.msRequestFullscreen() ;
-                successFlag = true ;
-                methodName = "msRequestFullscreen" ;
-            }
-        }
-
-        // 全画面モードを終了
-        document.getElementById( "sample-exitfullscreen" ).onclick = function() {
-            if ( document.webkitCancelFullScreen ) {
-                document.webkitCancelFullScreen() ;
-            } else if ( document.mozCancelFullScreen ) {
-                document.mozCancelFullScreen() ;
-            } else if ( document.msExitFullscreen ) {
-                document.msExitFullscreen() ;
-            } else {
-                document.exitFullscreen() ;
-            }
-        }
-        </script>
+        
         <script>
             function make_iframe_on_map_by_video_id(data){
             return `<iframe class="w-80 h-44 -top-2 rounded-md relative" src="https://www.youtube-nocookie.com/embed/${data}?autoplay=1&mute=1&version=3&loop=1&playlist=${data}&fs=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
