@@ -145,13 +145,15 @@ class SpotController extends Controller
             $keyword_list = explode(' ', $search_word);
             // dd($keyword_list);
             if(count($keyword_list) > 1){
-                $spots = Spot::where('movie_title', 'LIKE', '%'.$keyword_list[0].'%')
-                ->where('movie_title', 'LIKE', '%'.$keyword_list[1].'%')
-                ->leftjoin('users','users.id', '=', 'spots.user_id')
+                $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*')->
+                where('movie_title', 'LIKE', '%'.$keyword_list[0].'%')->
+                where('movie_title', 'LIKE', '%'.$keyword_list[1].'%')->
+                leftjoin('users','users.id', '=', 'spots.user_id')
                 ->get();
             }else{
-                $spots = Spot::where('movie_title', 'LIKE', '%'.$keyword['search_word'].'%')
-                ->leftjoin('users','users.id', '=', 'spots.user_id')
+                $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*')->
+                where('movie_title', 'LIKE', '%'.$keyword['search_word'].'%')->
+                leftjoin('users','users.id', '=', 'spots.user_id')
                 ->get();
             }
             // dd($spots);
@@ -167,7 +169,10 @@ class SpotController extends Controller
     {
         if($request['category_id'] != null){
             $keyword = $request->all();
-            $spots = Spot::where('category_id', '=', $keyword['category_id'])->get();
+            $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*')->
+            where('category_id', '=', $keyword['category_id'])
+            ->leftjoin('users','users.id', '=', 'spots.user_id')
+            ->get();
             return view('top', ['spots' => $spots]);
         }else{
             $spots = ' ';

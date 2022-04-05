@@ -110,13 +110,28 @@
             return `<iframe class="w-80 h-44 -top-2 rounded-md relative" src="https://www.youtube-nocookie.com/embed/${data}?autoplay=1&mute=1&version=3&loop=1&playlist=${data}&fs=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             }
 
-            const windowWidth = $(window).width();
-            const windowSm = 820;
+            const windowWidth = $(window).width(); //ウィンドウサイズ取得
+            const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
 
             // $('#view_button').on('click', function(){
             //     $('#hidden_veiw').removeClass('hidden');
             // })
 
+            const cardHoverAction = () => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
+                let id = null;
+                $('.view_button').on('mouseover', function(){
+                    id = $(this).attr('id');
+                    $('#info_id'+id).removeAttr('hidden');
+                    $('[id^=pin_id]').addClass('hidden');
+                    // console.log(id);
+                }) 
+                $('.view_button').on('mouseout', function(){
+                    $('#info_id'+id).attr('hidden', true);
+                    $('[id^=pin_id]').removeClass('hidden');
+                })
+            }
+
+            cardHoverAction();
 
             function GetMap() {
                 //------------------------------------------------------------------------
@@ -165,12 +180,13 @@
                         minLat = minLat < lat ? minLat:lat;
                         minLon = minLon < lon ? minLon:lon;
                         const x = map.pinText(lat, lon, " ", " ", ' ');
-                        map.infoboxHtml(lat, lon,`<div id='pin_id${i}' class='relative -left-12 -top-28'><img class='w-24' src='{{asset('img/pin.png')}}'><img class='absolute left-2 top-2 w-20' src='{{asset('img/susuru.png')}}'></div>`);
-                        map.infoboxHtml(lat, lon, `<div id="info_id${i}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
+                        // console.log(el)
+                        map.infoboxHtml(lat, lon,'<div id="pin_id'+el['spot_id']+'" class="relative -left-12 -top-28"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="http://localhost/storage/'+ el['icon_img'] +'"></div>');
+                        map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
                             map.onPin(x,"click", function(){
-                                $('#info_id'+i).removeAttr('hidden');
+                                $('#info_id'+el['spot_id']).removeAttr('hidden');
                                 $('[id^=pin_id]').addClass('hidden');
                             })
                             map.onMap("click", function () {
@@ -179,14 +195,15 @@
                             });
                         }else{
                             map.onPin(x, "mouseout", function () {
-                                $('#info_id'+i).attr('hidden', true);
+                                $('#info_id'+el['spot_id']).attr('hidden', true);
                                 $('[id^=pin_id]').removeClass('hidden');
                             });
                             map.onPin(x, "mouseover", function () {
-                                $('#info_id'+i).removeAttr('hidden');
+                                $('#info_id'+el['spot_id']).removeAttr('hidden');
                                 $('[id^=pin_id]').addClass('hidden');
                             });
                         }
+
                         
                     })
                     if(typeof(datas) == 'object'){
