@@ -27,11 +27,14 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
-        </style>
-        <style>
+            
             .bg-image{
                 background-image: url({{asset('img/hover_view.png')}});
                 background-size: contain;
+            }
+
+            .z-index{
+                z-index: 1003;
             }
         </style>
     </head>
@@ -39,7 +42,7 @@
         <div id="myMap" class="w-screen h-screen"></div>
         <form method="POST" action="{{ route('search')}}">
             @csrf
-            <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg">
+            <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
                 <div class="mr-1 bg-white rounded-full">
                     <img id="menu" class="block w-8 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
                 </div>
@@ -185,29 +188,27 @@
                         // console.log(el)
                         map.infoboxHtml(lat, lon,'<div id="pin_id'+el['spot_id']+'" class="relative -left-12 -top-28"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="http://localhost/storage/'+ el['icon_img'] +'"></div>');
                         // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
-                        const url = `https://img.youtube.com/vi/${el["youtube_id"]}/maxresdefault.jpg`
-                        console.log(url)
                         cardHoverAction(map,lat,lon,el);
                         // ホバーした時のみ説明を表示する
-                        if(windowWidth <= windowSm){
-                            map.onPin(x,"click", function(){
-                                $('#info_id'+el['spot_id']).removeAttr('hidden');
-                                $('[id^=pin_id]').addClass('hidden');
-                            })
-                            map.onMap("click", function () {
-                                $('[id^=info_id]').attr('hidden', true);
-                                $('[id^=pin_id]').removeClass('hidden');
-                            });
-                        }else{
-                            map.onPin(x, "mouseout", function () {
-                                $('#info_id'+el['spot_id']).attr('hidden', true);
-                                $('[id^=pin_id]').removeClass('hidden');
-                            });
-                            map.onPin(x, "mouseover", function () {
-                                $('#info_id'+el['spot_id']).removeAttr('hidden');
-                                $('[id^=pin_id]').addClass('hidden');
-                            });
-                        }
+                        // if(windowWidth <= windowSm){
+                        //     map.onPin(x,"click", function(){
+                        //         $('#info_id'+el['spot_id']).removeAttr('hidden');
+                        //         $('[id^=pin_id]').addClass('hidden');
+                        //     })
+                        //     map.onMap("click", function () {
+                        //         $('[id^=info_id]').attr('hidden', true);
+                        //         $('[id^=pin_id]').removeClass('hidden');
+                        //     });
+                        // }else{
+                        //     map.onPin(x, "mouseout", function () {
+                        //         $('#info_id'+el['spot_id']).attr('hidden', true);
+                        //         $('[id^=pin_id]').removeClass('hidden');
+                        //     });
+                        //     map.onPin(x, "mouseover", function () {
+                        //         $('#info_id'+el['spot_id']).removeAttr('hidden');
+                        //         $('[id^=pin_id]').addClass('hidden');
+                        //     });
+                        // }
                     })
                     if(typeof(datas) == 'object'){
                         $('.non_height').addClass('h-1/4');
