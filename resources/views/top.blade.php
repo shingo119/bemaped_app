@@ -31,6 +31,7 @@
         <style>
             .bg-image{
                 background-image: url({{asset('img/hover_view.png')}});
+                background-size: contain;
             }
         </style>
     </head>
@@ -117,12 +118,13 @@
             //     $('#hidden_veiw').removeClass('hidden');
             // })
 
-            const cardHoverAction = () => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
+            const cardHoverAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 let id = null;
                 $('.view_button').on('mouseover', function(){
                     id = $(this).attr('id');
                     $('#info_id'+id).removeAttr('hidden');
                     $('[id^=pin_id]').addClass('hidden');
+                    map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-3xl overflow-hidden bg-image w-[320px] h-64 bg-center bg-no-repeat bg-cover relative -top-60 -left-40 justify-center items-center"><img class="w-60 h-36 mb-8" src='https://img.youtube.com/vi/${el['youtube_id']}/maxresdefault.jpg' alt="" /></div>`);
                     // console.log(id);
                 }) 
                 $('.view_button').on('mouseout', function(){
@@ -131,7 +133,7 @@
                 })
             }
 
-            cardHoverAction();
+            // cardHoverAction();
 
             function GetMap() {
                 //------------------------------------------------------------------------
@@ -182,7 +184,10 @@
                         const x = map.pinText(lat, lon, " ", " ", ' ');
                         // console.log(el)
                         map.infoboxHtml(lat, lon,'<div id="pin_id'+el['spot_id']+'" class="relative -left-12 -top-28"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="http://localhost/storage/'+ el['icon_img'] +'"></div>');
-                        map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
+                        // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
+                        const url = `https://img.youtube.com/vi/${el["youtube_id"]}/maxresdefault.jpg`
+                        console.log(url)
+                        cardHoverAction(map,lat,lon,el);
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
                             map.onPin(x,"click", function(){
@@ -203,8 +208,6 @@
                                 $('[id^=pin_id]').addClass('hidden');
                             });
                         }
-
-                        
                     })
                     if(typeof(datas) == 'object'){
                         $('.non_height').addClass('h-1/4');
