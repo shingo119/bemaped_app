@@ -604,6 +604,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   top: 66.666667%;
 }
 
+.-top-60 {
+  top: -15rem;
+}
+
+.-left-40 {
+  left: -10rem;
+}
+
 .-left-12 {
   left: -3rem;
 }
@@ -626,38 +634,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .-left-48 {
   left: -12rem;
-}
-
-.-top-60 {
-  top: -15rem;
-}
-
-.-left-44 {
-  left: -11rem;
-}
-
-.-top-56 {
-  top: -14rem;
-}
-
-.-top-52 {
-  top: -13rem;
-}
-
-.-top-48 {
-  top: -12rem;
-}
-
-.-top-4 {
-  top: -1rem;
-}
-
-.-left-40 {
-  left: -10rem;
-}
-
-.-top-5 {
-  top: -1.25rem;
 }
 
 .m-2 {
@@ -759,6 +735,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.25rem;
 }
 
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -789,14 +769,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-1 {
   margin-bottom: 0.25rem;
-}
-
-.mb-12 {
-  margin-bottom: 3rem;
-}
-
-.mb-8 {
-  margin-bottom: 2rem;
 }
 
 .box-border {
@@ -871,6 +843,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 80%;
 }
 
+.h-64 {
+  height: 16rem;
+}
+
+.h-36 {
+  height: 9rem;
+}
+
 .h-60 {
   height: 15rem;
 }
@@ -881,42 +861,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-4 {
   height: 1rem;
-}
-
-.h-40 {
-  height: 10rem;
-}
-
-.h-36 {
-  height: 9rem;
-}
-
-.h-52 {
-  height: 13rem;
-}
-
-.h-56 {
-  height: 14rem;
-}
-
-.h-48 {
-  height: 12rem;
-}
-
-.h-32 {
-  height: 8rem;
-}
-
-.h-28 {
-  height: 7rem;
-}
-
-.h-3 {
-  height: 0.75rem;
-}
-
-.h-64 {
-  height: 16rem;
 }
 
 .min-h-screen {
@@ -995,6 +939,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 5rem;
 }
 
+.w-\[320px\] {
+  width: 320px;
+}
+
+.w-60 {
+  width: 15rem;
+}
+
 .w-24 {
   width: 6rem;
 }
@@ -1005,46 +957,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-36 {
   width: 9rem;
-}
-
-.w-72 {
-  width: 18rem;
-}
-
-.w-64 {
-  width: 16rem;
-}
-
-.w-9 {
-  width: 2.25rem;
-}
-
-.w-\[\] {
-  width: ;
-}
-
-.w-\[300px\] {
-  width: 300px;
-}
-
-.w-\[400px\] {
-  width: 400px;
-}
-
-.w-\[px\] {
-  width: px;
-}
-
-.w-\[350px\] {
-  width: 350px;
-}
-
-.w-60 {
-  width: 15rem;
-}
-
-.w-\[320px\] {
-  width: 320px;
 }
 
 .max-w-6xl {
