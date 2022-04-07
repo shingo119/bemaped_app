@@ -169,21 +169,24 @@
                 //let pin = map.pinIcon(47.6130, -122.1945, "../img/poi_custom.png", 1.0, 0, 0);
                 
                 //配列をmapで回してマッピング
-                let maxLat = -90;
-                let maxLon = -180;
-                let minLat = 90;
-                let minLon = 180;
-                let latZoom = 0;
-                let lonZoom = 0;
+                // let maxLat = -90;
+                // let maxLon = -180;
+                // let minLat = 90;
+                // let minLon = 180;
+                // let latZoom = 0;
+                // let lonZoom = 0;
+                const locations = [];
                 //マッピング関数
                 const mappingFunction = (datas) => {
                     datas.forEach((el,i) => {
                         const lat = el['lat'];
                         const lon = el['lon'];
-                        maxLat = maxLat > lat ? maxLat:lat;
-                        maxLon = maxLon > lon ? maxLon:lon;
-                        minLat = minLat < lat ? minLat:lat;
-                        minLon = minLon < lon ? minLon:lon;
+                        locations[i] = new Microsoft.Maps.Location(lat, lon);
+                        console.log(locations)
+                        // maxLat = maxLat > lat ? maxLat:lat;
+                        // maxLon = maxLon > lon ? maxLon:lon;
+                        // minLat = minLat < lat ? minLat:lat;
+                        // minLon = minLon < lon ? minLon:lon;
                         const x = map.pinText(lat, lon, " ", " ", ' ');
                         const icon = el['icon_img'];
                         // console.log(icon)
@@ -215,19 +218,24 @@
                         $('.non_height').addClass('h-1/4');
                         $('#non_height').addClass('h-full');
                     }
+                    map.map.setView({
+                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                        padding: 100
+                    });
+                    // console.log(locations)
                     // console.log(datas)
-                    const latLength = (maxLat - minLat)*91;
-                    const lonLength = (maxLon - minLon)*110;
-                    const latLengthList = [36615, 14646, 7323, 3661, 2929, 1464, 732, 366, 146, 73, 29, 14, 7.3, 3.6, 1.4, 0.7]
-                    const lonLengthList = [55961, 22384, 11192, 5596, 4476, 2238, 1119, 559, 223, 111, 44, 22, 11, 5, 2.2, 1.1]
-                    latLengthList.forEach(el => latLength < el ? latZoom++:null);
-                    lonLengthList.forEach(el => lonLength < el ? lonZoom++:null);
-                    const zoom = Math.min(...[latZoom,lonZoom]);
-                    const maxLength = Math.max(...[latLength,lonLength]);
-                    // console.log("maxLength:"+maxLength);
-                    // console.log("zoom:"+zoom);
-                    // console.log("currentGiocord:"+(Number(maxLat) + Number(minLat))/2+','+(Number(maxLon) + Number(minLon))/2);
-                    map.changeMap((Number(maxLat) + Number(minLat))/2, (Number(maxLon) + Number(minLon))/2, "load", zoom); //ここも毎回changeMapを入れるのは無駄になりそうなので、良い位置が表示されるように検討する                    
+                    // const latLength = (maxLat - minLat)*91;
+                    // const lonLength = (maxLon - minLon)*110;
+                    // const latLengthList = [36615, 14646, 7323, 3661, 2929, 1464, 732, 366, 146, 73, 29, 14, 7.3, 3.6, 1.4, 0.7]
+                    // const lonLengthList = [55961, 22384, 11192, 5596, 4476, 2238, 1119, 559, 223, 111, 44, 22, 11, 5, 2.2, 1.1]
+                    // latLengthList.forEach(el => latLength < el ? latZoom++:null);
+                    // lonLengthList.forEach(el => lonLength < el ? lonZoom++:null);
+                    // const zoom = Math.min(...[latZoom,lonZoom]);
+                    // const maxLength = Math.max(...[latLength,lonLength]);
+                    // // console.log("maxLength:"+maxLength);
+                    // // console.log("zoom:"+zoom);
+                    // // console.log("currentGiocord:"+(Number(maxLat) + Number(minLat))/2+','+(Number(maxLon) + Number(minLon))/2);
+                    // map.changeMap((Number(maxLat) + Number(minLat))/2, (Number(maxLon) + Number(minLon))/2, "load", zoom); //ここも毎回changeMapを入れるのは無駄になりそうなので、良い位置が表示されるように検討する                    
                 }
                 mappingFunction(@json($spots));
             }

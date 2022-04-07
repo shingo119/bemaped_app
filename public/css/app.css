@@ -616,8 +616,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: -3rem;
 }
 
-.-top-28 {
-  top: -7rem;
+.-top-0 {
+  top: 0;
 }
 
 .left-2 {
@@ -634,10 +634,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .-left-48 {
   left: -12rem;
-}
-
-.-top-0 {
-  top: 0;
 }
 
 .m-2 {
