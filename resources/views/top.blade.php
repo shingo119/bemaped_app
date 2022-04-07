@@ -110,16 +110,54 @@
         </div>
         
         <script>
-            function make_iframe_on_map_by_video_id(data){
-            return `<iframe class="w-80 h-44 -top-2 rounded-md relative" src="https://www.youtube-nocookie.com/embed/${data}?autoplay=1&mute=1&version=3&loop=1&playlist=${data}&fs=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            function make_iframe_on_map_by_video_id(data){ //動画情報カードのサムネがないときの処理
+                // return '<iframe width="315" height="170" src="https://www.youtube.com/embed/'+data+'?autoplay=1&mute=1&version=3&loop=1&playlist='+data+'&fs=0&modestbranding=1"></iframe>';
+                var yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
+                var ytimg = new Image();
+                ytimg.onload=function () {
+                    if (ytimg.naturalWidth > 120) {
+                    // サムネイル画像ありの処理
+                    } else {
+                    // サムネイル画像なしの処理
+                    ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
+                        if (ytimg.naturalWidth <= 120) {
+                            ytimg.src="https://img.youtube.com/vi/"+data+"/hqdefault.jpg"
+                        }
+                    }
+                }
+                ytimg.src = yturl;
+                ytimg.width=315;
+                ytimg.height=170;
+                return ytimg;
+            }
+
+            function make_iframe_on_map_by_video_id_2(data){ //サムネイルピンのサムネがない時の処理
+                const yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
+                const ytimg = new Image();
+                ytimg.src = yturl;
+                let result = '';
+                // console.log(ytimg.naturalWidth)
+                // ytimg.onload=function () {
+                    if (ytimg.naturalWidth > 120) {
+                    // サムネイル画像ありの処理
+                    result = '<img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/maxresdefault.jpg" alt="" />';
+                    } else {
+                    // サムネイル画像なしの処理
+                    ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
+                    // console.log(ytimg.naturalWidth)
+                        if (ytimg.naturalWidth <= 120) {
+                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
+                        }else{
+                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
+                        }
+                    }
+                // }
+                // console.log(result)
+                return result
             }
 
             const windowWidth = $(window).width(); //ウィンドウサイズ取得
             const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
-
-            // $('#view_button').on('click', function(){
-            //     $('#hidden_veiw').removeClass('hidden');
-            // })
 
             const cardHoverAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 let id = null;
@@ -127,7 +165,7 @@
                     id = $(this).attr('id');
                     $('#info_id'+id).removeAttr('hidden');
                     $('[id^=pin_id]').addClass('hidden');
-                    map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-3xl overflow-hidden bg-image w-[320px] h-64 bg-center bg-no-repeat bg-cover relative -top-60 -left-40 justify-center items-center"><img class="w-60 h-36 mb-8" src='https://img.youtube.com/vi/${el['youtube_id']}/maxresdefault.jpg' alt="" /></div>`);
+                    // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-3xl overflow-hidden bg-image w-[320px] h-64 bg-center bg-no-repeat bg-cover relative -top-60 -left-40 justify-center items-center"><img class="w-60 h-36 mb-8" src='https://img.youtube.com/vi/${el['youtube_id']}/maxresdefault.jpg' alt="" /></div>`);
                     // console.log(id);
                 }) 
                 $('.view_button').on('mouseout', function(){
@@ -182,17 +220,21 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        console.log(locations)
+                        // console.log(locations)
                         // maxLat = maxLat > lat ? maxLat:lat;
                         // maxLon = maxLon > lon ? maxLon:lon;
                         // minLat = minLat < lat ? minLat:lat;
                         // minLon = minLon < lon ? minLon:lon;
                         const x = map.pinText(lat, lon, " ", " ", ' ');
                         const icon = el['icon_img'];
+                        const spotId = el['spot_id'];
+                        const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
+                        // console.log(ytimg)
                         // console.log(icon)
                         map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-12 -top-0"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
-                        // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
+                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-start">'+ytimg+'</div>');
                         cardHoverAction(map,lat,lon,el);
+                        $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する
                         // if(windowWidth <= windowSm){
                         //     map.onPin(x,"click", function(){

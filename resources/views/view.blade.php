@@ -73,10 +73,6 @@
 
         
         <script>
-            function make_iframe_on_map_by_video_id(data){
-            return `<iframe class="w-80 h-44 -top-2 rounded-md relative" src="https://www.youtube-nocookie.com/embed/${data}?autoplay=1&mute=1&version=3&loop=1&playlist=${data}&fs=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
             const windowWidth = $(window).width();
             const windowSm = 750;
 
