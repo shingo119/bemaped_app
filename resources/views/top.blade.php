@@ -185,7 +185,6 @@
                         minLat = minLat < lat ? minLat:lat;
                         minLon = minLon < lon ? minLon:lon;
                         const x = map.pinText(lat, lon, " ", " ", ' ');
-                        // console.log(el)
                         const icon = el['icon_img'];
                         // console.log(icon)
                         map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-12 -top-28"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
