@@ -187,7 +187,7 @@
                         const x = map.pinText(lat, lon, " ", " ", ' ');
                         const icon = el['icon_img'];
                         // console.log(icon)
-                        map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-12 -top-28"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
+                        map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-12 -top-0"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
                         // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-t-3xl overflow-hidden bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-center">${make_iframe_on_map_by_video_id(el["youtube_id"])}</div>`);
                         cardHoverAction(map,lat,lon,el);
                         // ホバーした時のみ説明を表示する
