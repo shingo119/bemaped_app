@@ -185,7 +185,7 @@ class SpotController extends Controller
         if($request['spot_id'] != null){
             $keyword = $request->all();
             $spots = Spot::where('id', '=', $keyword['spot_id'])->get();
-            // dd($spot);
+            // dd($spots);
             return view('view', ['spots' => $spots]);
         }
     }
