@@ -76,10 +76,7 @@
             const windowWidth = $(window).width();
             const windowSm = 750;
 
-            // $('#view_button').on('click', function(){
-            //     $('#hidden_veiw').removeClass('hidden');
-            // })
-
+            
 
             function GetMap() {
                 //------------------------------------------------------------------------
