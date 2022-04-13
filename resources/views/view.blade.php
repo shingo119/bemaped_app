@@ -27,91 +27,41 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
-            .bg-image{
-                background-image: url({{asset('img/hover_view.png')}});
-            }
-
-            .calc-height{
-                height: calc(100vh - 48px);
-            }
-            /* .calc-height2{
-                height: calc(100vh - 48px - 65px);
-            } */
         </style>
     </head>
-    <body>
-        <div id="myMap" class="w-screen h-screen"></div>
-        <div id="hidden_veiw" class="w-full overflow-y-hidden flex justify-center">
-            <div class="bg-aaa absolute top-12 w-full calc-height rounded-3xl max-w-5xl">
-                <a href="{{route('index')}}"><img class="w-12 h-12 mt-3 ml-8" src="{{asset('img/back_button.png')}}" alt=""></a>
-                <div class="w-full">
-                    <div class="w-full flex justify-center">
-                    <div id="view_screen" class="view_container bg-yellow-300 rounded-3xl w-11/12 h-3/5 mt-2 ss:h-3/5 max-w-4xl p-4">
-                    @foreach($spots as $spot)
-                        <div class="view_content_wrap w-11/12 h-full mx-auto">
-                            <div class="bg-white w-full mt-3 rounded-2xl flex items-center">
-                                <iframe class="w-full aspect-video rounded-md" src="https://www.youtube.com/embed/{{ $spot->youtube_id }}?autoplay=1&mute=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            </div>
-                            <div>
-                                <div class="title_text text-xs font-bold text-white mt-3">{{$spot->movie_title}}</div>
-                                <div class="icons  flex items-center mt-1 justify-end">
-                                    {{-- <p class="text-xs mt-1 mb-0 mr-20">3万回視聴・２ヶ月前</p> --}}
-                                    {{-- <img class="w-4 h-4 mt-1 mx-2" src="{{asset('img/List_Add.png')}}" />
-                                    <img class="w-4 h-4 mt-1 mx-2" src="{{asset('img/Chat_Circle.png')}}" />
-                                    <img class="w-4 h-4 mt-1 mx-2" src="{{asset('img/Heart_02.png')}}" /> --}}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+    <body class="flex justify-start">
+        <div class="w-full">
+            <div class="h-16 flex items-center justify-center"><a href="{{route('index')}}"><p class="m-0">bemaped</p></a></div>
+            <div id="hidden_veiw" class="w-full overflow-y-hidden flex justify-center">
+                {{-- <a href="{{route('index')}}"><img class="w-12 h-12 mt-3 ml-8" src="{{asset('img/back_button.png')}}" alt=""></a> --}}
+                <div class="view_content_wrap w-full h-full xl:max-w-6xl">
+                    <div class="bg-white w-full">
+                        <iframe class="youtube w-full aspect-video" data-src="https://www.youtube.com/embed/{{ $spot->youtube_id }}?autoplay=1&mute=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        {{-- <div id="player"></div> --}}
                     </div>
+                    <div class="border-b">
+                        <div class="title_text text-xs font-bold my-2 ml-2">{{$spot->movie_title}}</div>
                     </div>
-                    
+                    <div class="user_icon flex items-center">
+                        <img class="w-24 h-24 rounded-full m-4" src="{{ asset('storage/'.$spot->user->icon_img) }}" alt="">
+                        <p class="m-0">{{$spot->user->name}}</p>
+                    </div>
                 </div>
-                
             </div>
         </div>
 
-        
         <script>
-            const windowWidth = $(window).width();
-            const windowSm = 750;
-
-            
-
-            function GetMap() {
-                //------------------------------------------------------------------------
-                //1. Instance
-                //------------------------------------------------------------------------
-                const map = new Bmap("#myMap");
-                //------------------------------------------------------------------------
-                //2. Display Map（表示されるマップの設定）
-                //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
-                //   startMap(lat, lon, "MapType", Zoom[1~20]);
-                //   マップの種類：↓色々ある
-                //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
-                //--------------------------------------------------
-                map.startMap(35.712772, 139.750443, "canvasLight", 13);
-
-                // キーワード検索で座標を取ってきて、その座標を表示
-                // map.getGeocode("Seattle", function (data) {
-                //     console.log(data);          //Get Geocode ObjectData
-                //     const lat = data.latitude;  //Get latitude
-                //     const lon = data.longitude; //Get longitude
-                //     document.querySelector("#geocode").innerHTML = lat + '<br>' + lon;
-                // });
-
-                //----------------------------------------------------
-                //3. Add Pushpin-Icon 好きな画像アイコンをマッピングできる
-                // （緯度、経度、アイコン画像、アイコン大きさ、アイコンと位置情報のリンクするところのX位置、アイコンと位置情報のリンクするところY位置）
-                // pinIcon(lat, lon, icon, scale, anchor_x, anchor_y);
-                //----------------------------------------------------
-                //let pin = map.pinIcon(47.6130, -122.1945, "../img/poi_custom.png", 1.0, 0, 0);
-                
-                //配列をmapで回してマッピング
-                
+            function youtube_defer() {
+                var iframes = document.querySelectorAll('.youtube');
+                iframes.forEach(function(iframe){
+                if(iframe.getAttribute('data-src')) {
+                    iframe.setAttribute('src',iframe.getAttribute('data-src'));
+                }
+                });
             }
-
+            window.addEventListener('load', youtube_defer);
         </script>
+
     </body>
 </html>
 

@@ -184,14 +184,21 @@ class SpotController extends Controller
     {
         if($request['spot_id'] != null){
             $keyword = $request->all();
-            $spots = Spot::where('id', '=', $keyword['spot_id'])->get();
-            // dd($spots);
+            $spot = Spot::where('id', '=', $keyword['spot_id'])
+            ->with(['user'])
+            ->first();
+            // dd($spot);
+            // dd($spot->youtube_id);
+            // dd($spot->user->name);
+            return view('view', ['spot' => $spot]);
+        }else{
+            $spots = ' ';
             return view('view', ['spots' => $spots]);
         }
     }
 
 
-    
+
     /**
      * Display the specified resource.
      *

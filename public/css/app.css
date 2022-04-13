@@ -616,8 +616,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: -3rem;
 }
 
-.-top-0 {
-  top: 0;
+.-top-15 {
+  top: -3.75rem;
 }
 
 .left-2 {
@@ -636,6 +636,38 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: -12rem;
 }
 
+.-top-1 {
+  top: -0.25rem;
+}
+
+.-top-20 {
+  top: -5rem;
+}
+
+.-top-0 {
+  top: 0;
+}
+
+.-top-\[30\] {
+  top: -30;
+}
+
+.-top-\[30px\] {
+  top: -30px;
+}
+
+.-top-\[90px\] {
+  top: -90px;
+}
+
+.-top-\[150px\] {
+  top: -150px;
+}
+
+.-top-\[110px\] {
+  top: -110px;
+}
+
 .m-2 {
   margin: 0.5rem;
 }
@@ -646,6 +678,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .m-auto {
   margin: auto;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.m-4 {
+  margin: 1rem;
 }
 
 .mx-auto {
@@ -871,6 +911,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 66.666667%;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -965,6 +1009,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-36 {
   width: 9rem;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .max-w-6xl {
@@ -1144,6 +1192,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-bottom-width: 1px;
 }
 
+.border-b-2 {
+  border-bottom-width: 2px;
+}
+
 .border-green-600 {
   --tw-border-opacity: 1;
   border-color: rgb(5 122 85 / var(--tw-border-opacity));
@@ -1251,6 +1303,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding: 0.75rem;
 }
 
+.p-0 {
+  padding: 0;
+}
+
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -1300,6 +1356,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pb-8 {
   padding-bottom: 2rem;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
 }
 
 .text-center {
@@ -1843,6 +1903,32 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:max-w-md {
     max-width: 28rem;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .lg\:max-w-lg {
+    max-width: 32rem;
+  }
+}
+
+@media (min-width: 1280px) {
+
+  .xl\:max-w-lg {
+    max-width: 32rem;
+  }
+
+  .xl\:max-w-xl {
+    max-width: 36rem;
+  }
+
+  .xl\:max-w-5xl {
+    max-width: 64rem;
+  }
+
+  .xl\:max-w-6xl {
+    max-width: 72rem;
   }
 }
 
