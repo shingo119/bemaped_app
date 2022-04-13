@@ -31,7 +31,7 @@
     </head>
     <body class="flex justify-start">
         <div class="w-full">
-            <div class="h-16 flex items-center justify-center"><a href="{{route('index')}}"><p class="m-0">bemaped</p></a></div>
+            <div class="h-16 flex items-center justify-center"><a href="{{route('index')}}"><p class="m-0 text-xl font-bold">bemaped</p></a></div>
             <div id="hidden_veiw" class="w-full overflow-y-hidden flex justify-center">
                 {{-- <a href="{{route('index')}}"><img class="w-12 h-12 mt-3 ml-8" src="{{asset('img/back_button.png')}}" alt=""></a> --}}
                 <div class="view_content_wrap w-full h-full xl:max-w-6xl">
@@ -42,9 +42,15 @@
                     <div class="border-b">
                         <div class="title_text text-xs font-bold my-2 ml-2">{{$spot->movie_title}}</div>
                     </div>
-                    <div class="user_icon flex items-center">
-                        <img class="w-24 h-24 rounded-full m-4" src="{{ asset('storage/'.$spot->user->icon_img) }}" alt="">
+                    <div class="user_icon flex items-center border-b">
+                        <img class="w-12 h-12 rounded-full m-4" src="{{ asset('storage/'.$spot->user->icon_img) }}" alt="">
                         <p class="m-0">{{$spot->user->name}}</p>
+                    </div>
+                    <div class="h-full">
+                        <p class="m-0 full break-all">{{$spot->comment}}</p>
+                    </div>
+                    <div class="m-2">
+                        <a href="{{route('index')}}"><button>戻る</button></a>
                     </div>
                 </div>
             </div>

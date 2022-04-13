@@ -95,8 +95,8 @@
             </div>
         </div>
 
-        <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-0 mt-4 w-full">
-            <div id="non_height" class="spot_card_content w-full mx-0  overflow-x-auto flex flex-col items-center">
+        <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
+            <div id="non_height" class="spot_card_content w-4/5 m-auto  overflow-x-auto flex flex-col items-center">
         {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
             <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
         @if(gettype($spots) == "object")
@@ -189,7 +189,7 @@
                 //   マップの種類：↓色々ある
                 //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
                 //--------------------------------------------------
-                map.startMap(36.11500549316406, 137.9534454345703, "load", 14);
+                map.startMap(35.712772, 139.750443, "load", 13);
 
                 // キーワード検索で座標を取ってきて、その座標を表示
                 // map.getGeocode("Seattle", function (data) {
@@ -229,7 +229,7 @@
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                        console.log(ytimg)
+                        // console.log(ytimg)
                         // console.log(icon)
                         map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-12 -top-[110px]"><img class="w-24" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-20 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
                         map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-start">'+ytimg+'</div>');
