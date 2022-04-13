@@ -43,13 +43,13 @@
         <form method="POST" action="{{ route('search')}}">
             @csrf
             <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
-                {{-- <div class="mr-1 bg-white rounded-full">
-                    <img id="menu" class="block w-8 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
+                {{-- <div class="bg-white rounded-full w-12 h-12 flex justify-center items-center">
+                    <img id="menu" class="block w-10 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
                 </div> --}}
-                <div class="search-bar w-full mx-4 pl-8 h-12 bg-white rounded-3xl flex justify-start items-center md:max-w-xl">
+                <div class="search-bar w-full mx-2 pl-8 h-12 bg-white rounded-3xl flex justify-start items-center md:max-w-xl">
                     {{-- <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt=""> --}}
                     <input class="w-5/6 h-10 pl-2 box-border" type="text" id="search" name="search_word" placeholder="ここで検索">
-                    <input type="image" name="submit" class="cursor-pointer w-4 m-auto drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="送信する" >
+                    <input type="image" name="submit" class="cursor-pointer w-6 m-auto drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="送信する" >
                     {{-- <button type="submit" class="btn btn-primary">送信</button> --}}
                 </div>
                 {{-- <img class="w-6 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}"> --}}
@@ -95,8 +95,8 @@
             </div>
         </div>
 
-        <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
-            <div id="non_height" class="spot_card_content w-4/5 m-auto  overflow-x-auto flex flex-col items-center">
+        <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-0 mt-4 w-full">
+            <div id="non_height" class="spot_card_content w-full mx-0  overflow-x-auto flex flex-col items-center">
         {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
             <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
         @if(gettype($spots) == "object")
@@ -152,7 +152,7 @@
                         }
                     }
                 // }
-                // console.log(result)
+                console.log(result)
                 return result
             }
 
