@@ -47,7 +47,7 @@
                         <p class="m-0">{{$spot->user->name}}</p>
                     </div>
                     <div class="h-full">
-                        <p class="m-0 full break-all">{{$spot->comment}}</p>
+                        <p class="m-0 full break-all">{!! nl2br($spot->comment) !!}</p>
                     </div>
                     <div class="m-2">
                         <a href="{{route('index')}}"><button>戻る</button></a>

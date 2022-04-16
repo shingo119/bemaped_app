@@ -195,6 +195,7 @@ class SpotController extends Controller
             $spot = Spot::where('id', '=', $keyword['spot_id'])
             ->with(['user'])
             ->first();
+            $spot['comment'] = $this->link_url($spot['comment']);
             // dd($spot);
             // dd($spot->youtube_id);
             // dd($spot->user->name);
@@ -205,7 +206,10 @@ class SpotController extends Controller
         }
     }
 
-
+    function link_url($text){  //対象のテキスト
+        $text = htmlspecialchars($text,ENT_NOQUOTES);
+        return preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text );
+    }
 
     /**
      * Display the specified resource.
