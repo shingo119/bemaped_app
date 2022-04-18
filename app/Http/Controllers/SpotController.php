@@ -166,6 +166,7 @@ class SpotController extends Controller
             ->with(['user'])
             ->first();
             $spot['comment'] = $this->link_url($spot['comment']);
+            $spot['movie_title'] = $this->link_url($spot['movie_title']);
             // dd($spot);
             // dd($spot->youtube_id);
             // dd($spot->user->name);
@@ -179,7 +180,7 @@ class SpotController extends Controller
     function link_url($text){  //対象のテキスト
         $text = htmlspecialchars($text,ENT_NOQUOTES);
         $result = preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text );
-        $result = preg_replace('(ワインの購入は上記バナーをクリック！)','<span>$0</span>', $result);
+        $result = preg_replace('(↑この動画で紹介されている塩尻ワインを購入したい人はこちらをクリック！)','<span class="wain py-2">$0</span>', $result);
         // dd($result);
         return $result;
     }

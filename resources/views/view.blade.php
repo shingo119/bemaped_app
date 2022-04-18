@@ -30,10 +30,17 @@
             .bn-color {
                 background-color:#ad0703;
             }
-            span {
+            .wain {
                 color:#ad0703;
-                font-weight: bold;
-                font-size:30px;
+                font-size: 1.25rem;
+                line-height: 1.6rem;
+            }
+
+            @media (min-width: 768px) {
+                .wain{
+                    font-size: 2rem;
+                    line-height: 1.75rem;
+                }
             }
         </style>
     </head>
@@ -53,7 +60,7 @@
                     </div>
                     </a>
                     <div class="border-b">
-                        <div class="title_text text-xs font-bold m-2 md:text-xl md:m-0">{{$spot->movie_title}}</div>
+                        <div class="title_text text-xs font-bold m-2 md:text-xl">{!! nl2br($spot->movie_title) !!}</div>
                     </div>
                     <div class="user_icon flex items-center border-b">
                         <img class="w-12 h-12 rounded-full m-4" src="{{ asset('storage/'.$spot->user->icon_img) }}" alt="">
