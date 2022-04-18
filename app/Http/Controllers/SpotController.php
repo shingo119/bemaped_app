@@ -166,7 +166,7 @@ class SpotController extends Controller
             ->with(['user'])
             ->first();
             $spot['comment'] = $this->link_url($spot['comment']);
-            $spot['movie_title'] = $this->link_url($spot['movie_title']);
+            $spot['movie_title'] = $this->link_title($spot['movie_title']);
             // dd($spot);
             // dd($spot->youtube_id);
             // dd($spot->user->name);
@@ -180,8 +180,26 @@ class SpotController extends Controller
     function link_url($text){  //対象のテキスト
         $text = htmlspecialchars($text,ENT_NOQUOTES);
         $result = preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text );
-        $result = preg_replace('(↑この動画で紹介されている塩尻ワインを購入したい人はこちらをクリック！)','<span class="wain py-2">$0</span>', $result);
         // dd($result);
+        return $result;
+    }
+
+    function link_title($text){ 
+        $text = htmlspecialchars($text,ENT_NOQUOTES);
+        $patterns = array();
+        $patterns[0] = '/サンサンワイナリーバナー/';
+        $patterns[1] = '/桔梗ヶ原ワイナリーバナー/';
+        $patterns[2] = '/ふるさとチョイスバナー/';
+        $patterns[3] = '/幸西ワイナリーバナー/';
+        $patterns[4] = '/五一わいんバナー/';
+        $replacements = array();
+        $replacements[4] = '<a href="https://www.furusato-tax.jp/product/detail/20215/4987992" target="_blank"><div class="flex justify-center w-full border-b bn-color"><img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" /></div></a>';
+        $replacements[3] = '<a href="https://www.furusato-tax.jp/product/detail/20215/5029417" target="_blank"><div class="flex justify-center w-full border-b bn-color"><img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" /></div></a>';
+        $replacements[2] = '<a href="https://www.furusato-tax.jp/search?q=%E5%A1%A9%E5%B0%BB%E5%B8%82%E3%80%80%E3%83%AF%E3%82%A4%E3%83%B3&header=1&target=1&sst=A" target="_blank"><div class="flex justify-center w-full border-b bn-color"><img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" /></div></a>';
+        $replacements[1] = '<a href="https://www.furusato-tax.jp/product/detail/20215/5338553" target="_blank"><div class="flex justify-center w-full border-b bn-color"><img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" /></div></a>';
+        $replacements[0] = '<a href="https://www.furusato-tax.jp/product/detail/20000/5337807" target="_blank"><div class="flex justify-center w-full border-b bn-color"><img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" /></div></a>';
+        $result = preg_replace($patterns, $replacements, $text);
+        $result = preg_replace('(↑この動画で紹介されている塩尻ワインを購入したい人はこちらをクリック！)','<span class="wain py-2">$0</span>', $result);
         return $result;
     }
 

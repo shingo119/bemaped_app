@@ -164,12 +164,15 @@
                 $('.view_button').on('mouseover', function(){
                     id = $(this).attr('id');
                     $('#info_id'+id).removeAttr('hidden');
+                    // $('#info_id'+id).parent().parent().parent().parent().css('z-index','1005')
+                    // $('#pin_id'+id).addClass('hidden');
                     $('[id^=pin_id]').addClass('hidden');
                     // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-3xl overflow-hidden bg-image w-[320px] h-64 bg-center bg-no-repeat bg-cover relative -top-60 -left-40 justify-center items-center"><img class="w-60 h-36 mb-8" src='https://img.youtube.com/vi/${el['youtube_id']}/maxresdefault.jpg' alt="" /></div>`);
                     // console.log(id);
                 }) 
                 $('.view_button').on('mouseout', function(){
                     $('#info_id'+id).attr('hidden', true);
+                    // $('#pin_id'+id).removeClass('hidden');
                     $('[id^=pin_id]').removeClass('hidden');
                 })
             }
@@ -225,14 +228,14 @@
                         // maxLon = maxLon > lon ? maxLon:lon;
                         // minLat = minLat < lat ? minLat:lat;
                         // minLon = minLon < lon ? minLon:lon;
-                        // const x = map.pinText(lat, lon, " ", " ", ' ');
+                        const x = map.pinText(lat, lon, " ", " ", ' ');
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
                         // console.log(ytimg)
                         // console.log(icon)
-                        map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-4 -top-[30px]"><img class="w-6" src="{{asset("img/pin.png")}}"><img class="absolute left-1 top-1 w-5 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
-                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-64 -left-48 justify-center items-start">'+ytimg+'</div>');
+                        map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-10 -top-[95px]"><img class="w-20" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-16 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
+                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="z-index2 flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-[246px] -left-48 justify-center items-start">'+ytimg+'</div>');
                         cardHoverAction(map,lat,lon,el);
                         $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する

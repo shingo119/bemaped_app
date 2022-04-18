@@ -696,6 +696,58 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: -90px;
 }
 
+.-top-\[55px\] {
+  top: -55px;
+}
+
+.-top-\[256\] {
+  top: -256;
+}
+
+.-top-\[256px\] {
+  top: -256px;
+}
+
+.-top-\[254px\] {
+  top: -254px;
+}
+
+.-top-\[250px\] {
+  top: -250px;
+}
+
+.-left-8 {
+  left: -2rem;
+}
+
+.-top-\[80px\] {
+  top: -80px;
+}
+
+.-top-\[90px\] {
+  top: -90px;
+}
+
+.-top-\[95px\] {
+  top: -95px;
+}
+
+.-top-\[2px\] {
+  top: -2px;
+}
+
+.-top-\[248px\] {
+  top: -248px;
+}
+
+.-top-\[245px\] {
+  top: -245px;
+}
+
+.-top-\[246px\] {
+  top: -246px;
+}
+
 .m-2 {
   margin: 0.5rem;
 }
@@ -1038,6 +1090,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-36 {
   width: 9rem;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .max-w-6xl {
