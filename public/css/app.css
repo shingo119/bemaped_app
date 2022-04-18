@@ -676,6 +676,26 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: -1rem;
 }
 
+.top-\[125px\] {
+  top: 125px;
+}
+
+.left-\[-0px\] {
+  left: -0px;
+}
+
+.left-\[-60px\] {
+  left: -60px;
+}
+
+.top-\[130px\] {
+  top: 130px;
+}
+
+.left-\[-90px\] {
+  left: -90px;
+}
+
 .m-2 {
   margin: 0.5rem;
 }

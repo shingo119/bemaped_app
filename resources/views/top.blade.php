@@ -63,8 +63,8 @@
             <div class="absolute w-full inset-x-0 -top-2 mx-auto mt-4 flex justify-center">
                 <div class="w-11/12 flex justify-center">
                     <div class="flex w-full justify-center">
-                        <button id="shokuji" type="submit" name="category_id" value=1 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-orange-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">食事</button>
-                        <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-red-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">観光</button>
+                        <button id="shokuji" type="submit" name="category_id" value=1 class="z-index appearance-none m-2 h-10 drop-shadow-xl ring ring-orange-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">食事</button>
+                        <button id="kankou" type="submit" name="category_id" value=2 class="z-index appearance-none m-2 h-10 drop-shadow-xl ring ring-red-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">観光</button>
                         {{-- <button id="kouen" type="submit" name="category_id" value=3 class="appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-green-300 flex justify-center items-center">公園</button> --}}
                         {{-- <button id="outdoor" type="submit" name="category_id" value=4 class="p-1 box-border appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-blue-400 flex justify-center items-center">アウトドア</button> --}}
                         {{-- <button id="fashion" type="submit" name="category_id" value=5 class="p-1 box-border appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-purple-400 flex justify-center items-center">ファッション</button> --}}
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </form>
-        <div class="absolute top-[122px] left-[-30px] w-full grid">
+        <div class="absolute top-[130px] left-[-90px] w-full grid z-index">
             <div class="justify-self-center  w-3/5 md:max-w-md">
                 <div id="hiddenMenu" class="hidden w-[120px] rounded-md shadow-lg p-2 bg-white ">
                     @guest
