@@ -289,8 +289,8 @@
                 mappingFunction(@json($spots));
             }
             window.onload = function(){
-                window.reload();
+                location.reload();
             }
         </script>
-    </body>
+    </body> 
 </html>
