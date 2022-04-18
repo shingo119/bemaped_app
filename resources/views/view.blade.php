@@ -27,6 +27,14 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+            .bn-color {
+                background-color:#ad0703;
+            }
+            span {
+                color:#ad0703;
+                font-weight: bold;
+                font-size:30px;
+            }
         </style>
     </head>
     <body class="flex justify-start">
@@ -39,6 +47,11 @@
                         <iframe class="youtube w-full aspect-video" data-src="https://www.youtube.com/embed/{{ $spot->youtube_id }}?autoplay=1&mute=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         {{-- <div id="player"></div> --}}
                     </div>
+                    <a href="https://www.furusato-tax.jp/" target="_blank">
+                    <div class="flex justify-center w-full border-b bn-color">
+                        <img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" />
+                    </div>
+                    </a>
                     <div class="border-b">
                         <div class="title_text text-xs font-bold m-2 md:text-xl md:m-0">{{$spot->movie_title}}</div>
                     </div>

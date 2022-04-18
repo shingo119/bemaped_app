@@ -208,7 +208,10 @@ class SpotController extends Controller
 
     function link_url($text){  //対象のテキスト
         $text = htmlspecialchars($text,ENT_NOQUOTES);
-        return preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text );
+        $result = preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text );
+        $result = preg_replace('(ワインの購入は上記バナーをクリック！)','<span>$0</span>', $result);
+        // dd($result);
+        return $result;
     }
 
     /**
