@@ -126,8 +126,8 @@
                     }
                 }
                 ytimg.src = yturl;
-                ytimg.width=315;
-                ytimg.height=170;
+                ytimg.classList.add('object-contain');
+                ytimg.width=260;
                 return ytimg;
             }
 
