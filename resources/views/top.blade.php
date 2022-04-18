@@ -289,7 +289,11 @@
                 mappingFunction(@json($spots));
             }
             window.onload = function(){
-                location.reload();
+                if (window.name != "xyz")
+                {
+                    location.reload();
+                    window.name = "xyz";
+                }
             }
         </script>
     </body> 
