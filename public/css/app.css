@@ -1052,6 +1052,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 56rem;
 }
 
+.max-w-xl {
+  max-width: 36rem;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1311,6 +1315,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bg-no-repeat {
   background-repeat: no-repeat;
+}
+
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .p-6 {
@@ -1708,12 +1722,28 @@ Ensure the default browser behavior of the `hidden` attribute.
     align-items: center;
   }
 
+  .ss\:justify-center {
+    justify-content: center;
+  }
+
   .ss\:justify-between {
     justify-content: space-between;
   }
 
   .ss\:overflow-visible {
     overflow: visible;
+  }
+
+  .ss\:pl-8 {
+    padding-left: 2rem;
+  }
+
+  .ss\:pl-1 {
+    padding-left: 0.25rem;
+  }
+
+  .ss\:pl-16 {
+    padding-left: 4rem;
   }
 
   .ss\:text-base {
@@ -1979,6 +2009,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .xl\:max-w-6xl {
     max-width: 72rem;
+  }
+
+  .xl\:max-w-xl {
+    max-width: 36rem;
+  }
+
+  .xl\:max-w-3xl {
+    max-width: 48rem;
+  }
+
+  .xl\:max-w-4xl {
+    max-width: 56rem;
   }
 }
 

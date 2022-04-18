@@ -71,36 +71,6 @@ class SpotController extends Controller
         return view('profile_edit', ['user' => $user]);
     }
 
-    //fileUpload("送信名","アップロード先フォルダ");
-    // function fileUpload($fname,$path){
-    // if (isset($request->file('fname') ) && $request->file('fname')["error"] ==0 ) {
-    //     //ファイル名取得
-    //     $file_name = $request->file('fname')["name"];
-    //     //一時保存場所取得
-    //     $tmp_path  = $request->file('fname')["tmp_name"];
-    //     //拡張子取得
-    //     $extension = pathinfo($file_name, PATHINFO_EXTENSION);
-    //     //ユニークファイル名作成
-    //     $file_name = date("YmdHis").md5(session_id()) . "." . $extension;
-    //     // FileUpload [--Start--]
-    //     $file_dir_path = $path.$file_name;
-    //     if ( is_uploaded_file( $tmp_path ) ) {
-    //         if ( move_uploaded_file( $tmp_path, $file_dir_path ) ) {
-    //             chmod( $file_dir_path, 0644 );
-    //             return $file_name; //成功時：ファイル名を返す
-    //         } else {
-    //             return 1; //失敗時：ファイル移動に失敗
-    //         }
-    //     }
-    //     }else{
-    //         return 2; //失敗時：ファイル取得エラー
-    //     }
-    // }
-
-
-//************************************************ */
-//************************************************ */
-    //明日ここからUser::updateで更新、それとuser_idごとに情報更新しないといけない！
     public function profile_store(Request $request)
     {
         $icon = $request->file('icon_upfile')->store('','public');

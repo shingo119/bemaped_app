@@ -95,8 +95,8 @@
             </div>
         </div>
 
-        <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-0 mt-4 w-full">
-            <div id="non_height" class="spot_card_content w-full mx-0  overflow-x-auto flex flex-col items-center">
+        <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-0 mt-4 w-full flex justify-center">
+            <div id="non_height" class="spot_card_content mx-0 overflow-x-auto flex flex-col items-center w-full xl:max-w-6xl">
         {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
             <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
         @if(gettype($spots) == "object")
