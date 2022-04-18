@@ -77,7 +77,7 @@
                 </div>
             </div>
         </form>
-        <div class="absolute top-[130px] left-[-90px] w-full grid">
+        <div class="absolute top-[122px] left-[-30px] w-full grid">
             <div class="justify-self-center  w-3/5 md:max-w-md">
                 <div id="hiddenMenu" class="hidden w-[120px] rounded-md shadow-lg p-2 bg-white ">
                     @guest
