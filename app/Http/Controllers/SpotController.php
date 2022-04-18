@@ -165,8 +165,7 @@ class SpotController extends Controller
             $spot = Spot::where('id', '=', $keyword['spot_id'])
             ->with(['user'])
             ->first();
-            $spot['comment'] = $this->link_url($spot['comment']);
-            $spot['movie_title'] = $this->link_title($spot['movie_title']);
+            $spot['comment'] = $this->link_title($spot['comment']);
             // dd($spot);
             // dd($spot->youtube_id);
             // dd($spot->user->name);
@@ -186,6 +185,7 @@ class SpotController extends Controller
 
     function link_title($text){ 
         $text = htmlspecialchars($text,ENT_NOQUOTES);
+        $result = preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text);
         $patterns = array();
         $patterns[0] = '/サンサンワイナリーバナー/';
         $patterns[1] = '/桔梗ヶ原ワイナリーバナー/';
@@ -200,6 +200,26 @@ class SpotController extends Controller
         $replacements[0] = '<a href="https://www.furusato-tax.jp/product/detail/20000/5337807" target="_blank"><div class="flex justify-center w-full border-b bn-color"><img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" /></div></a>';
         $result = preg_replace($patterns, $replacements, $text);
         $result = preg_replace('(↑この動画で紹介されている塩尻ワインを購入したい人はこちらをクリック！)','<span class="wain py-2">$0</span>', $result);
+        return $result;
+    }
+
+    function link_comment($text){ 
+        $text = htmlspecialchars($text,ENT_NOQUOTES);
+        $patterns = array();
+        $patterns[0] = '/サンサンワイナリーバナー/';
+        $patterns[1] = '/桔梗ヶ原ワイナリーバナー/';
+        $patterns[2] = '/ふるさとチョイスバナー/';
+        $patterns[3] = '/幸西ワイナリーバナー/';
+        $patterns[4] = '/五一わいんバナー/';
+        $replacements = array();
+        $replacements[4] = '';
+        $replacements[3] = '';
+        $replacements[2] = '';
+        $replacements[1] = '';
+        $replacements[0] = '';
+        $result = preg_replace($patterns, $replacements, $text);
+        $result = preg_replace('(↑この動画で紹介されている塩尻ワインを購入したい人はこちらをクリック！)','', $result);
+        $result = preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $result );
         return $result;
     }
 

@@ -60,7 +60,7 @@
                     </div>
                     </a> --}}
                     <div class="border-b">
-                        <div class="title_text text-xs font-bold md:text-xl">{!! nl2br($spot->movie_title) !!}</div>
+                        <div class="title_text text-xs m-2 font-bold md:text-xl">{!! nl2br($spot->movie_title) !!}</div>
                     </div>
                     <div class="user_icon flex items-center border-b">
                         <img class="w-12 h-12 rounded-full m-4" src="{{ asset('storage/'.$spot->user->icon_img) }}" alt="">
