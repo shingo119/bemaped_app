@@ -748,6 +748,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   top: -246px;
 }
 
+.-top-\[260px\] {
+  top: -260px;
+}
+
 .m-2 {
   margin: 0.5rem;
 }
