@@ -100,7 +100,7 @@
         </div>
 
         <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-0 mt-4 w-full flex justify-center">
-            <div id="non_height" class="spot_card_content mx-0 overflow-x-auto flex flex-col items-center w-full xl:max-w-6xl">
+            <div id="non_height" class="relative spot_card_content mx-0 overflow-x-auto flex flex-col items-center w-full xl:max-w-6xl">
         {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
             <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
         @if(gettype($spots) == "object")
@@ -255,11 +255,22 @@
                         }else{
                             map.onPin(x, "mouseout", function () {
                                 $('#info_id'+el['spot_id']).attr('hidden', true);
-                                $('[id^=pin_id]').removeClass('hidden');
+                                // $('[id^=pin_id]').removeClass('hidden');
                             });
                             map.onPin(x, "mouseover", function () {
                                 $('#info_id'+el['spot_id']).removeAttr('hidden');
-                                $('[id^=pin_id]').addClass('hidden');
+                                // $('[id^=pin_id]').addClass('hidden');
+                                let x = $('#'+el['spot_id']+'').position();
+                                // let y = $('#non_height').scrollTop();
+                                // let y = $(window).scrollTop();
+                                let y = $('#non_height').offset().top;
+                                console.log(x);
+                                console.log(y);
+                                // var target = "#" + $(this).html();
+                                // var th = $(target).position();
+                                // var sh = $(".scroll_div").scrollTop();
+                                var pos = x.top + y;
+                                $("#non_height").animate({scrollTop: y},"slow", "swing");
                             });
                         }
                     })
