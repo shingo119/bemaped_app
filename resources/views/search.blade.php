@@ -267,8 +267,8 @@
                                 var pos = x.top + y;
                                 console.log(pos)
                                 $("#non_height").animate({scrollTop: pos},"slow", "swing");
-
                             });
+                            
                         }
                     })
                     if(typeof(datas) == 'object'){

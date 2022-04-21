@@ -40,6 +40,7 @@
             .z-index2{
                 z-index: 1004;
             }
+
         </style>
     </head>
     <body>
@@ -197,6 +198,8 @@
                 const locations = [];
                 //マッピング関数
                 const mappingFunction = (datas) => {
+                    let globalLat = 0
+                    let globalLon = 0
                     datas.forEach((el,i) => {
                         const lat = el['lat'];
                         const lon = el['lon'];
