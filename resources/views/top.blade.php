@@ -232,7 +232,8 @@
                                 let y = $('#'+el['spot_id']+'').position();
                                 let z = $('#non_height').scrollTop();
                                 var pos = y.top + z;
-                                $("#non_height").animate({scrollTop: pos},"slow", "swing")
+                                $("#non_height").animate({scrollTop: pos},"slow", "swing");
+                                selectedVideo=el['spot_id'];
                             });
                         }
                     })
