@@ -140,12 +140,6 @@
                 const ytimg = new Image();
                 ytimg.src = yturl;
                 let result = '';
-                    // if (ytimg.naturalWidth > 120) {
-                    // // サムネイル画像ありの処理
-                    // result = '<img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/maxresdefault.jpg" alt="" />';
-                    // } else {
-                    // // サムネイル画像なしの処理
-                    // ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
                         if (ytimg.naturalWidth <= 120) {
                             result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
                         }else{
@@ -157,24 +151,30 @@
 
             const windowWidth = $(window).width(); //ウィンドウサイズ取得
             const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
-
-            const cardHoverAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
-                let id = null;
-                $('#'+el['spot_id']+'').on('mouseover', function(){
-                    id = $(this).attr('id');
-                    // $('#info_id'+id).removeAttr('hidden');
-                    map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
-                    map.changeMap(lat,lon)
-                    // $('[id^=pin_id]').addClass('hidden');
-                }) 
-                $('.view_button').on('mouseout', function(){
-                    // $('#info_id'+id).attr('hidden', true);
-                    $('#info_id'+el['spot_id']).remove();
-                    // $('[id^=pin_id]').removeClass('hidden');
+            
+            let selectedVideo=-1;
+            const cardAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
+                if(windowWidth > windowSm){
+                    $('#'+el['spot_id']+'').on('mouseover', function(){
+                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
+                    }) 
+                    $('.view_button').on('mouseout', function(){
+                        $('#info_id'+el['spot_id']).remove();
+                    })
+                }
+                $('#'+el['spot_id']+'').on('click', function(){
+                    if (selectedVideo!=el['spot_id']) {
+                        map.changeMap(lat,lon,'load',18);
+                        selectedVideo=el['spot_id'];
+                        let y = $('#'+el['spot_id']+'').position();
+                        let z = $('#non_height').scrollTop();
+                        var pos = y.top + z;
+                        $("#non_height").animate({scrollTop: pos},"slow", "swing")
+                    } else {
+                        window.location.href = "/view?spot_id="+el['spot_id'];
+                    }
                 })
             }
-
-            // cardHoverAction();
 
             function GetMap() {
                 //------------------------------------------------------------------------
@@ -204,35 +204,37 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        const x = map.pin(lat, lon, "#ff0000", " ", ' ');
+                        const x = map.pinText(lat, lon, el['movie_title'], "", ' ');
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                        cardHoverAction(map,lat,lon,el,ytimg);
+                        cardAction(map,lat,lon,el,ytimg);
                         $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
                             map.onPin(x,"click", function(){
-                                $('#info_id'+el['spot_id']).removeAttr('hidden');
-                                $('[id^=pin_id]').addClass('hidden');
+                                selectedVideo=el['spot_id'];
+                                let y = $('#'+el['spot_id']+'').position();
+                                let z = $('#non_height').scrollTop();
+                                var pos = y.top + z;
+                                $("#non_height").animate({scrollTop: pos},"slow", "swing")
+                                map.changeMap(lat,lon,"load", 18)
                             })
-                            map.onMap("click", function () {
-                                $('[id^=info_id]').attr('hidden', true);
-                                $('[id^=pin_id]').removeClass('hidden');
-                            });
                         }else{
                             map.onPin(x, "click", function () {
-                                console.log(1);
+                                const url = "/view?spot_id="+el['spot_id'];
+                                window.location.href = `${url}`;
                             });
                             map.onPin(x, "mouseout", function () {
                                 $('#info_id'+el['spot_id']).remove();
                             });
                             map.onPin(x, "mouseover", function () {
-                                map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
+                                map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
                                 let y = $('#'+el['spot_id']+'').position();
                                 let z = $('#non_height').scrollTop();
                                 var pos = y.top + z;
-                                $("#non_height").animate({scrollTop: pos},"slow", "swing")
+                                $("#non_height").animate({scrollTop: pos},"slow", "swing");
+                                selectedVideo=el['spot_id'];
                             });
                         }
                     })

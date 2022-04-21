@@ -25,7 +25,7 @@ Route::post('/category', [SpotController::class, 'category'])->name('category');
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('/view', [SpotController::class, 'view'])->name('view');
+Route::get('/view', [SpotController::class, 'view'])->name('view');
 Route::get('/mapping', [SpotController::class, 'mapping'])->name('mapping');
 Route::post('/store', [SpotController::class, 'store'])->name('store');
 
