@@ -166,19 +166,21 @@
 
             const cardHoverAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 let id = null;
-                $('.view_button').on('mouseover', function(){
+                $('#'+el['spot_id']+'').on('mouseover', function(){
                     id = $(this).attr('id');
                     $('#info_id'+id).removeAttr('hidden');
+                    console.log(lat)
+                    console.log(lon)
                     // $('#info_id'+id).parent().parent().parent().parent().css('z-index','1005')
                     // $('#pin_id'+id).addClass('hidden');
-                    $('[id^=pin_id]').addClass('hidden');
+                    // $('[id^=pin_id]').addClass('hidden');
                     // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-3xl overflow-hidden bg-image w-[320px] h-64 bg-center bg-no-repeat bg-cover relative -top-60 -left-40 justify-center items-center"><img class="w-60 h-36 mb-8" src='https://img.youtube.com/vi/${el['youtube_id']}/maxresdefault.jpg' alt="" /></div>`);
                     // console.log(id);
                 }) 
                 $('.view_button').on('mouseout', function(){
                     $('#info_id'+id).attr('hidden', true);
                     // $('#pin_id'+id).removeClass('hidden');
-                    $('[id^=pin_id]').removeClass('hidden');
+                    // $('[id^=pin_id]').removeClass('hidden');
                 })
             }
 
@@ -224,6 +226,8 @@
                 const locations = [];
                 //マッピング関数
                 const mappingFunction = (datas) => {
+                    let globalLat = 0
+                    let globalLon = 0
                     datas.forEach((el,i) => {
                         const lat = el['lat'];
                         const lon = el['lon'];
@@ -237,10 +241,12 @@
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
+                        const zoom = map.map.getZoom()
+                        // console.log(zoom);
                         // console.log(ytimg)
                         // console.log(icon)
                         // map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-10"><img class="w-20" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-16 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
-                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="z-index2 flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-[260px] -left-48 justify-center items-start">'+ytimg+'</div>');
+                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="pointer-events-none z-index2 flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-[248px] -left-48 justify-center items-start">'+ytimg+'</div>');
                         cardHoverAction(map,lat,lon,el);
                         $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する
@@ -277,7 +283,7 @@
                                 console.log('aaa');
                             // const url = "view.php?movie_id=" + json_val2[i]["id"];
                             // window.location.href = `${url}`;
-                        });
+                            });
                         }
                     })
                     if(typeof(datas) == 'object'){
@@ -288,6 +294,7 @@
                         bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
                         padding: 100
                     });
+                    map.changeMap(globalLat,globalLon);
                     // console.log(locations)
                     // console.log(datas)
                     // const latLength = (maxLat - minLat)*91;
