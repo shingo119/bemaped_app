@@ -260,7 +260,7 @@
                             map.onPin(x, "mouseover", function () {
                                 $('#info_id'+el['spot_id']).removeAttr('hidden');
                                 // $('[id^=pin_id]').addClass('hidden');
-                                let x = $('#'+el['spot_id']+'').position();
+                                let x = $('#'+el['spot_id']+'').offset().top;
                                 // let y = $('#non_height').scrollTop();
                                 // let y = $(window).scrollTop();
                                 let y = $('#non_height').offset().top;
@@ -269,8 +269,8 @@
                                 // var target = "#" + $(this).html();
                                 // var th = $(target).position();
                                 // var sh = $(".scroll_div").scrollTop();
-                                var pos = x.top + y;
-                                $("#non_height").animate({scrollTop: y},"slow", "swing");
+                                var pos = x + y;
+                                $("#non_height").animate({scrollTop: pos},"slow", "swing");
                             });
                         }
                     })
