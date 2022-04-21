@@ -205,6 +205,7 @@ class SpotController extends Controller
 
     function link_comment($text){ 
         $text = htmlspecialchars($text,ENT_NOQUOTES);
+        $result = preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $result );
         $patterns = array();
         $patterns[0] = '/サンサンワイナリーバナー/';
         $patterns[1] = '/桔梗ヶ原ワイナリーバナー/';
@@ -219,7 +220,6 @@ class SpotController extends Controller
         $replacements[0] = '';
         $result = preg_replace($patterns, $replacements, $text);
         $result = preg_replace('(↑この動画で紹介されている塩尻ワインを購入したい人はこちらをクリック！)','', $result);
-        $result = preg_replace('/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $result );
         return $result;
     }
 

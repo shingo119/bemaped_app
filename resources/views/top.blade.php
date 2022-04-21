@@ -232,36 +232,36 @@
                         // maxLon = maxLon > lon ? maxLon:lon;
                         // minLat = minLat < lat ? minLat:lat;
                         // minLon = minLon < lon ? minLon:lon;
-                        const x = map.pinText(lat, lon, " ", " ", ' ');
+                        const x = map.pin(lat, lon, "#ff0000", " ", ' ');
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
                         // console.log(ytimg)
                         // console.log(icon)
-                        map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-10"><img class="w-20" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-16 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
+                        // map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-10"><img class="w-20" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-16 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
                         map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="z-index2 flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-[246px] -left-48 justify-center items-start">'+ytimg+'</div>');
                         cardHoverAction(map,lat,lon,el);
                         $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する
-                        // if(windowWidth <= windowSm){
-                        //     map.onPin(x,"click", function(){
-                        //         $('#info_id'+el['spot_id']).removeAttr('hidden');
-                        //         $('[id^=pin_id]').addClass('hidden');
-                        //     })
-                        //     map.onMap("click", function () {
-                        //         $('[id^=info_id]').attr('hidden', true);
-                        //         $('[id^=pin_id]').removeClass('hidden');
-                        //     });
-                        // }else{
-                        //     map.onPin(x, "mouseout", function () {
-                        //         $('#info_id'+el['spot_id']).attr('hidden', true);
-                        //         $('[id^=pin_id]').removeClass('hidden');
-                        //     });
-                        //     map.onPin(x, "mouseover", function () {
-                        //         $('#info_id'+el['spot_id']).removeAttr('hidden');
-                        //         $('[id^=pin_id]').addClass('hidden');
-                        //     });
-                        // }
+                        if(windowWidth <= windowSm){
+                            map.onPin(x,"click", function(){
+                                $('#info_id'+el['spot_id']).removeAttr('hidden');
+                                $('[id^=pin_id]').addClass('hidden');
+                            })
+                            map.onMap("click", function () {
+                                $('[id^=info_id]').attr('hidden', true);
+                                $('[id^=pin_id]').removeClass('hidden');
+                            });
+                        }else{
+                            map.onPin(x, "mouseout", function () {
+                                $('#info_id'+el['spot_id']).attr('hidden', true);
+                                $('[id^=pin_id]').removeClass('hidden');
+                            });
+                            map.onPin(x, "mouseover", function () {
+                                $('#info_id'+el['spot_id']).removeAttr('hidden');
+                                $('[id^=pin_id]').addClass('hidden');
+                            });
+                        }
                     })
                     if(typeof(datas) == 'object'){
                         $('.non_height').addClass('h-1/4');

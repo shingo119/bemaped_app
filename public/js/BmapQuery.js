@@ -255,27 +255,6 @@ var Bmap = (function () {
                 },
             },
             {
-                key: "onPin",
-                value: function (e, t, o) {
-                    if (
-                        "object" !== _typeof(e) ||
-                        "" === t ||
-                        "function" != typeof o
-                    )
-                        return !1;
-                    "click" == t &&
-                        Microsoft.Maps.Events.addHandler(e, "click", o),
-                        "mousedown" == t &&
-                            Microsoft.Maps.Events.addHandler(e, "mousedown", o),
-                        "mouseout" == t &&
-                            Microsoft.Maps.Events.addHandler(e, "mouseout", o),
-                        "mouseover" == t &&
-                            Microsoft.Maps.Events.addHandler(e, "mouseover", o),
-                        "mouseup" == t &&
-                            Microsoft.Maps.Events.addHandler(e, "mouseup", o);
-                },
-            },
-            {
                 key: "deletePin",
                 value: function () {
                     for (
