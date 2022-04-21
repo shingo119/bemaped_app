@@ -213,6 +213,7 @@
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
                             map.onPin(x,"click", function(){
+                                selectedVideo=el['spot_id'];
                                 let y = $('#'+el['spot_id']+'').position();
                                 let z = $('#non_height').scrollTop();
                                 var pos = y.top + z;
