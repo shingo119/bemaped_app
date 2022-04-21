@@ -51,7 +51,7 @@
                 {{-- <a href="{{route('index')}}"><img class="w-12 h-12 mt-3 ml-8" src="{{asset('img/back_button.png')}}" alt=""></a> --}}
                 <div class="view_content_wrap w-full h-full xl:max-w-6xl">
                     <div class="bg-white w-full">
-                        <iframe class="youtube w-full aspect-video" data-src="https://www.youtube.com/embed/{{ $spot->youtube_id }}?autoplay=1&mute=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="youtube w-full aspect-video" data-src="https://www.youtube.com/embed/{{ $spot->youtube_id }}?autoplay=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         {{-- <div id="player"></div> --}}
                     </div>
                     {{-- <a href="https://www.furusato-tax.jp/" target="_blank">

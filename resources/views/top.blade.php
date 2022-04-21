@@ -162,19 +162,13 @@
                 let id = null;
                 $('#'+el['spot_id']+'').on('mouseover', function(){
                     id = $(this).attr('id');
-                    // $('#info_id'+id).removeAttr('hidden');
                     map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
                     map.changeMap(lat,lon)
-                    // $('[id^=pin_id]').addClass('hidden');
                 }) 
                 $('.view_button').on('mouseout', function(){
-                    // $('#info_id'+id).attr('hidden', true);
                     $('#info_id'+el['spot_id']).remove();
-                    // $('[id^=pin_id]').removeClass('hidden');
                 })
             }
-
-            // cardHoverAction();
 
             function GetMap() {
                 //------------------------------------------------------------------------
@@ -204,7 +198,7 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        const x = map.pin(lat, lon, "#ff0000", " ", ' ');
+                        const x = map.pinText(lat, lon, el['movie_title'], " ", ' ');
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
@@ -213,22 +207,27 @@
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
                             map.onPin(x,"click", function(){
-                                $('#info_id'+el['spot_id']).removeAttr('hidden');
-                                $('[id^=pin_id]').addClass('hidden');
+                                // $('.viewing').remove();
+                                // map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;" class="viewing">'+ytimg+'</div>');
+                                let y = $('#'+el['spot_id']+'').position();
+                                let z = $('#non_height').scrollTop();
+                                var pos = y.top + z;
+                                $("#non_height").animate({scrollTop: pos},"slow", "swing")
+                                map.changeMap(lat,lon,"load", 15)
                             })
-                            map.onMap("click", function () {
-                                $('[id^=info_id]').attr('hidden', true);
-                                $('[id^=pin_id]').removeClass('hidden');
-                            });
+                            // map.onMap("click", function () {
+                            //     $('.viewing').remove();
+                            // });
                         }else{
                             map.onPin(x, "click", function () {
-                                console.log(1);
+                                const url = "/view?spot_id="+el['spot_id'];
+                                window.location.href = `${url}`;
                             });
                             map.onPin(x, "mouseout", function () {
                                 $('#info_id'+el['spot_id']).remove();
                             });
                             map.onPin(x, "mouseover", function () {
-                                map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
+                                map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
                                 let y = $('#'+el['spot_id']+'').position();
                                 let z = $('#non_height').scrollTop();
                                 var pos = y.top + z;
