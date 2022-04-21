@@ -115,7 +115,6 @@
         
         <script>
             function make_iframe_on_map_by_video_id(data){ //動画情報カードのサムネがないときの処理
-                // return '<iframe width="315" height="170" src="https://www.youtube.com/embed/'+data+'?autoplay=1&mute=1&version=3&loop=1&playlist='+data+'&fs=0&modestbranding=1"></iframe>';
                 var yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
                 var ytimg = new Image();
                 ytimg.onload=function () {
@@ -140,23 +139,18 @@
                 const ytimg = new Image();
                 ytimg.src = yturl;
                 let result = '';
-                // console.log(ytimg.naturalWidth)
-                // ytimg.onload=function () {
                     if (ytimg.naturalWidth > 120) {
                     // サムネイル画像ありの処理
                     result = '<img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/maxresdefault.jpg" alt="" />';
                     } else {
                     // サムネイル画像なしの処理
                     ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
-                    // console.log(ytimg.naturalWidth)
                         if (ytimg.naturalWidth <= 120) {
                             result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
                         }else{
                             result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
                         }
                     }
-                // }
-                // console.log(result)
                 return result
             }
 
@@ -168,15 +162,10 @@
                 $('.view_button').on('mouseover', function(){
                     id = $(this).attr('id');
                     $('#info_id'+id).removeAttr('hidden');
-                    // $('#info_id'+id).parent().parent().parent().parent().css('z-index','1005')
-                    // $('#pin_id'+id).addClass('hidden');
                     $('[id^=pin_id]').addClass('hidden');
-                    // map.infoboxHtml(lat, lon, `<div id="info_id${el['spot_id']}" hidden class="flex rounded-3xl overflow-hidden bg-image w-[320px] h-64 bg-center bg-no-repeat bg-cover relative -top-60 -left-40 justify-center items-center"><img class="w-60 h-36 mb-8" src='https://img.youtube.com/vi/${el['youtube_id']}/maxresdefault.jpg' alt="" /></div>`);
-                    // console.log(id);
                 }) 
                 $('.view_button').on('mouseout', function(){
                     $('#info_id'+id).attr('hidden', true);
-                    // $('#pin_id'+id).removeClass('hidden');
                     $('[id^=pin_id]').removeClass('hidden');
                 })
             }
@@ -197,29 +186,11 @@
                 //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
                 //--------------------------------------------------
                 map.startMap(36.11500549316406, 137.9534454345703, "load", 14);
-
-                // キーワード検索で座標を取ってきて、その座標を表示
-                // map.getGeocode("Seattle", function (data) {
-                //     console.log(data);          //Get Geocode ObjectData
-                //     const lat = data.latitude;  //Get latitude
-                //     const lon = data.longitude; //Get longitude
-                //     document.querySelector("#geocode").innerHTML = lat + '<br>' + lon;
-                // });
-
                 //----------------------------------------------------
                 //3. Add Pushpin-Icon 好きな画像アイコンをマッピングできる
                 // （緯度、経度、アイコン画像、アイコン大きさ、アイコンと位置情報のリンクするところのX位置、アイコンと位置情報のリンクするところY位置）
                 // pinIcon(lat, lon, icon, scale, anchor_x, anchor_y);
                 //----------------------------------------------------
-                //let pin = map.pinIcon(47.6130, -122.1945, "../img/poi_custom.png", 1.0, 0, 0);
-                
-                //配列をmapで回してマッピング
-                // let maxLat = -90;
-                // let maxLon = -180;
-                // let minLat = 90;
-                // let minLon = 180;
-                // let latZoom = 0;
-                // let lonZoom = 0;
                 const locations = [];
                 //マッピング関数
                 const mappingFunction = (datas) => {
@@ -227,19 +198,10 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        // console.log(locations)
-                        // maxLat = maxLat > lat ? maxLat:lat;
-                        // maxLon = maxLon > lon ? maxLon:lon;
-                        // minLat = minLat < lat ? minLat:lat;
-                        // minLon = minLon < lon ? minLon:lon;
                         const x = map.pin(lat, lon, "#ff0000", " ", ' ');
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                        // console.log(ytimg)
-                        // console.log(icon)
-                        // map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-10"><img class="w-20" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-16 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
-                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="z-index2 flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-[246px] -left-48 justify-center items-start">'+ytimg+'</div>');
                         cardHoverAction(map,lat,lon,el);
                         $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する
@@ -253,25 +215,18 @@
                                 $('[id^=pin_id]').removeClass('hidden');
                             });
                         }else{
+                            map.onPin(x, "click", function () {
+                                console.log(1);
+                            });
                             map.onPin(x, "mouseout", function () {
-                                $('#info_id'+el['spot_id']).attr('hidden', true);
-                                // $('[id^=pin_id]').removeClass('hidden');
+                                $('#info_id'+el['spot_id']).remove();
                             });
                             map.onPin(x, "mouseover", function () {
-                                $('#info_id'+el['spot_id']).removeAttr('hidden');
-                                // $('[id^=pin_id]').addClass('hidden');
-                                let x = $('#'+el['spot_id']+'').position();
-                                let y = $('#non_height').scrollTop();
-                                // let y = $('#non_height').offset().top;
-                                console.log(x);
-                                console.log(y);
-                                // var target = "#" + $(this).html();
-                                // var th = $(target).position();
-                                // var sh = $(".scroll_div").scrollTop();
-                                var pos = x.top + y;
-                                console.log(pos)
-                                $("#non_height").animate({scrollTop: pos},"slow", "swing");
-
+                                map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
+                                let y = $('#'+el['spot_id']+'').position();
+                                let z = $('#non_height').scrollTop();
+                                var pos = y.top + z;
+                                $("#non_height").animate({scrollTop: pos},"slow", "swing")
                             });
                         }
                     })
@@ -283,20 +238,6 @@
                         bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
                         padding: 100
                     });
-                    // console.log(locations)
-                    // console.log(datas)
-                    // const latLength = (maxLat - minLat)*91;
-                    // const lonLength = (maxLon - minLon)*110;
-                    // const latLengthList = [36615, 14646, 7323, 3661, 2929, 1464, 732, 366, 146, 73, 29, 14, 7.3, 3.6, 1.4, 0.7]
-                    // const lonLengthList = [55961, 22384, 11192, 5596, 4476, 2238, 1119, 559, 223, 111, 44, 22, 11, 5, 2.2, 1.1]
-                    // latLengthList.forEach(el => latLength < el ? latZoom++:null);
-                    // lonLengthList.forEach(el => lonLength < el ? lonZoom++:null);
-                    // const zoom = Math.min(...[latZoom,lonZoom]);
-                    // const maxLength = Math.max(...[latLength,lonLength]);
-                    // // console.log("maxLength:"+maxLength);
-                    // // console.log("zoom:"+zoom);
-                    // // console.log("currentGiocord:"+(Number(maxLat) + Number(minLat))/2+','+(Number(maxLon) + Number(minLon))/2);
-                    // map.changeMap((Number(maxLat) + Number(minLat))/2, (Number(maxLon) + Number(minLon))/2, "load", zoom); //ここも毎回changeMapを入れるのは無駄になりそうなので、良い位置が表示されるように検討する                    
                 }
                 mappingFunction(@json($spots));
             }
