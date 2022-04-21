@@ -139,34 +139,37 @@
                 const ytimg = new Image();
                 ytimg.src = yturl;
                 let result = '';
-                    if (ytimg.naturalWidth > 120) {
-                    // サムネイル画像ありの処理
-                    result = '<img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/maxresdefault.jpg" alt="" />';
-                    } else {
-                    // サムネイル画像なしの処理
-                    ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
+                    // if (ytimg.naturalWidth > 120) {
+                    // // サムネイル画像ありの処理
+                    // result = '<img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/maxresdefault.jpg" alt="" />';
+                    // } else {
+                    // // サムネイル画像なしの処理
+                    // ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
                         if (ytimg.naturalWidth <= 120) {
                             result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
                         }else{
                             result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
                         }
-                    }
+                    // }
                 return result
             }
 
             const windowWidth = $(window).width(); //ウィンドウサイズ取得
             const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
 
-            const cardHoverAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
+            const cardHoverAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 let id = null;
-                $('.view_button').on('mouseover', function(){
+                $('#'+el['spot_id']+'').on('mouseover', function(){
                     id = $(this).attr('id');
-                    $('#info_id'+id).removeAttr('hidden');
-                    $('[id^=pin_id]').addClass('hidden');
+                    // $('#info_id'+id).removeAttr('hidden');
+                    map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
+                    map.changeMap(lat,lon)
+                    // $('[id^=pin_id]').addClass('hidden');
                 }) 
                 $('.view_button').on('mouseout', function(){
-                    $('#info_id'+id).attr('hidden', true);
-                    $('[id^=pin_id]').removeClass('hidden');
+                    // $('#info_id'+id).attr('hidden', true);
+                    $('#info_id'+el['spot_id']).remove();
+                    // $('[id^=pin_id]').removeClass('hidden');
                 })
             }
 
@@ -202,7 +205,7 @@
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                        cardHoverAction(map,lat,lon,el);
+                        cardHoverAction(map,lat,lon,el,ytimg);
                         $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
