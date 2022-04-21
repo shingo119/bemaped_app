@@ -1,5 +1,5 @@
 
-    <form class="spot_card_element_wrap my-2 w-full h-full px-1 flex items-center box-border" name="form1" method="GET" action="{{route('view')}}">
+    <div class="spot_card_element_wrap my-2 w-full h-full px-1 flex items-center box-border" >
         @csrf
         <button type="submit" class="cursor w-full h-full z-index">
             <div id="{{$spot->spot_id}}" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-lg box-border ss:flex ss:items-center ss:h-40 ss:justify-between ss:pl-16">
@@ -16,6 +16,6 @@
                 </div>
             </div>
         </button>
-    </form>
+    </div>
 
     
