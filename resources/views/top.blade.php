@@ -44,7 +44,7 @@
         </style>
     </head>
     <body>
-        <div id="myMap" class="w-screen h-screen"></div>
+        <div id="myMap" class="w-screen"></div>
         <form method="POST" action="{{ route('search')}}">
             @csrf
             <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
