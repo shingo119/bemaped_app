@@ -136,23 +136,11 @@
                 const ytimg = new Image();
                 ytimg.src = yturl;
                 let result = '';
-                // console.log(ytimg.naturalWidth)
-                // ytimg.onload=function () {
-                    if (ytimg.naturalWidth > 120) {
-                    // サムネイル画像ありの処理
-                    result = '<img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/maxresdefault.jpg" alt="" />';
-                    } else {
-                    // サムネイル画像なしの処理
-                    ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
-                    // console.log(ytimg.naturalWidth)
-                        if (ytimg.naturalWidth <= 120) {
-                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
-                        }else{
-                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
-                        }
-                    }
-                // }
-                // console.log(result)
+                if (ytimg.naturalWidth <= 120) {
+                    result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
+                }else{
+                    result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
+                }
                 return result
             }
 
@@ -223,19 +211,10 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        // console.log(locations)
-                        // maxLat = maxLat > lat ? maxLat:lat;
-                        // maxLon = maxLon > lon ? maxLon:lon;
-                        // minLat = minLat < lat ? minLat:lat;
-                        // minLon = minLon < lon ? minLon:lon;
                         const x = map.pin(lat, lon, "#ff0000", " ", ' ');
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
-                        const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                        // console.log(ytimg)
-                        // console.log(icon)
-                        // map.infoboxHtml(lat, lon,`<div id="pin_id${el['spot_id']}" class="relative -left-10"><img class="w-20" src="{{asset("img/pin.png")}}"><img class="absolute left-2 top-2 w-16 rounded-full" src="{{ asset('storage/${icon}') }}"></div>`);
-                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="z-index2 flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-[246px] -left-48 justify-center items-start">'+ytimg+'</div>');
+                        const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" hidden class="z-index2 flex rounded-t-3xl pt-3 bg-image w-96 h-60 bg-center bg-no-repeat bg-cover relative -top-[246px] -left-48 justify-center items-start">'+ytimg+'</div>');
                         cardHoverAction(map,lat,lon,el);
                         $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                         // ホバーした時のみ説明を表示する

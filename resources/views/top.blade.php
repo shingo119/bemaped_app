@@ -246,19 +246,12 @@
                         $('.non_height').addClass('h-1/4');
                         $('#non_height').addClass('h-full');
                     }
-                    map.map.setView({
-                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                        padding: 100
-                    });
+                    // map.map.setView({
+                    //     bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                    //     padding: 100
+                    // });
                 }
                 mappingFunction(@json($spots));
-            }
-            window.onload = function(){
-                if (window.name != "xyz")
-                {
-                    location.reload();
-                    window.name = "xyz";
-                }
             }
         </script>
     </body> 
