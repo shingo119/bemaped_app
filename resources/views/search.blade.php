@@ -233,7 +233,7 @@
                         }
                     })
                     if(typeof(datas) == 'object'){
-                        $('.non_height').addClass('h-1/4');
+                        $('.non_height').addClass('h-2/5');
                         $('#non_height').addClass('h-full');
                     }
                     map.map.setView({
