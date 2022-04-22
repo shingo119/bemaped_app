@@ -189,7 +189,7 @@
                 //   マップの種類：↓色々ある
                 //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
                 //--------------------------------------------------
-                map.startMap(36.11500549316406, 137.9534454345703, "load", 14);
+                map.startMap(36.11497515555497, 137.94782330122618, "load", 16);
                 //----------------------------------------------------
                 //3. Add Pushpin-Icon 好きな画像アイコンをマッピングできる
                 // （緯度、経度、アイコン画像、アイコン大きさ、アイコンと位置情報のリンクするところのX位置、アイコンと位置情報のリンクするところY位置）
@@ -204,7 +204,7 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        const x = map.pinText(lat, lon, el['movie_title'], "", ' ');
+                        const x = map.pinText(lat, lon, el['movie_title'], " ", ' ');
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
@@ -242,10 +242,10 @@
                         $('.non_height').addClass('h-1/4');
                         $('#non_height').addClass('h-full');
                     }
-                    map.map.setView({
-                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                        padding: 100
-                    });
+                    // map.map.setView({
+                    //     bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                    //     padding: 100
+                    // });
                 }
                 mappingFunction(@json($spots));
             }
