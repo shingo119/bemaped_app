@@ -43,9 +43,9 @@
         <form method="POST" action="{{ route('search')}}">
             @csrf
             <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
-                <div class="bg-white rounded-full w-12 h-12 flex justify-center items-center">
+                {{-- <div class="bg-white rounded-full w-12 h-12 flex justify-center items-center">
                     <img id="menu" class="block w-10 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
-                </div>
+                </div> --}}
                 <div class="search-bar w-full mx-2 pl-8 h-12 bg-white rounded-3xl flex justify-start items-center md:max-w-xl">
                     {{-- <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt=""> --}}
                     <input class="w-5/6 h-10 pl-2 box-border" type="text" id="search" name="search_word" placeholder="ここで検索">
