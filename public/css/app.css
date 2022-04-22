@@ -668,6 +668,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   top: -1.5rem;
 }
 
+.top-3\/5 {
+  top: 60%;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -926,6 +930,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-2\/5 {
   height: 40%;
+}
+
+.h-\[300px\] {
+  height: 300px;
 }
 
 .min-h-screen {
