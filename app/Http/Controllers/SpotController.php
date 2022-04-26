@@ -29,6 +29,10 @@ class SpotController extends Controller
         return view('top', ['spots' => $spots]);
     }
 
+    public function test()
+    {
+        return view('test');
+    }
     /**
      * Display a listing of the resource.
      *

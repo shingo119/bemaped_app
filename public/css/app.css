@@ -551,10 +551,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: transparent;
 }
 
-.pointer-events-none {
-  pointer-events: none;
-}
-
 .fixed {
   position: fixed;
 }
@@ -604,80 +600,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: -30px;
 }
 
+.top-3\/5 {
+  top: 60%;
+}
+
 .top-2\/3 {
   top: 66.666667%;
-}
-
-.-top-60 {
-  top: -15rem;
-}
-
-.-left-40 {
-  left: -10rem;
-}
-
-.-left-10 {
-  left: -2.5rem;
-}
-
-.left-2 {
-  left: 0.5rem;
-}
-
-.top-2 {
-  top: 0.5rem;
-}
-
-.-top-\[246px\] {
-  top: -246px;
-}
-
-.-left-48 {
-  left: -12rem;
-}
-
-.-left-20 {
-  left: -5rem;
-}
-
-.top-8 {
-  top: 2rem;
-}
-
-.top-4 {
-  top: 1rem;
-}
-
-.top-3 {
-  top: 0.75rem;
-}
-
-.-left-\[120px\] {
-  left: -120px;
 }
 
 .-left-3 {
   left: -0.75rem;
 }
 
-.-left-6 {
-  left: -1.5rem;
-}
-
 .-top-6 {
   top: -1.5rem;
-}
-
-.top-3\/5 {
-  top: 60%;
-}
-
-.top-2\/5 {
-  top: 40%;
-}
-
-.z-0 {
-  z-index: 0;
 }
 
 .m-2 {
@@ -800,10 +736,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.25rem;
 }
 
-.mb-8 {
-  margin-bottom: 2rem;
-}
-
 .mr-4 {
   margin-right: 1rem;
 }
@@ -900,34 +832,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 75%;
 }
 
-.h-64 {
-  height: 16rem;
-}
-
-.h-36 {
-  height: 9rem;
-}
-
-.h-60 {
-  height: 15rem;
-}
-
-.h-1\/4 {
-  height: 25%;
-}
-
-.h-2\/3 {
-  height: 66.666667%;
-}
-
-.h-40 {
-  height: 10rem;
-}
-
-.h-4 {
-  height: 1rem;
-}
-
 .h-6 {
   height: 1.5rem;
 }
@@ -936,8 +840,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 40%;
 }
 
-.h-\[300px\] {
-  height: 300px;
+.h-2\/3 {
+  height: 66.666667%;
 }
 
 .min-h-screen {
@@ -1024,22 +928,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 5rem;
 }
 
-.w-\[320px\] {
-  width: 320px;
-}
-
-.w-60 {
-  width: 15rem;
-}
-
-.w-16 {
-  width: 4rem;
-}
-
-.w-96 {
-  width: 24rem;
-}
-
 .w-36 {
   width: 9rem;
 }
@@ -1054,10 +942,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-4xl {
   max-width: 56rem;
-}
-
-.max-w-lg {
-  max-width: 32rem;
 }
 
 @-webkit-keyframes bounce {
@@ -1239,11 +1123,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-radius: 0.375rem;
 }
 
-.rounded-t-3xl {
-  border-top-left-radius: 1.5rem;
-  border-top-right-radius: 1.5rem;
-}
-
 .border {
   border-width: 1px;
 }
@@ -1344,18 +1223,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(35 56 118 / var(--tw-bg-opacity));
 }
 
-.bg-cover {
-  background-size: cover;
-}
-
-.bg-center {
-  background-position: center;
-}
-
-.bg-no-repeat {
-  background-repeat: no-repeat;
-}
-
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -1437,10 +1304,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pl-2 {
   padding-left: 0.5rem;
-}
-
-.pt-3 {
-  padding-top: 0.75rem;
 }
 
 .pt-4 {
@@ -1630,11 +1493,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-gray-100 {
   --tw-text-opacity: 1;
   color: rgb(244 245 247 / var(--tw-text-opacity));
-}
-
-.text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .underline {

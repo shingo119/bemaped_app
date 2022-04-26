@@ -215,6 +215,7 @@
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
                             map.onPin(x,"click", function(){
+                                // $('#'+el['spot_id']+'').trigger("click");
                                 $('svg').remove();
                                 selectedVideo=el['spot_id'];
                                 let y = $('#'+el['spot_id']+'').position();
