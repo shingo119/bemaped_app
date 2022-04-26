@@ -15,10 +15,16 @@
       arjs="sourceType: webcam; debugUIEnabled: false;"
     >
       <a-text
-        value="This content will always face you."
+        value="YANOS HOUSE"
         look-at="[gps-camera]"
-        scale="10 50 10"
+        scale="5 20 5"
         gps-entity-place="latitude:35.7929179287228; longitude:139.62652964041612;"
+      ></a-text>
+      <a-text
+        value="YASAI HANBAI"
+        look-at="[gps-camera]"
+        scale="5 20 5"
+        gps-entity-place="latitude:35.7928372; longitude:139.6260404;"
       ></a-text>
       <a-camera gps-camera rotation-reader> </a-camera>
     </a-scene>
