@@ -95,8 +95,8 @@
             </div>
         </div>
 
-        <div class="non_height spot_card_container absolute inset-x-0 top-3/5 mx-0 w-full flex justify-center">
-            <div id="non_height" class="spot_card_content mx-0 overflow-x-auto flex flex-col items-center w-full xl:max-w-6xl">
+        <div class="non_height spot_card_container absolute inset-x-0 top-3/4 mx-0 w-full flex justify-center">
+            <div id="non_height" class="absolute spot_card_content mx-0 overflow-x-auto flex items-center snap-x w-full xl:max-w-6xl">
         {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
             <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
         @if(gettype($spots) == "object")
@@ -206,13 +206,14 @@
                         // ホバーした時のみ説明を表示する
                         if(windowWidth <= windowSm){
                             map.onPin(x,"click", function(){
+                                // $('#'+el['spot_id']+'').trigger("click");
                                 $('svg').remove();
                                 selectedVideo=el['spot_id'];
                                 let y = $('#'+el['spot_id']+'').position();
-                                let z = $('#non_height').scrollTop();
-                                var pos = y.top + z;
-                                $("#non_height").animate({scrollTop: pos},"slow", "swing")
-                                map.changeMap(lat,lon,"load", 15)
+                                let z = $('#non_height').scrollLeft();
+                                var pos = y.left + z;
+                                $("#non_height").animate({scrollLeft: pos},"slow", "swing");
+                                map.changeMap(lat,lon)
                                 map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                             })
                         }else{
@@ -226,15 +227,15 @@
                             map.onPin(x, "mouseover", function () {
                                 map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
                                 let y = $('#'+el['spot_id']+'').position();
-                                let z = $('#non_height').scrollTop();
-                                var pos = y.top + z;
-                                $("#non_height").animate({scrollTop: pos},"slow", "swing");
+                                let z = $('#non_height').scrollLeft();
+                                var pos = y.left + z;
+                                $("#non_height").animate({scrollLeft: pos},"slow", "swing");
                                 selectedVideo=el['spot_id'];
                             });
                         }
                     })
                     if(typeof(datas) == 'object'){
-                        $('.non_height').addClass('h-2/5');
+                        $('.non_height').addClass('h-1/4');
                         $('#non_height').addClass('h-full');
                     }
                     map.map.setView({
