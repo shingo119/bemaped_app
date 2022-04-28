@@ -620,6 +620,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   top: 75%;
 }
 
+.top-8 {
+  top: 2rem;
+}
+
 .m-2 {
   margin: 0.5rem;
 }

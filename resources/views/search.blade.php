@@ -42,7 +42,7 @@
         <div id="myMap" class="w-screen h-screen"></div>
         <form method="POST" action="{{ route('search')}}">
             @csrf
-            <div class="search-bar-wrap absolute top-20 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
+            <div class="search-bar-wrap absolute top-8 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
                 {{-- <div class="bg-white rounded-full w-12 h-12 flex justify-center items-center">
                     <img id="menu" class="block w-10 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
                 </div> --}}
@@ -63,8 +63,8 @@
             <div class="absolute w-full inset-x-0 -top-2 mx-auto mt-4 flex justify-center">
                 <div class="w-11/12 flex justify-center">
                     <div class="flex w-full justify-center">
-                        <button id="shokuji" type="submit" name="category_id" value=1 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-orange-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">食事</button>
-                        <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-red-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">観光</button>
+                        {{-- <button id="shokuji" type="submit" name="category_id" value=1 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-orange-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">食事</button>
+                        <button id="kankou" type="submit" name="category_id" value=2 class="appearance-none m-2 h-10 drop-shadow-xl ring ring-red-400 leading-3 rounded-3xl w-20 text-center text-ms font-bold text-gray-700 bg-white flex justify-center items-center">観光</button> --}}
                         {{-- <button id="kouen" type="submit" name="category_id" value=3 class="appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-green-300 flex justify-center items-center">公園</button> --}}
                         {{-- <button id="outdoor" type="submit" name="category_id" value=4 class="p-1 box-border appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-blue-400 flex justify-center items-center">アウトドア</button> --}}
                         {{-- <button id="fashion" type="submit" name="category_id" value=5 class="p-1 box-border appearance-none m-1 h-10 drop-shadow-lg leading-3 rounded-3xl w-20 text-center text-xs bg-white text-purple-400 flex justify-center items-center">ファッション</button> --}}
