@@ -100,7 +100,7 @@
             </div>
         </div>
 
-        <div class="non_height spot_card_container absolute inset-x-0 top-3/4 mx-0 w-full flex justify-center">
+        <div id="non_pinchin" class="non_height spot_card_container absolute inset-x-0 top-3/4 mx-0 w-full flex justify-center">
             <div id="non_height" class="absolute spot_card_content mx-0 overflow-x-auto flex items-center snap-x w-full xl:max-w-6xl">
         {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
             <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
@@ -179,6 +179,11 @@
                         window.location.href = "/view?spot_id="+el['spot_id'];
                     }
                 })
+            }
+
+            if(windowWidth < windowSm){
+                const el = document.getElementById('non_pinchin')
+                el.addEventListener("touchmove", mobile_no_scroll, {passive: false})
             }
 
             function GetMap() {
