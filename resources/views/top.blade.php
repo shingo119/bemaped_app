@@ -156,6 +156,7 @@
             const cardAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
                     $('#'+el['spot_id']+'').on('mouseover', function(){
+                        map.changeMap(lat,lon);
                         map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                     }) 
@@ -167,7 +168,7 @@
                 $('#'+el['spot_id']+'').on('click', function(){
                     if (selectedVideo!=el['spot_id']) {
                         $('svg').remove();
-                        map.changeMap(lat,lon,'load',14);
+                        map.changeMap(lat,lon);
                         selectedVideo=el['spot_id'];
                         let y = $('#'+el['spot_id']+'').position();
                         let z = $('#non_height').scrollTop();

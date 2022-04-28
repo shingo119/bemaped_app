@@ -155,10 +155,10 @@ class SpotController extends Controller
             where('category_id', '=', $keyword['category_id'])
             ->leftjoin('users','users.id', '=', 'spots.user_id')
             ->get();
-            return view('top', ['spots' => $spots]);
+            return view('search', ['spots' => $spots]);
         }else{
             $spots = ' ';
-            return view('top', ['spots' => $spots]);
+            return view('search', ['spots' => $spots]);
         }
     }
 
