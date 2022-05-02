@@ -139,10 +139,10 @@ class SpotController extends Controller
                 ->get();
             }
             // dd($spots);
-            return view('search', ['spots' => $spots]);
+            return view('top', ['spots' => $spots]);
         }else{
             $spots = ' ';
-            return view('search', ['spots' => $spots]);
+            return view('top', ['spots' => $spots]);
         }
 
     }
