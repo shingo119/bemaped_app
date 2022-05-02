@@ -19,11 +19,11 @@ class SpotController extends Controller
     {
         $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*')
         ->leftjoin('users','users.id', '=', 'spots.user_id')
-        ->where('user_id', '=', 13)
-        ->orwhere('user_id', '=', 12)
-        ->orwhere('user_id', '=', 21)
+        // ->where('user_id', '=', 13)
+        // ->orwhere('user_id', '=', 12)
+        // ->orwhere('user_id', '=', 21)
         ->orwhere('user_id', '=', 20)
-        ->orwhere('user_id', '=', 15)
+        // ->orwhere('user_id', '=', 15)
         ->get();
         // dd($spots);
         return view('top', ['spots' => $spots]);
@@ -139,10 +139,10 @@ class SpotController extends Controller
                 ->get();
             }
             // dd($spots);
-            return view('search', ['spots' => $spots]);
+            return view('top', ['spots' => $spots]);
         }else{
             $spots = ' ';
-            return view('search', ['spots' => $spots]);
+            return view('top', ['spots' => $spots]);
         }
 
     }
