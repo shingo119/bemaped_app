@@ -1007,6 +1007,10 @@ Ensure the default browser behavior of the `hidden` attribute.
       scroll-snap-type: y var(--tw-scroll-snap-strictness);
 }
 
+.snap-mandatory {
+  --tw-scroll-snap-strictness: mandatory;
+}
+
 .snap-center {
   scroll-snap-align: center;
 }
