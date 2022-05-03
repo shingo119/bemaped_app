@@ -2,14 +2,15 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NW8NY2HKTS"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-227736458-1"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'G-NW8NY2HKTS');
+        gtag('config', 'UA-227736458-1');
         </script>
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 
