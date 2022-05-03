@@ -277,10 +277,17 @@
                         $('.non_height').addClass('h-1/4');
                         $('#non_height').addClass('h-full');
                     }
-                    map.map.setView({
-                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                        padding: 300
-                    });
+                    if(windowWidth <= windowSm){
+                        map.map.setView({
+                            bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                            padding: 100
+                        });
+                    }else{
+                        map.map.setView({
+                            bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                            padding: 300
+                        });
+                    }
                 }
                 mappingFunction(@json($spots));
             }
