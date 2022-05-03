@@ -53,7 +53,7 @@
 
         </style>
     </head>
-    <body>
+    <body class="w-full">
         <div id="myMap" class="w-screen"></div>
         <form method="POST" action="{{ route('search')}}">
             @csrf

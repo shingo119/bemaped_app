@@ -1,5 +1,5 @@
 
-    <div class="spot_card_element_wrap snap-center w-full h-full p-2 flex items-center box-border" >
+    <div class="spot_card_element_wrap snap-center w-full h-full p-2 flex items-center box-border min-w-full" >
         @csrf
         <button type="submit" class="cursor w-full h-full z-index">
             <div id="{{$spot->spot_id}}" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-xl box-border ss:flex ss:items-center ss:h-40 ss:justify-between ss:pl-16">
