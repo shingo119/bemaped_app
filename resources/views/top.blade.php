@@ -12,7 +12,7 @@
         </script>
 
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
         <title>bemaped</title>
 
@@ -191,10 +191,16 @@
                 })
             }
 
-            if(windowWidth < windowSm){
-                const el = document.getElementById('non_pinchin')
-                el.addEventListener("touchmove", mobile_no_scroll, {passive: false})
-            }
+            document.body.addEventListener("touchstart", function(e){
+                if (e.touches && e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, {passive: false});
+            document.body.addEventListener("touchmove", function(e){
+                if (e.touches && e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, {passive: false});
 
             function GetMap() {
                 //------------------------------------------------------------------------
