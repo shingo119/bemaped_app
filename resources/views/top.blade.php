@@ -221,9 +221,18 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
+                        if (el["category_id"]==1) {
+                            iconUrl = "{{asset('img/restaurant.png')}}";
+                        } else {
+                            iconUrl = "{{asset('img/sightseeing.png')}}";
+                        }
+                        //ワイナリーフェスタ終わったら削除？
+                        if (el["user_id"]==20) {
+                            iconUrl = "{{asset('img/wine.png')}}";
+                        }
                         const x = new Microsoft.Maps.Pushpin(locations[i], {
-                                            icon: "{{asset('img/wine.png')}}",
-                                            anchor: new Microsoft.Maps.Point(0,0),
+                                            icon: iconUrl,
+                                            anchor: new Microsoft.Maps.Point(14,14),
                                             roundClickableArea:true
                                         });
                         map.map.entities.push(x);
