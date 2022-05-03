@@ -221,7 +221,12 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        const x = map.pinText(lat, lon, el['movie_title'], " ", ' ');
+                        const x = new Microsoft.Maps.Pushpin(locations[i], {
+                                            icon: "{{asset('img/wine.png')}}",
+                                            anchor: new Microsoft.Maps.Point(0,0),
+                                            roundClickableArea:true
+                                        });
+                        map.map.entities.push(x);
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
