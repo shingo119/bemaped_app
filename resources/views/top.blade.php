@@ -222,7 +222,21 @@
                         const lat = el['lat'];
                         const lon = el['lon'];
                         locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        const x = map.pinText(lat, lon, el['movie_title'], " ", ' ');
+                        if (el["category_id"]==1) {
+                            iconUrl = "{{asset('img/restaurant.png')}}";
+                        } else {
+                            iconUrl = "{{asset('img/sightseeing.png')}}";
+                        }
+                        //ワイナリーフェスタ終わったら削除？
+                        if (el["user_id"]==20) {
+                            iconUrl = "{{asset('img/wine.png')}}";
+                        }
+                        const x = new Microsoft.Maps.Pushpin(locations[i], {
+                                            icon: iconUrl,
+                                            anchor: new Microsoft.Maps.Point(14,14),
+                                            roundClickableArea:true
+                                        });
+                        map.map.entities.push(x);
                         const icon = el['icon_img'];
                         const spotId = el['spot_id'];
                         const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
