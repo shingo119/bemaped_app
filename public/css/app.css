@@ -993,6 +993,10 @@ Ensure the default browser behavior of the `hidden` attribute.
           user-select: none;
 }
 
+.resize {
+  resize: both;
+}
+
 .snap-x {
   -ms-scroll-snap-type: x var(--tw-scroll-snap-strictness);
       scroll-snap-type: x var(--tw-scroll-snap-strictness);
