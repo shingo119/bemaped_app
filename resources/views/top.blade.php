@@ -58,8 +58,9 @@
         <div id="myMap" class="w-screen"></div>
         <div class="search-bar-wrap absolute top-8 mx-auto flex justify-center items-center drop-shadow-lg z-index left-1/2 -translate-x-1/2 md:max-w-2xl w-full">
             <div class="search-bar w-full pl-6 h-12 bg-white rounded-3xl flex justify-start items-center overflow-hidden">
-                <input class="h-10 pl-2 box-border" style="width: calc(100% - 60px)" type="text" id="search_word" placeholder="ここで検索">
-                <div  id="search" style="width:60px" class="h-full flex justify-center cursor-pointer"><img src="{{ asset('img/search.png') }}" class="m-auto"></div>
+                <input class="h-10 pl-2 box-border border-r-2" style="width: calc(100% - 120px)" type="text" id="search_word" placeholder="ここで検索">
+                <div  id="search" style="width:60px" class="h-10 flex justify-center cursor-pointer border-r-2"><img src="{{ asset('img/search.png') }}" class="m-auto"></div>
+                <div  id="cancel" style="width:60px" class="h-10 flex justify-center cursor-pointer"><img src="{{ asset('img/cancel.png') }}" class="m-auto h-1/2"></div>
             </div>
         </div>
         <!-- <form method="GET" action="{{ route('category')}}">
@@ -102,7 +103,7 @@
             </div>
         </div> -->
 
-        <div id="non_pinchin" class="non_height spot_card_container absolute top-3/4 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl">
+        <div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl">
             <div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl">
             @if(gettype($spots) == "object")
                 @foreach($spots as $spot)
@@ -115,48 +116,21 @@
         </div>
         
         <script>
-
-            function make_iframe_on_map_by_video_id(data){ //動画情報カードのサムネがないときの処理
-                var yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
-                var ytimg = new Image();
-                ytimg.onload=function () {
-                    if (ytimg.naturalWidth > 120) {
-                    // サムネイル画像ありの処理
-                    } else {
-                    // サムネイル画像なしの処理
-                    ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
-                        if (ytimg.naturalWidth <= 120) {
-                            ytimg.src="https://img.youtube.com/vi/"+data+"/hqdefault.jpg"
-                        }
-                    }
+            $("#cancel").on("click", function() {
+                if (document.getElementById("search_word").value!='') {
+                    document.getElementById("search_word").value='';
+                    document.getElementById("search").click();
                 }
-                ytimg.src = yturl;
-                ytimg.classList.add('object-contain');
-                ytimg.width=260;
-                return ytimg;
-            }
-
-            function make_iframe_on_map_by_video_id_2(data){ //サムネイルピンのサムネがない時の処理
-                const yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
-                const ytimg = new Image();
-                ytimg.src = yturl;
-                let result = '';
-                        if (ytimg.naturalWidth <= 120) {
-                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
-                        }else{
-                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
-                        }
-                return result
-            }
-
+            });
+            
             const windowWidth = $(window).width(); //ウィンドウサイズ取得
             const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
             
             let selectedVideo=-1;
-            const cardAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
+            const cardAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
                     $('#'+el['spot_id']).on('mouseover', function(){
-                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
+                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div>');
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                     }) 
                     $('.view_button').on('mouseout', function(){
@@ -198,8 +172,6 @@
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             });
-            
-            
 
             const mappingFunction = (map,datas,setview,position) => {
                 const locations = [];
@@ -225,12 +197,14 @@
                     map.map.entities.push(x);
                     const icon = el['icon_img'];
                     const spotId = el['spot_id'];
-                    const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                    cardAction(map,lat,lon,el,ytimg);
-                    $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
+                    cardAction(map,lat,lon,el);
+                    // $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                     // ホバーした時のみ説明を表示する
                     map.onPin(x,"click", function(){
-                        if($(window).width() <= windowSm){
+                        if($(window).width() > windowSm){
+                            const url = "/view?spot_id="+el['spot_id'];
+                            window.location.href = `${url}`;
+                        } else {
                             $('svg').remove();
                             selectedVideo=el['spot_id'];
                             let y = $('#'+el['spot_id']+'').position();
@@ -239,9 +213,6 @@
                             $("#non_height").animate({scrollLeft: pos},"slow", "swing");
                             map.changeMap(lat,lon)
                             map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
-                        } else {
-                            const url = "/view?spot_id="+el['spot_id'];
-                            window.location.href = `${url}`;
                         }
                     })
                     map.onPin(x, "mouseout", function () {
@@ -251,7 +222,7 @@
                     });
                     map.onPin(x, "mouseover", function () {
                         if($(window).width() > windowSm){
-                            map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
+                            map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div>');
                             let y = $('#'+el['spot_id']+'').position();
                             let z = $('#non_height').scrollLeft();
                             var pos = y.left + z;
@@ -303,21 +274,22 @@
                     });
                     $("#search").on("click", function() {
                         $(function(){
-                        $.ajax({
-                            type: "get", //HTTP通信の種類
-                            url:'/search?search_word='+document.getElementById("search_word").value
-                        })
-                        //通信が成功したとき
-                        .done((res)=>{
-                            map.deletePin();
-                            mappingFunction(map,res,0,position);
-                        })
-                        //通信が失敗したとき
-                        .fail((error)=>{
-                            console.log(error)
-                        })
+                            $.ajax({
+                                type: "get", //HTTP通信の種類
+                                url:'/search?search_word='+document.getElementById("search_word").value
+                            })
+                            //通信が成功したとき
+                            .done((res)=>{
+                                map.deletePin();
+                                mappingFunction(map,res,0,position);
+                            })
+                            //通信が失敗したとき
+                            .fail((error)=>{
+                                console.log(error)
+                            })
                         });
                     });
+                    
                 });
             }
         </script>
