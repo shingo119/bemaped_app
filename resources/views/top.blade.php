@@ -155,7 +155,7 @@
             let selectedVideo=-1;
             const cardAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
-                    $('#'+el['spot_id']+'').on('mouseover', function(){
+                    $('#'+el['spot_id']).on('mouseover', function(){
                         map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                     }) 
@@ -164,7 +164,7 @@
                         $('svg').remove();
                     })
                 }
-                $('#'+el['spot_id']+'').on('click', function(){
+                $('#'+el['spot_id']).on('click', function(){
                     if (selectedVideo!=el['spot_id']) {
                         $('svg').remove();
                         map.changeMap(lat,lon);
@@ -201,7 +201,7 @@
             
             
 
-            const mappingFunction = (map,datas,setview) => {
+            const mappingFunction = (map,datas,setview,position) => {
                 const locations = [];
                 datas.forEach((el,i) => {
                     const lat = el['lat'];
@@ -212,10 +212,11 @@
                     } else {
                         iconUrl = "{{asset('img/sightseeing.png')}}";
                     }
-                    //ワイナリーフェスタ終わったら削除？
+                    //ワイナリーフェスタ終わったら削除
                     if (el["user_id"]==20) {
                         iconUrl = "{{asset('img/wine.png')}}";
                     }
+                    //ここまでワイナリーフェスタ終わったら削除
                     const x = new Microsoft.Maps.Pushpin(locations[i], {
                                         icon: iconUrl,
                                         anchor: new Microsoft.Maps.Point(14,14),
@@ -228,9 +229,8 @@
                     cardAction(map,lat,lon,el,ytimg);
                     $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
                     // ホバーした時のみ説明を表示する
-                    if(windowWidth <= windowSm){
-                        map.onPin(x,"click", function(){
-                            // $('#'+el['spot_id']+'').trigger("click");
+                    map.onPin(x,"click", function(){
+                        if($(window).width() <= windowSm){
                             $('svg').remove();
                             selectedVideo=el['spot_id'];
                             let y = $('#'+el['spot_id']+'').position();
@@ -239,25 +239,33 @@
                             $("#non_height").animate({scrollLeft: pos},"slow", "swing");
                             map.changeMap(lat,lon)
                             map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
-                        })
-                    }else{
-                        map.onPin(x, "click", function () {
+                        } else {
                             const url = "/view?spot_id="+el['spot_id'];
                             window.location.href = `${url}`;
-                        });
-                        map.onPin(x, "mouseout", function () {
+                        }
+                    })
+                    map.onPin(x, "mouseout", function () {
+                        if($(window).width() > windowSm){
                             $('#info_id'+el['spot_id']).remove();
-                        });
-                        map.onPin(x, "mouseover", function () {
+                        }
+                    });
+                    map.onPin(x, "mouseover", function () {
+                        if($(window).width() > windowSm){
                             map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
                             let y = $('#'+el['spot_id']+'').position();
                             let z = $('#non_height').scrollLeft();
                             var pos = y.left + z;
                             $("#non_height").animate({scrollLeft: pos},"slow", "swing");
                             selectedVideo=el['spot_id'];
-                        });
-                    }
+                        }
+                    });
                 })
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const x = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(lat, lon), {
+                                        roundClickableArea:true
+                                    });
+                map.map.entities.push(x);
                 if(typeof(datas) == 'object'){
                     $('.non_height').addClass('h-1/4');
                     $('#non_height').addClass('h-full');
@@ -271,50 +279,46 @@
             }
 
             function GetMap() {
-                //------------------------------------------------------------------------
-                //1. Instance
-                //------------------------------------------------------------------------
-                const map = new Bmap("#myMap");
-                //------------------------------------------------------------------------
-                //2. Display Map（表示されるマップの設定）
-                //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
-                //   startMap(lat, lon, "MapType", Zoom[1~20]);
-                //   マップの種類：↓色々ある
-                //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
-                //--------------------------------------------------
-                map.startMap(36.11500549316406, 137.9534454345703, "load", 14);
-                //----------------------------------------------------
-                //3. Add Pushpin-Icon 好きな画像アイコンをマッピングできる
-                // （緯度、経度、アイコン画像、アイコン大きさ、アイコンと位置情報のリンクするところのX位置、アイコンと位置情報のリンクするところY位置）
-                // pinIcon(lat, lon, icon, scale, anchor_x, anchor_y);
-                //----------------------------------------------------
-                //マッピング関数
-                mappingFunction(map,@json($spots),<?php if (isset($_GET["user_id"])) {echo 1;} else {echo 0;} ?>);
-
-                //検索時にAjaxでデータ取得
-                $("#search_word").on("keydown",function(e){
-                    if(e.keyCode==13){
-                        document.getElementById("search").click();
-                    }
-                });
-                $("#search").on("click", function() {
-                    $(function(){
-                    $.ajax({
-                        type: "get", //HTTP通信の種類
-                        url:'/search?search_word='+document.getElementById("search_word").value
-                    })
-                    //通信が成功したとき
-                    .done((res)=>{
-                        map.deletePin();
-                        mappingFunction(map,res,0);
-                    })
-                    //通信が失敗したとき
-                    .fail((error)=>{
-                        console.log(error)
-                    })
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    //------------------------------------------------------------------------
+                    //1. Instance
+                    //------------------------------------------------------------------------
+                    const map = new Bmap("#myMap");
+                    //------------------------------------------------------------------------
+                    //2. Display Map（表示されるマップの設定）
+                    //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
+                    //   startMap(lat, lon, "MapType", Zoom[1~20]);
+                    //   マップの種類：↓色々ある
+                    //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
+                    //--------------------------------------------------
+                    map.startMap(position.coords.latitude,position.coords.longitude, "load", 14);
+                    //マッピング関数
+                    mappingFunction(map,@json($spots),<?php if (isset($_GET["user_id"])) {echo 1;} else {echo 0;} ?>,position);
+                    
+                    //検索時にAjaxでデータ取得
+                    $("#search_word").on("keydown",function(e){
+                        if(e.keyCode==13){
+                            document.getElementById("search").click();
+                        }
+                    });
+                    $("#search").on("click", function() {
+                        $(function(){
+                        $.ajax({
+                            type: "get", //HTTP通信の種類
+                            url:'/search?search_word='+document.getElementById("search_word").value
+                        })
+                        //通信が成功したとき
+                        .done((res)=>{
+                            map.deletePin();
+                            mappingFunction(map,res,0,position);
+                        })
+                        //通信が失敗したとき
+                        .fail((error)=>{
+                            console.log(error)
+                        })
+                        });
                     });
                 });
-
             }
         </script>
     </body> 
