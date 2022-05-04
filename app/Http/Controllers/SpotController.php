@@ -25,7 +25,6 @@ class SpotController extends Controller
         // ->orwhere('user_id', '=', 20)
         // ->orwhere('user_id', '=', 15)
         ->get();
-        // dd($spots);
         return view('top', ['spots' => $spots]);
     }
 
@@ -119,32 +118,16 @@ class SpotController extends Controller
 
     public function search(Request $request)
     {
+        $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*');
         if($request['search_word'] != null) {
-            // dd($request->keyword);// 一旦開通確認をするため ddd()を表示させる
-            $keyword = $request->all();
-            // dd($keyword['search_word']);
-            $search_word = str_replace('　', ' ', $keyword['search_word']);
-            $keyword_list = explode(' ', $search_word);
-            // dd($keyword_list);
-            if(count($keyword_list) > 1){
-                $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*')->
-                where('movie_title', 'LIKE', '%'.$keyword_list[0].'%')->
-                where('movie_title', 'LIKE', '%'.$keyword_list[1].'%')->
-                leftjoin('users','users.id', '=', 'spots.user_id')
-                ->get();
-            }else{
-                $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*')->
-                where('movie_title', 'LIKE', '%'.$keyword['search_word'].'%')->
-                leftjoin('users','users.id', '=', 'spots.user_id')
-                ->get();
+            $search_word = str_replace('　', ' ', $request['search_word']);
+            $search_word = explode(' ', $search_word);
+            for ($i=0; $i<count($search_word); $i++){
+                $spots = $spots->where('movie_title', 'LIKE', '%'.$search_word[$i].'%');
             }
-            // dd($spots);
-            return view('top', ['spots' => $spots]);
-        }else{
-            $spots = ' ';
-            return view('top', ['spots' => $spots]);
         }
-
+        $spots = $spots->leftjoin('users','users.id', '=', 'spots.user_id')->get();
+        return $spots;
     }
 
     public function category(Request $request)

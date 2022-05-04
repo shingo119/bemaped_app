@@ -56,22 +56,13 @@
     </head>
     <body class="w-full">
         <div id="myMap" class="w-screen"></div>
-        <form method="POST" action="{{ route('search')}}">
-            @csrf
-            <div class="search-bar-wrap absolute top-8 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
-                {{-- <div class="bg-white rounded-full w-12 h-12 flex justify-center items-center">
-                    <img id="menu" class="block w-10 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
-                </div> --}}
-                <div class="search-bar w-full mx-2 pl-8 h-12 bg-white rounded-3xl flex justify-start items-center md:max-w-xl">
-                    {{-- <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt=""> --}}
-                    <input class="w-5/6 h-10 pl-2 box-border" type="text" id="search" name="search_word" placeholder="ここで検索">
-                    <input type="image" name="submit" class="cursor-pointer w-6 m-auto drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="送信する" >
-                    {{-- <button type="submit" class="btn btn-primary">送信</button> --}}
-                </div>
-                {{-- <img class="w-6 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}"> --}}
+        <div class="search-bar-wrap absolute top-8 mx-auto flex justify-center items-center drop-shadow-lg z-index left-1/2 -translate-x-1/2 md:max-w-2xl w-full">
+            <div class="search-bar w-full pl-6 h-12 bg-white rounded-3xl flex justify-start items-center overflow-hidden">
+                <input class="h-10 pl-2 box-border" style="width: calc(100% - 60px)" type="text" id="search_word" placeholder="ここで検索">
+                <div  id="search" style="width:60px" class="h-full flex justify-center cursor-pointer"><img src="{{ asset('img/search.png') }}" class="m-auto"></div>
             </div>
-        </form>
-        <form method="POST" action="{{ route('category')}}">
+        </div>
+        <!-- <form method="GET" action="{{ route('category')}}">
             @csrf
             {{-- <div class="absolute w-full bg-white inset-x-0 top-28 mx-auto mt-4 flex justify-center">
                 <div class="w-11/12 bg-green-300 flex justify-center">
@@ -88,8 +79,8 @@
                     </div>
                 </div>
             </div>
-        </form>
-        <div class="absolute top-[122px] left-[-30px] w-full grid">
+        </form> -->
+        <!-- <div class="absolute top-[122px] left-[-30px] w-full grid">
             <div class="justify-self-center  w-3/5 md:max-w-md">
                 <div id="hiddenMenu" class="hidden w-[120px] rounded-md shadow-lg p-2 bg-white ">
                     @guest
@@ -109,12 +100,10 @@
                     @endguest
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div id="non_pinchin" class="non_height spot_card_container absolute inset-x-0 top-3/4 mx-0 w-full flex justify-center">
+        <div id="non_pinchin" class="non_height spot_card_container absolute top-3/4 mx-auto w-full flex justify-center left-1/2 -translate-x-1/2 md:max-w-6xl">
             <div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl">
-        {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
-            <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
         @if(gettype($spots) == "object")
             @foreach($spots as $spot)
                 <x-spot-card :spot="$spot" />
@@ -167,7 +156,6 @@
             const cardAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
                     $('#'+el['spot_id']+'').on('mouseover', function(){
-                        map.changeMap(lat,lon);
                         map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                     }) 
@@ -210,6 +198,23 @@
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             });
+            
+            $("#search").on("click", function() {alert('aaa')});
+
+            $(function(){
+            $.ajax({
+                type: "get", //HTTP通信の種類
+                url:'/search?search_word='
+            })
+            //通信が成功したとき
+            .done((res)=>{
+                console.log(res)
+            })
+            //通信が失敗したとき
+            .fail((error)=>{
+                console.log(error)
+            })
+            });
 
             function GetMap() {
                 //------------------------------------------------------------------------
@@ -249,8 +254,7 @@
                         const x = new Microsoft.Maps.Pushpin(locations[i], {
                                             icon: iconUrl,
                                             anchor: new Microsoft.Maps.Point(14,14),
-                                            roundClickableArea:true,
-                                            enableClickedStyle:true, //Click
+                                            roundClickableArea:true
                                         });
                         map.map.entities.push(x);
                         const icon = el['icon_img'];

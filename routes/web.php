@@ -21,7 +21,7 @@ Route::get('/test', [SpotController::class, 'test'])->name('test');
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/search', [SpotController::class, 'search'])->name('search');
+Route::get('/search', [SpotController::class, 'search'])->name('search');
 Route::post('/category', [SpotController::class, 'category'])->name('category');
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
