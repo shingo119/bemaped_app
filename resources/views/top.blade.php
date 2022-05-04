@@ -56,7 +56,7 @@
     </head>
     <body class="w-full">
         <div id="myMap" class="w-screen"></div>
-        <div class="search-bar-wrap absolute top-8 mx-auto flex justify-center items-center drop-shadow-lg z-index left-1/2 -translate-x-1/2 md:max-w-2xl w-full">
+        <div class="search-bar-wrap absolute top-8 mx-auto flex justify-center items-center drop-shadow-lg z-index left-1/2 -translate-x-1/2 md:max-w-2xl w-full select-none">
             <div class="search-bar w-full pl-6 h-12 bg-white rounded-3xl flex justify-start items-center overflow-hidden">
                 <input class="h-10 pl-2 box-border border-r-2" style="width: calc(100% - 120px)" type="text" id="search_word" placeholder="ここで検索">
                 <div  id="search" style="width:60px" class="h-10 flex justify-center cursor-pointer border-r-2"><img src="{{ asset('img/search.png') }}" class="m-auto"></div>
