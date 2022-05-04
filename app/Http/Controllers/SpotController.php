@@ -15,16 +15,14 @@ class SpotController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $spots = Spot::select('spots.*', 'spots.id AS spot_id', 'users.*')
-        ->leftjoin('users','users.id', '=', 'spots.user_id')
-        // ->where('user_id', '=', 13)
-        // ->orwhere('user_id', '=', 12)
-        // ->orwhere('user_id', '=', 21)
-        // ->orwhere('user_id', '=', 20)
-        // ->orwhere('user_id', '=', 15)
-        ->get();
+        ->leftjoin('users','users.id', '=', 'spots.user_id');
+        if ($request['user_id'] != null) {
+            $spots = $spots->where('user_id', '=', $request['user_id']);
+        }
+        $spots = $spots->get();
         return view('top', ['spots' => $spots]);
     }
 

@@ -624,6 +624,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: 50%;
 }
 
+.left-0 {
+  left: 0;
+}
+
 .m-2 {
   margin: 0.5rem;
 }
@@ -1645,6 +1649,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .ss\:h-full {
     height: 100%;
+  }
+
+  .ss\:h-80 {
+    height: 20rem;
+  }
+
+  .ss\:h-0 {
+    height: 0;
   }
 
   .ss\:w-48 {

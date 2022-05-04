@@ -102,19 +102,20 @@
             </div>
         </div> -->
 
-        <div id="non_pinchin" class="non_height spot_card_container absolute top-3/4 mx-auto w-full flex justify-center left-1/2 -translate-x-1/2 md:max-w-6xl">
+        <div id="non_pinchin" class="non_height spot_card_container absolute top-3/4 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl">
             <div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl">
-        @if(gettype($spots) == "object")
-            @foreach($spots as $spot)
-                <x-spot-card :spot="$spot" />
-            @endforeach
-        @else
-            <div></div>
-        @endif
+            @if(gettype($spots) == "object")
+                @foreach($spots as $spot)
+                    <x-spot-card :spot="$spot" />
+                @endforeach
+            @else
+                <div></div>
+            @endif
             </div>
         </div>
         
         <script>
+
             function make_iframe_on_map_by_video_id(data){ //動画情報カードのサムネがないときの処理
                 var yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
                 var ytimg = new Image();
@@ -145,7 +146,6 @@
                         }else{
                             result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
                         }
-                    // }
                 return result
             }
 
@@ -199,29 +199,82 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             });
             
-            $("#search").on("click", function() {alert('aaa')});
+            
 
-            $(function(){
-            $.ajax({
-                type: "get", //HTTP通信の種類
-                url:'/search?search_word='
-            })
-            //通信が成功したとき
-            .done((res)=>{
-                console.log(res)
-            })
-            //通信が失敗したとき
-            .fail((error)=>{
-                console.log(error)
-            })
-            });
+            const mappingFunction = (map,datas,setview) => {
+                const locations = [];
+                datas.forEach((el,i) => {
+                    const lat = el['lat'];
+                    const lon = el['lon'];
+                    locations[i] = new Microsoft.Maps.Location(lat, lon);
+                    if (el["category_id"]==1) {
+                        iconUrl = "{{asset('img/restaurant.png')}}";
+                    } else {
+                        iconUrl = "{{asset('img/sightseeing.png')}}";
+                    }
+                    //ワイナリーフェスタ終わったら削除？
+                    if (el["user_id"]==20) {
+                        iconUrl = "{{asset('img/wine.png')}}";
+                    }
+                    const x = new Microsoft.Maps.Pushpin(locations[i], {
+                                        icon: iconUrl,
+                                        anchor: new Microsoft.Maps.Point(14,14),
+                                        roundClickableArea:true
+                                    });
+                    map.map.entities.push(x);
+                    const icon = el['icon_img'];
+                    const spotId = el['spot_id'];
+                    const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
+                    cardAction(map,lat,lon,el,ytimg);
+                    $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
+                    // ホバーした時のみ説明を表示する
+                    if(windowWidth <= windowSm){
+                        map.onPin(x,"click", function(){
+                            // $('#'+el['spot_id']+'').trigger("click");
+                            $('svg').remove();
+                            selectedVideo=el['spot_id'];
+                            let y = $('#'+el['spot_id']+'').position();
+                            let z = $('#non_height').scrollLeft();
+                            var pos = y.left + z;
+                            $("#non_height").animate({scrollLeft: pos},"slow", "swing");
+                            map.changeMap(lat,lon)
+                            map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
+                        })
+                    }else{
+                        map.onPin(x, "click", function () {
+                            const url = "/view?spot_id="+el['spot_id'];
+                            window.location.href = `${url}`;
+                        });
+                        map.onPin(x, "mouseout", function () {
+                            $('#info_id'+el['spot_id']).remove();
+                        });
+                        map.onPin(x, "mouseover", function () {
+                            map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
+                            let y = $('#'+el['spot_id']+'').position();
+                            let z = $('#non_height').scrollLeft();
+                            var pos = y.left + z;
+                            $("#non_height").animate({scrollLeft: pos},"slow", "swing");
+                            selectedVideo=el['spot_id'];
+                        });
+                    }
+                })
+                if(typeof(datas) == 'object'){
+                    $('.non_height').addClass('h-1/4');
+                    $('#non_height').addClass('h-full');
+                }
+                if (setview==1) { 
+                    map.map.setView({
+                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                        padding: 30
+                    });
+                }
+            }
 
             function GetMap() {
                 //------------------------------------------------------------------------
                 //1. Instance
                 //------------------------------------------------------------------------
                 const map = new Bmap("#myMap");
-                // map.disableZooming = false;
                 //------------------------------------------------------------------------
                 //2. Display Map（表示されるマップの設定）
                 //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
@@ -235,81 +288,33 @@
                 // （緯度、経度、アイコン画像、アイコン大きさ、アイコンと位置情報のリンクするところのX位置、アイコンと位置情報のリンクするところY位置）
                 // pinIcon(lat, lon, icon, scale, anchor_x, anchor_y);
                 //----------------------------------------------------
-                const locations = [];
                 //マッピング関数
-                const mappingFunction = (datas) => {
-                    datas.forEach((el,i) => {
-                        const lat = el['lat'];
-                        const lon = el['lon'];
-                        locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        if (el["category_id"]==1) {
-                            iconUrl = "{{asset('img/restaurant.png')}}";
-                        } else {
-                            iconUrl = "{{asset('img/sightseeing.png')}}";
-                        }
-                        //ワイナリーフェスタ終わったら削除？
-                        if (el["user_id"]==20) {
-                            iconUrl = "{{asset('img/wine.png')}}";
-                        }
-                        const x = new Microsoft.Maps.Pushpin(locations[i], {
-                                            icon: iconUrl,
-                                            anchor: new Microsoft.Maps.Point(14,14),
-                                            roundClickableArea:true
-                                        });
-                        map.map.entities.push(x);
-                        const icon = el['icon_img'];
-                        const spotId = el['spot_id'];
-                        const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                        cardAction(map,lat,lon,el,ytimg);
-                        $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
-                        // ホバーした時のみ説明を表示する
-                        if(windowWidth <= windowSm){
-                            map.onPin(x,"click", function(){
-                                // $('#'+el['spot_id']+'').trigger("click");
-                                $('svg').remove();
-                                selectedVideo=el['spot_id'];
-                                let y = $('#'+el['spot_id']+'').position();
-                                let z = $('#non_height').scrollLeft();
-                                var pos = y.left + z;
-                                $("#non_height").animate({scrollLeft: pos},"slow", "swing");
-                                map.changeMap(lat,lon)
-                                map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
-                            })
-                        }else{
-                            map.onPin(x, "click", function () {
-                                const url = "/view?spot_id="+el['spot_id'];
-                                window.location.href = `${url}`;
-                            });
-                            map.onPin(x, "mouseout", function () {
-                                $('#info_id'+el['spot_id']).remove();
-                            });
-                            map.onPin(x, "mouseover", function () {
-                                map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
-                                let y = $('#'+el['spot_id']+'').position();
-                                let z = $('#non_height').scrollLeft();
-                                var pos = y.left + z;
-                                $("#non_height").animate({scrollLeft: pos},"slow", "swing");
-                                selectedVideo=el['spot_id'];
-                            });
-                        }
+                mappingFunction(map,@json($spots),<?php if (isset($_GET["user_id"])) {echo 1;} else {echo 0;} ?>);
+
+                //検索時にAjaxでデータ取得
+                $("#search_word").on("keydown",function(e){
+                    if(e.keyCode==13){
+                        document.getElementById("search").click();
+                    }
+                });
+                $("#search").on("click", function() {
+                    $(function(){
+                    $.ajax({
+                        type: "get", //HTTP通信の種類
+                        url:'/search?search_word='+document.getElementById("search_word").value
                     })
-                    if(typeof(datas) == 'object'){
-                        $('.non_height').addClass('h-1/4');
-                        $('#non_height').addClass('h-full');
-                    }
-                    if(windowWidth <= windowSm){
-                        map.map.setView({
-                            bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                            padding: 100
-                        });
-                    }else{
-                        map.map.setView({
-                            bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                            padding: 300
-                        });
-                    }
-                }
-                mappingFunction(@json($spots));
+                    //通信が成功したとき
+                    .done((res)=>{
+                        map.deletePin();
+                        mappingFunction(map,res,0);
+                    })
+                    //通信が失敗したとき
+                    .fail((error)=>{
+                        console.log(error)
+                    })
+                    });
+                });
+
             }
         </script>
     </body> 
