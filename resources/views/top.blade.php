@@ -181,10 +181,6 @@
                         $('svg').remove();
                         map.changeMap(lat,lon);
                         selectedVideo=el['spot_id'];
-                        // let y = $('#'+el['spot_id']+'').position();
-                        // let z = $('#non_height').scrollTop();
-                        // var pos = y.top + z;
-                        // $("#non_height").animate({scrollTop: pos},"slow", "swing")
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                     } else {
                         window.location.href = "/view?spot_id="+el['spot_id'];
@@ -253,7 +249,8 @@
                         const x = new Microsoft.Maps.Pushpin(locations[i], {
                                             icon: iconUrl,
                                             anchor: new Microsoft.Maps.Point(14,14),
-                                            roundClickableArea:true
+                                            roundClickableArea:true,
+                                            enableClickedStyle:true, //Click
                                         });
                         map.map.entities.push(x);
                         const icon = el['icon_img'];

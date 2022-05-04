@@ -22,7 +22,7 @@ class SpotController extends Controller
         // ->where('user_id', '=', 13)
         // ->orwhere('user_id', '=', 12)
         // ->orwhere('user_id', '=', 21)
-        ->orwhere('user_id', '=', 20)
+        // ->orwhere('user_id', '=', 20)
         // ->orwhere('user_id', '=', 15)
         ->get();
         // dd($spots);
