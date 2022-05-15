@@ -13,7 +13,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>bemaped</title>
+        <title>eXmap</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -55,7 +55,7 @@
     </head>
     <body class="flex justify-start">
         <div class="w-full bg-gray-100">
-            <div class="h-16 flex items-center justify-center"><a href="{{route('index')}}"><p class="m-0 text-3xl font-bold text-yellow-400">bemaped</p></a></div>
+            <div class="h-16 flex items-center justify-center"><a href="{{route('index')}}"><p class="m-0 text-3xl font-bold text-yellow-400">eXmap</p></a></div>
             <div id="hidden_veiw" class="w-full overflow-y-hidden flex justify-center">
                 <div class="view_content_wrap w-full h-full xl:max-w-6xl">
                     <div class="bg-white w-full">

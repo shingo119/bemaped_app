@@ -14,7 +14,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-        <title>bemaped</title>
+        <title>eXmap</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -60,7 +60,7 @@
             <div class="search-bar w-full pl-6 h-12 bg-white rounded-3xl flex justify-start items-center overflow-hidden">
                 <input class="h-10 pl-2 box-border border-r-2" style="width: calc(100% - 120px)" type="text" id="search_word" placeholder="ここで検索">
                 <div  id="search" style="width:60px" class="h-10 flex justify-center cursor-pointer border-r-2"><img src="{{ asset('img/search.png') }}" class="m-auto"></div>
-                <div  id="cancel" style="width:60px" class="h-10 flex justify-center cursor-pointer"><img src="{{ asset('img/cancel.png') }}" class="m-auto h-1/2"></div>
+                <div  id="cancel" style="width:60px" class="h-10 flex justify-center cursor-pointer"><img src="{{ asset('img/cancel.png') }}" class="m-auto h-3/4"></div>
             </div>
         </div>
         <!-- <form method="GET" action="{{ route('category')}}">
@@ -102,30 +102,24 @@
                 </div>
             </div>
         </div> -->
-
-        <div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl">
-            <div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl">
-            @if(gettype($spots) == "object")
-                @foreach($spots as $spot)
-                    <x-spot-card :spot="$spot" />
-                @endforeach
-            @else
-                <div></div>
-            @endif
+        
+        <span id="card">
+            @if(isset($_GET['user_id']))
+            <div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none">
+                <div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none">
+                @if(gettype($spots) == "object")
+                    @foreach($spots as $spot)
+                        <x-spot-card :spot="$spot" />
+                    @endforeach
+                @endif
+                </div>
             </div>
-        </div>
+            @endif
+        </span>
         
         <script>
-            $("#cancel").on("click", function() {
-                if (document.getElementById("search_word").value!='') {
-                    document.getElementById("search_word").value='';
-                    document.getElementById("search").click();
-                }
-            });
-            
             const windowWidth = $(window).width(); //ウィンドウサイズ取得
             const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
-            
             let selectedVideo=-1;
             const cardAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
@@ -150,6 +144,7 @@
                 })
             }
 
+            //iOS11以降でピンチインアウトで拡大縮小禁止
             document.body.addEventListener("touchstart", function(e){
                 if (e.touches && e.touches.length > 1) {
                     e.preventDefault();
@@ -173,8 +168,8 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             });
 
-            const mappingFunction = (map,datas,setview,position) => {
-                const locations = [];
+            const locations = [];
+            const mappingFunction = (map,datas) => {
                 datas.forEach((el,i) => {
                     const lat = el['lat'];
                     const lon = el['lon'];
@@ -195,25 +190,15 @@
                                         roundClickableArea:true
                                     });
                     map.map.entities.push(x);
-                    const icon = el['icon_img'];
-                    const spotId = el['spot_id'];
                     cardAction(map,lat,lon,el);
-                    // $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
-                    // ホバーした時のみ説明を表示する
                     map.onPin(x,"click", function(){
-                        if($(window).width() > windowSm){
-                            const url = "/view?spot_id="+el['spot_id'];
-                            window.location.href = `${url}`;
-                        } else {
-                            $('svg').remove();
-                            selectedVideo=el['spot_id'];
-                            let y = $('#'+el['spot_id']+'').position();
-                            let z = $('#non_height').scrollLeft();
-                            var pos = y.left + z;
-                            $("#non_height").animate({scrollLeft: pos},"slow", "swing");
-                            map.changeMap(lat,lon)
-                            map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
-                        }
+                        $('svg').remove();
+                        $('#card').empty();
+                        selectedVideo=el['spot_id'];
+                        map.changeMap(lat,lon);
+                        map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
+                        $('#card').append('<div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none h-1/4"><div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none h-full"></div></div>')
+                        $('#non_height').append('<div class="spot_card_element_wrap snap-center w-full h-full flex items-center box-border min-w-full select-none" ><button type="submit" class="cursor w-full h-full z-index"><a href="/view?spot_id='+el['spot_id']+'"><div id="'+el['spot_id']+'" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-xl box-border flex items-center h-full justify-between"><input type="hidden" name="spot_id" value="'+el['spot_id']+'"><div id="ytimg'+el['spot_id']+'" class="left_element overflow-hidden h-2/3 mx-3 flex items-center justify-center w-48 ss:overflow-visible ss:h-full"><img src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" /></div><div class="text-xs ss:text-base" style="width: calc(100% - 200px)"><div class="flex justify-start"><p class="mt-2 mb-1">'+el['movie_title']+'</p></div><div class="flex items-center"><img class="w-8 h-8 mx-2 rounded-full" src="https://bemaped.sakuraweb.com/storage/'+el['icon_img']+'" alt=""><span class="user_name">'+el['name']+'</span></div></div></div></a></button></div>');
                     })
                     map.onPin(x, "mouseout", function () {
                         if($(window).width() > windowSm){
@@ -231,48 +216,58 @@
                         }
                     });
                 })
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                const x = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(lat, lon), {
-                                        roundClickableArea:true
-                                    });
-                map.map.entities.push(x);
                 if(typeof(datas) == 'object'){
                     $('.non_height').addClass('h-1/4');
                     $('#non_height').addClass('h-full');
                 }
-                if (setview==1) { 
-                    map.map.setView({
-                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                        padding: 30
-                    });
-                }
             }
 
             function GetMap() {
+                //------------------------------------------------------------------------
+                //1. Instance
+                //------------------------------------------------------------------------
+                const map = new Bmap("#myMap");
+                //------------------------------------------------------------------------
+                //2. Display Map（表示されるマップの設定）
+                //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
+                //   startMap(lat, lon, "MapType", Zoom[1~20]);
+                //   マップの種類：↓色々ある
+                //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
+                //--------------------------------------------------
+                map.startMap(36.10464927598747, 137.94293850768207, "load", 14);
+                //マッピング関数
+                mappingFunction(map,@json($spots));
+                <?php
+                if (isset($_GET["user_id"])) {
+                    echo
+                    "map.map.setView({
+                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                        padding: 30
+                    });";
+                }
+                ?>
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    //------------------------------------------------------------------------
-                    //1. Instance
-                    //------------------------------------------------------------------------
-                    const map = new Bmap("#myMap");
-                    //------------------------------------------------------------------------
-                    //2. Display Map（表示されるマップの設定）
-                    //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
-                    //   startMap(lat, lon, "MapType", Zoom[1~20]);
-                    //   マップの種類：↓色々ある
-                    //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
-                    //--------------------------------------------------
-                    map.startMap(position.coords.latitude,position.coords.longitude, "load", 14);
-                    //マッピング関数
-                    mappingFunction(map,@json($spots),<?php if (isset($_GET["user_id"])) {echo 1;} else {echo 0;} ?>,position);
-                    
-                    //検索時にAjaxでデータ取得
-                    $("#search_word").on("keydown",function(e){
-                        if(e.keyCode==13){
-                            document.getElementById("search").click();
-                        }
-                    });
-                    $("#search").on("click", function() {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    map.pinLayer(lat,lon);
+                    <?php
+                    if (!isset($_GET["user_id"])) {
+                        echo
+                        "map.changeMap(lat, lon);";
+                    }
+                    ?>
+                });
+                
+                //検索時にAjaxでデータ取得
+                $("#search_word").on("keydown",function(e){
+                    if(e.keyCode==13){
+                        document.getElementById("search").click();
+                    }
+                });
+                $("#search").on("click", function() {
+                    $('svg').remove();
+                    selectedVideo=-1;
+                    if (document.getElementById("search_word").value!='') {
                         $(function(){
                             $.ajax({
                                 type: "get", //HTTP通信の種類
@@ -281,15 +276,29 @@
                             //通信が成功したとき
                             .done((res)=>{
                                 map.deletePin();
-                                mappingFunction(map,res,0,position);
+                                mappingFunction(map,res);
                             })
                             //通信が失敗したとき
                             .fail((error)=>{
                                 console.log(error)
                             })
                         });
-                    });
-                    
+                    } else {
+                        map.deletePin();
+                        mappingFunction(map,@json($spots));
+                    }
+                });
+
+                //キャンセルボタンを押したときの動作
+                $("#cancel").on("click", function() {
+                    $('svg').remove();
+                    selectedVideo=-1;
+                    $('#card').empty();
+                    if (document.getElementById("search_word").value!='') {
+                        document.getElementById("search_word").value='';
+                        map.deletePin();
+                        mappingFunction(map,@json($spots));
+                    }
                 });
             }
         </script>
