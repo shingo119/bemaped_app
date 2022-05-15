@@ -121,6 +121,7 @@
             const windowWidth = $(window).width(); //ウィンドウサイズ取得
             const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
             let selectedVideo=-1;
+            let searching=<?php if (isset($_GET['user_id'])) {echo 1;} else {echo 0;} ?>;
             const cardAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
                     $('#'+el['spot_id']).on('mouseover', function(){
@@ -193,12 +194,19 @@
                     cardAction(map,lat,lon,el);
                     map.onPin(x,"click", function(){
                         $('svg').remove();
-                        $('#card').empty();
+                        map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                         selectedVideo=el['spot_id'];
                         map.changeMap(lat,lon);
-                        map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
-                        $('#card').append('<div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none h-1/4"><div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none h-full"></div></div>')
-                        $('#non_height').append('<div class="spot_card_element_wrap snap-center w-full h-full flex items-center box-border min-w-full select-none" ><button type="submit" class="cursor w-full h-full z-index"><a href="/view?spot_id='+el['spot_id']+'"><div id="'+el['spot_id']+'" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-xl box-border flex items-center h-full justify-between"><input type="hidden" name="spot_id" value="'+el['spot_id']+'"><div id="ytimg'+el['spot_id']+'" class="left_element overflow-hidden h-2/3 mx-3 flex items-center justify-center w-48 ss:overflow-visible ss:h-full"><img src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" /></div><div class="text-xs ss:text-base" style="width: calc(100% - 200px)"><div class="flex justify-start"><p class="mt-2 mb-1">'+el['movie_title']+'</p></div><div class="flex items-center"><img class="w-8 h-8 mx-2 rounded-full" src="https://bemaped.sakuraweb.com/storage/'+el['icon_img']+'" alt=""><span class="user_name">'+el['name']+'</span></div></div></div></a></button></div>');
+                        if (searching==0) {
+                            $('#card').empty();
+                            $('#card').append('<div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none h-1/4"><div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none h-full"></div></div>')
+                            $('#non_height').append('<div class="spot_card_element_wrap snap-center w-full h-full flex items-center box-border min-w-full select-none" ><button type="submit" class="cursor w-full h-full z-index"><a href="/view?spot_id='+el['spot_id']+'"><div id="'+el['spot_id']+'" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-xl box-border flex items-center h-full justify-between"><input type="hidden" name="spot_id" value="'+el['spot_id']+'"><div id="ytimg'+el['spot_id']+'" class="left_element overflow-hidden h-2/3 mx-3 flex items-center justify-center w-48 ss:overflow-visible ss:h-full"><img src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" /></div><div class="text-xs ss:text-base" style="width: calc(100% - 200px)"><div class="flex justify-start"><p class="mt-2 mb-1">'+el['movie_title']+'</p></div><div class="flex items-center"><img class="w-8 h-8 mx-2 rounded-full" src="https://bemaped.sakuraweb.com/storage/'+el['icon_img']+'" alt=""><span class="user_name">'+el['name']+'</span></div></div></div></a></button></div>');
+                        } else {
+                            let y = $('#'+el['spot_id']+'').position();
+                            let z = $('#non_height').scrollLeft();
+                            var pos = y.left + z;
+                            $("#non_height").animate({scrollLeft: pos},"slow", "swing");
+                        }
                     })
                     map.onPin(x, "mouseout", function () {
                         if($(window).width() > windowSm){
@@ -267,7 +275,39 @@
                 $("#search").on("click", function() {
                     $('svg').remove();
                     selectedVideo=-1;
+                    searching=1;
+                    $(function(){
+                        $.ajax({
+                            type: "get", //HTTP通信の種類
+                            url:'/search?search_word='+document.getElementById("search_word").value
+                        })
+                        //通信が成功したとき
+                        .done((res)=>{
+                            map.deletePin();
+                            mappingFunction(map,res);
+                            $('#card').empty();
+                            $('#card').append('<div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none h-1/4"><div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none h-full"></div></div>');
+                            for (let i=0; i<res.length; i++) {
+                                $('#non_height').append('<div class="spot_card_element_wrap snap-center w-full h-full flex items-center box-border min-w-full select-none" ><button type="submit" class="cursor w-full h-full z-index"><div id="'+res[i]['spot_id']+'" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-xl box-border flex items-center h-full justify-between"><input type="hidden" name="spot_id" value="'+res[i]['spot_id']+'"><div id="ytimg'+res[i]['spot_id']+'" class="left_element overflow-hidden h-2/3 mx-3 flex items-center justify-center w-48 ss:overflow-visible ss:h-full"><img src="https://img.youtube.com/vi/'+res[i]['youtube_id']+'/hqdefault.jpg" /></div><div class="text-xs ss:text-base" style="width: calc(100% - 200px)"><div class="flex justify-start"><p class="mt-2 mb-1">'+res[i]['movie_title']+'</p></div><div class="flex items-center"><img class="w-8 h-8 mx-2 rounded-full" src="https://bemaped.sakuraweb.com/storage/'+res[i]['icon_img']+'" alt=""><span class="user_name">'+res[i]['name']+'</span></div></div></div></button></div>');
+                                cardAction(map,res[i]['lat'],res[i]['lon'],res[i]);
+                            }
+                        })
+                        //通信が失敗したとき
+                        .fail((error)=>{
+                            console.log(error)
+                        })
+                    });
+                });
+
+                //キャンセルボタンを押したときの動作
+                $("#cancel").on("click", function() {
+                    $('svg').remove();
+                    searching=0;
+                    selectedVideo=-1;
+                    $('#card').empty();
                     if (document.getElementById("search_word").value!='') {
+                        document.getElementById("search_word").value='';
+                        map.deletePin();
                         $(function(){
                             $.ajax({
                                 type: "get", //HTTP通信の種類
@@ -283,21 +323,6 @@
                                 console.log(error)
                             })
                         });
-                    } else {
-                        map.deletePin();
-                        mappingFunction(map,@json($spots));
-                    }
-                });
-
-                //キャンセルボタンを押したときの動作
-                $("#cancel").on("click", function() {
-                    $('svg').remove();
-                    selectedVideo=-1;
-                    $('#card').empty();
-                    if (document.getElementById("search_word").value!='') {
-                        document.getElementById("search_word").value='';
-                        map.deletePin();
-                        mappingFunction(map,@json($spots));
                     }
                 });
             }
