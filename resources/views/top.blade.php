@@ -196,7 +196,7 @@
                         $('svg').remove();
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                         selectedVideo=el['spot_id'];
-                        map.changeMap(lat,lon);
+                        if(windowWidth <= windowSm){map.changeMap(lat,lon)};
                         if (searching==0) {
                             $('#card').empty();
                             $('#card').append('<div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none h-1/4"><div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none h-full"></div></div>')
