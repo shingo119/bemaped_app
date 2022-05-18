@@ -13,7 +13,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>bemaped</title>
+        <title>eXmap</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -55,19 +55,12 @@
     </head>
     <body class="flex justify-start">
         <div class="w-full bg-gray-100">
-            <div class="h-16 flex items-center justify-center"><a href="{{route('index')}}"><p class="m-0 text-3xl font-bold text-yellow-400">bemaped</p></a></div>
+            <div class="h-16 flex items-center justify-center"><a href="{{route('index')}}"><p class="m-0 text-3xl font-bold text-yellow-400">eXmap</p></a></div>
             <div id="hidden_veiw" class="w-full overflow-y-hidden flex justify-center">
-                {{-- <a href="{{route('index')}}"><img class="w-12 h-12 mt-3 ml-8" src="{{asset('img/back_button.png')}}" alt=""></a> --}}
                 <div class="view_content_wrap w-full h-full xl:max-w-6xl">
                     <div class="bg-white w-full">
                         <iframe class="youtube w-full aspect-video" data-src="https://www.youtube.com/embed/{{ $spot->youtube_id }}?autoplay=1&version=3&loop=1&playlist={{ $spot->youtube_id }}&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        {{-- <div id="player"></div> --}}
                     </div>
-                    {{-- <a href="https://www.furusato-tax.jp/" target="_blank">
-                    <div class="flex justify-center w-full border-b bn-color">
-                        <img src="https://www.furusato-tax.jp/img/agreement/728_90.png" alt="ふるさとチョイス" width="728" height="90" decoding="async" />
-                    </div>
-                    </a> --}}
                     <div class="border-b">
                         <div class="title_text text-xs m-2 font-bold md:text-xl">{!! nl2br($spot->movie_title) !!}</div>
                     </div>
@@ -76,7 +69,7 @@
                         <p class="m-0">{{$spot->user->name}}</p>
                     </div>
                     <div class="h-full px-2 pt-4">
-                        <p class="m-0 full break-all">{!! nl2br($spot->comment) !!}</p>
+                        <div class="m-0 full break-all">{!! nl2br($spot->comment) !!}</div>
                     </div>
                     <div class="m-3">
                         <a href="{{route('index')}}"><button class="px-2 py-1 text-blue-500 border-2 border-blue-500 font-semibold rounded hover:bg-blue-100">戻る</button></a>

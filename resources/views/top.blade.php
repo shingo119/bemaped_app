@@ -14,7 +14,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-        <title>bemaped</title>
+        <title>eXmap</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -56,22 +56,14 @@
     </head>
     <body class="w-full">
         <div id="myMap" class="w-screen"></div>
-        <form method="POST" action="{{ route('search')}}">
-            @csrf
-            <div class="search-bar-wrap absolute top-8 inset-x-0 mx-auto flex justify-center items-center drop-shadow-lg z-index">
-                {{-- <div class="bg-white rounded-full w-12 h-12 flex justify-center items-center">
-                    <img id="menu" class="block w-10 p-2 cursor-pointer" src="{{ asset('img/menu3.png')}}" alt="">
-                </div> --}}
-                <div class="search-bar w-full mx-2 pl-8 h-12 bg-white rounded-3xl flex justify-start items-center md:max-w-xl">
-                    {{-- <img class="w-4 m-2 drop-shadow-lg" src="{{ asset('img/pull_down.png') }}" alt=""> --}}
-                    <input class="w-5/6 h-10 pl-2 box-border" type="text" id="search" name="search_word" placeholder="ここで検索">
-                    <input type="image" name="submit" class="cursor-pointer w-6 m-auto drop-shadow-lg" src="{{ asset('img/search.png') }}" alt="送信する" >
-                    {{-- <button type="submit" class="btn btn-primary">送信</button> --}}
-                </div>
-                {{-- <img class="w-6 m-2 ring ring-white mr-1 bg-white rounded-full" src="{{ asset('img/bell2.png') }}"> --}}
+        <div class="search-bar-wrap absolute top-8 mx-auto flex justify-center items-center drop-shadow-lg z-index left-1/2 -translate-x-1/2 md:max-w-2xl w-full select-none">
+            <div class="search-bar w-full pl-6 h-12 bg-white rounded-3xl flex justify-start items-center overflow-hidden">
+                <input class="h-10 pl-2 box-border border-r-2" style="width: calc(100% - 120px)" type="text" id="search_word" placeholder="ここで検索">
+                <div  id="search" style="width:60px" class="h-10 flex justify-center cursor-pointer border-r-2"><img src="{{ asset('img/search.png') }}" class="m-auto"></div>
+                <div  id="cancel" style="width:60px" class="h-10 flex justify-center cursor-pointer"><img src="{{ asset('img/cancel.png') }}" class="m-auto h-3/4"></div>
             </div>
-        </form>
-        <form method="POST" action="{{ route('category')}}">
+        </div>
+        <!-- <form method="GET" action="{{ route('category')}}">
             @csrf
             {{-- <div class="absolute w-full bg-white inset-x-0 top-28 mx-auto mt-4 flex justify-center">
                 <div class="w-11/12 bg-green-300 flex justify-center">
@@ -88,8 +80,8 @@
                     </div>
                 </div>
             </div>
-        </form>
-        <div class="absolute top-[122px] left-[-30px] w-full grid">
+        </form> -->
+        <!-- <div class="absolute top-[122px] left-[-30px] w-full grid">
             <div class="justify-self-center  w-3/5 md:max-w-md">
                 <div id="hiddenMenu" class="hidden w-[120px] rounded-md shadow-lg p-2 bg-white ">
                     @guest
@@ -109,66 +101,31 @@
                     @endguest
                 </div>
             </div>
-        </div>
-
-        <div id="non_pinchin" class="non_height spot_card_container absolute inset-x-0 top-3/4 mx-0 w-full flex justify-center">
-            <div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl">
-        {{-- <div class="non_height spot_card_container absolute inset-x-0 top-2/3 mx-auto mt-4">
-            <div id="non_height" class="spot_card_content w-2/3 m-auto overflow-x-scroll snap-y flex flex-col items-center"> --}}
-        @if(gettype($spots) == "object")
-            @foreach($spots as $spot)
-                <x-spot-card :spot="$spot" />
-            @endforeach
-        @else
-            <div></div>
-        @endif
+        </div> -->
+        
+        <span id="card">
+            @if(isset($_GET['user_id']))
+            <div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none">
+                <div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none">
+                @if(gettype($spots) == "object")
+                    @foreach($spots as $spot)
+                        <x-spot-card :spot="$spot" />
+                    @endforeach
+                @endif
+                </div>
             </div>
-        </div>
+            @endif
+        </span>
         
         <script>
-            function make_iframe_on_map_by_video_id(data){ //動画情報カードのサムネがないときの処理
-                var yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
-                var ytimg = new Image();
-                ytimg.onload=function () {
-                    if (ytimg.naturalWidth > 120) {
-                    // サムネイル画像ありの処理
-                    } else {
-                    // サムネイル画像なしの処理
-                    ytimg.src="https://img.youtube.com/vi/"+data+"/sddefault.jpg"
-                        if (ytimg.naturalWidth <= 120) {
-                            ytimg.src="https://img.youtube.com/vi/"+data+"/hqdefault.jpg"
-                        }
-                    }
-                }
-                ytimg.src = yturl;
-                ytimg.classList.add('object-contain');
-                ytimg.width=260;
-                return ytimg;
-            }
-
-            function make_iframe_on_map_by_video_id_2(data){ //サムネイルピンのサムネがない時の処理
-                const yturl = "https://img.youtube.com/vi/"+data+"/maxresdefault.jpg";
-                const ytimg = new Image();
-                ytimg.src = yturl;
-                let result = '';
-                        if (ytimg.naturalWidth <= 120) {
-                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+data+'/hqdefault.jpg" alt="" /></div>';
-                        }else{
-                            result = '<div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="300" src="https://img.youtube.com/vi/'+data+'/sddefault.jpg" alt="" /></div>';
-                        }
-                    // }
-                return result
-            }
-
             const windowWidth = $(window).width(); //ウィンドウサイズ取得
             const windowSm = 820; //なんとなくwidth:820pxをアクションのブレイクポイントにしてみました
-            
             let selectedVideo=-1;
-            const cardAction = (map,lat,lon,el,ytimg) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
+            let searching=<?php if (isset($_GET['user_id'])) {echo 1;} else {echo 0;} ?>;
+            const cardAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
-                    $('#'+el['spot_id']+'').on('mouseover', function(){
-                        map.changeMap(lat,lon);
-                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;">'+ytimg+'</div>');
+                    $('#'+el['spot_id']).on('mouseover', function(){
+                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div>');
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                     }) 
                     $('.view_button').on('mouseout', function(){
@@ -176,15 +133,11 @@
                         $('svg').remove();
                     })
                 }
-                $('#'+el['spot_id']+'').on('click', function(){
+                $('#'+el['spot_id']).on('click', function(){
                     if (selectedVideo!=el['spot_id']) {
                         $('svg').remove();
                         map.changeMap(lat,lon);
                         selectedVideo=el['spot_id'];
-                        // let y = $('#'+el['spot_id']+'').position();
-                        // let z = $('#non_height').scrollTop();
-                        // var pos = y.top + z;
-                        // $("#non_height").animate({scrollTop: pos},"slow", "swing")
                         map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
                     } else {
                         window.location.href = "/view?spot_id="+el['spot_id'];
@@ -192,6 +145,7 @@
                 })
             }
 
+            //iOS11以降でピンチインアウトで拡大縮小禁止
             document.body.addEventListener("touchstart", function(e){
                 if (e.touches && e.touches.length > 1) {
                     e.preventDefault();
@@ -215,12 +169,72 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             });
 
+            const locations = [];
+            const mappingFunction = (map,datas) => {
+                datas.forEach((el,i) => {
+                    const lat = el['lat'];
+                    const lon = el['lon'];
+                    locations[i] = new Microsoft.Maps.Location(lat, lon);
+                    if (el["category_id"]==1) {
+                        iconUrl = "{{asset('img/restaurant.png')}}";
+                    } else {
+                        iconUrl = "{{asset('img/sightseeing.png')}}";
+                    }
+                    //ワイナリーフェスタ終わったら削除
+                    if (el["user_id"]==20) {
+                        iconUrl = "{{asset('img/wine.png')}}";
+                    }
+                    //ここまでワイナリーフェスタ終わったら削除
+                    const x = new Microsoft.Maps.Pushpin(locations[i], {
+                                        icon: iconUrl,
+                                        anchor: new Microsoft.Maps.Point(14,14),
+                                        roundClickableArea:true
+                                    });
+                    map.map.entities.push(x);
+                    cardAction(map,lat,lon,el);
+                    map.onPin(x,"click", function(){
+                        $('svg').remove();
+                        map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
+                        selectedVideo=el['spot_id'];
+                        if(windowWidth <= windowSm){map.changeMap(lat,lon)};
+                        if (searching==0) {
+                            $('#card').empty();
+                            $('#card').append('<div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none h-1/4"><div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none h-full"></div></div>')
+                            $('#non_height').append('<div class="spot_card_element_wrap snap-center w-full h-full flex items-center box-border min-w-full select-none" ><button type="submit" class="cursor w-full h-full z-index"><a href="/view?spot_id='+el['spot_id']+'"><div id="'+el['spot_id']+'" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-xl box-border flex items-center h-full justify-between"><input type="hidden" name="spot_id" value="'+el['spot_id']+'"><div id="ytimg'+el['spot_id']+'" class="left_element overflow-hidden h-2/3 mx-3 flex items-center justify-center w-48 ss:overflow-visible ss:h-full"><img src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" /></div><div class="text-xs ss:text-base" style="width: calc(100% - 200px)"><div class="flex justify-start"><p class="mt-2 mb-1">'+el['movie_title']+'</p></div><div class="flex items-center"><img class="w-8 h-8 mx-2 rounded-full" src="https://bemaped.sakuraweb.com/storage/'+el['icon_img']+'" alt=""><span class="user_name">'+el['name']+'</span></div></div></div></a></button></div>');
+                        } else {
+                            let y = $('#'+el['spot_id']+'').position();
+                            let z = $('#non_height').scrollLeft();
+                            var pos = y.left + z;
+                            $("#non_height").animate({scrollLeft: pos},"slow", "swing");
+                        }
+                    })
+                    map.onPin(x, "mouseout", function () {
+                        if($(window).width() > windowSm){
+                            $('#info_id'+el['spot_id']).remove();
+                        }
+                    });
+                    map.onPin(x, "mouseover", function () {
+                        if($(window).width() > windowSm){
+                            map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div>');
+                            let y = $('#'+el['spot_id']+'').position();
+                            let z = $('#non_height').scrollLeft();
+                            var pos = y.left + z;
+                            $("#non_height").animate({scrollLeft: pos},"slow", "swing");
+                            selectedVideo=el['spot_id'];
+                        }
+                    });
+                })
+                if(typeof(datas) == 'object'){
+                    $('.non_height').addClass('h-1/4');
+                    $('#non_height').addClass('h-full');
+                }
+            }
+
             function GetMap() {
                 //------------------------------------------------------------------------
                 //1. Instance
                 //------------------------------------------------------------------------
                 const map = new Bmap("#myMap");
-                // map.disableZooming = false;
                 //------------------------------------------------------------------------
                 //2. Display Map（表示されるマップの設定）
                 //   スタートマップ（緯度、経度、マップの種類、ズームの度合い）
@@ -228,87 +242,89 @@
                 //   マップの種類：↓色々ある
                 //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
                 //--------------------------------------------------
-                map.startMap(36.11500549316406, 137.9534454345703, "load", 14);
-                //----------------------------------------------------
-                //3. Add Pushpin-Icon 好きな画像アイコンをマッピングできる
-                // （緯度、経度、アイコン画像、アイコン大きさ、アイコンと位置情報のリンクするところのX位置、アイコンと位置情報のリンクするところY位置）
-                // pinIcon(lat, lon, icon, scale, anchor_x, anchor_y);
-                //----------------------------------------------------
-                const locations = [];
+                map.startMap(36.10464927598747, 137.94293850768207, "load", 14);
                 //マッピング関数
-                const mappingFunction = (datas) => {
-                    datas.forEach((el,i) => {
-                        const lat = el['lat'];
-                        const lon = el['lon'];
-                        locations[i] = new Microsoft.Maps.Location(lat, lon);
-                        if (el["category_id"]==1) {
-                            iconUrl = "{{asset('img/restaurant.png')}}";
-                        } else {
-                            iconUrl = "{{asset('img/sightseeing.png')}}";
-                        }
-                        //ワイナリーフェスタ終わったら削除？
-                        if (el["user_id"]==20) {
-                            iconUrl = "{{asset('img/wine.png')}}";
-                        }
-                        const x = new Microsoft.Maps.Pushpin(locations[i], {
-                                            icon: iconUrl,
-                                            anchor: new Microsoft.Maps.Point(14,14),
-                                            roundClickableArea:true
-                                        });
-                        map.map.entities.push(x);
-                        const icon = el['icon_img'];
-                        const spotId = el['spot_id'];
-                        const ytimg = make_iframe_on_map_by_video_id_2(el['youtube_id']);
-                        cardAction(map,lat,lon,el,ytimg);
-                        $('#ytimg'+spotId+'').append(make_iframe_on_map_by_video_id(el['youtube_id']));
-                        // ホバーした時のみ説明を表示する
-                        if(windowWidth <= windowSm){
-                            map.onPin(x,"click", function(){
-                                // $('#'+el['spot_id']+'').trigger("click");
-                                $('svg').remove();
-                                selectedVideo=el['spot_id'];
-                                let y = $('#'+el['spot_id']+'').position();
-                                let z = $('#non_height').scrollLeft();
-                                var pos = y.left + z;
-                                $("#non_height").animate({scrollLeft: pos},"slow", "swing");
-                                map.changeMap(lat,lon)
-                                map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
-                            })
-                        }else{
-                            map.onPin(x, "click", function () {
-                                const url = "/view?spot_id="+el['spot_id'];
-                                window.location.href = `${url}`;
-                            });
-                            map.onPin(x, "mouseout", function () {
-                                $('#info_id'+el['spot_id']).remove();
-                            });
-                            map.onPin(x, "mouseover", function () {
-                                map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;">'+ytimg+'</div>');
-                                let y = $('#'+el['spot_id']+'').position();
-                                let z = $('#non_height').scrollLeft();
-                                var pos = y.left + z;
-                                $("#non_height").animate({scrollLeft: pos},"slow", "swing");
-                                selectedVideo=el['spot_id'];
-                            });
-                        }
-                    })
-                    if(typeof(datas) == 'object'){
-                        $('.non_height').addClass('h-1/4');
-                        $('#non_height').addClass('h-full');
-                    }
-                    if(windowWidth <= windowSm){
-                        map.map.setView({
-                            bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                            padding: 100
-                        });
-                    }else{
-                        map.map.setView({
-                            bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
-                            padding: 300
-                        });
-                    }
+                mappingFunction(map,@json($spots));
+                <?php
+                if (isset($_GET["user_id"])) {
+                    echo
+                    "map.map.setView({
+                        bounds: Microsoft.Maps.LocationRect.fromLocations(locations), //fromLocations or fromShapes
+                        padding: 30
+                    });";
                 }
-                mappingFunction(@json($spots));
+                ?>
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    map.pinLayer(lat,lon);
+                    <?php
+                    if (!isset($_GET["user_id"])) {
+                        echo
+                        "map.changeMap(lat, lon);";
+                    }
+                    ?>
+                });
+                
+                //検索時にAjaxでデータ取得
+                $("#search_word").on("keydown",function(e){
+                    if(e.keyCode==13){
+                        document.getElementById("search").click();
+                    }
+                });
+                $("#search").on("click", function() {
+                    $('svg').remove();
+                    selectedVideo=-1;
+                    searching=1;
+                    $(function(){
+                        $.ajax({
+                            type: "get", //HTTP通信の種類
+                            url:'/search?search_word='+document.getElementById("search_word").value
+                        })
+                        //通信が成功したとき
+                        .done((res)=>{
+                            map.deletePin();
+                            mappingFunction(map,res);
+                            $('#card').empty();
+                            $('#card').append('<div id="non_pinchin" class="non_height spot_card_container absolute bottom-0 mx-auto w-full flex justify-center left-0 right-0 md:max-w-6xl select-none h-1/4"><div id="non_height" class="absolute spot_card_content rounded-xl mx-0 overflow-x-auto flex items-center snap-x snap-mandatory w-full xl:max-w-6xl select-none h-full"></div></div>');
+                            for (let i=0; i<res.length; i++) {
+                                $('#non_height').append('<div class="spot_card_element_wrap snap-center w-full h-full flex items-center box-border min-w-full select-none" ><button type="submit" class="cursor w-full h-full z-index"><div id="'+res[i]['spot_id']+'" class="view_button w-full h-full py-2 hover:text-white hover:font-bold bg-aaa hover:bg-blue-400 ring-4 ring-white rounded-xl box-border flex items-center h-full justify-between"><input type="hidden" name="spot_id" value="'+res[i]['spot_id']+'"><div id="ytimg'+res[i]['spot_id']+'" class="left_element overflow-hidden h-2/3 mx-3 flex items-center justify-center w-48 ss:overflow-visible ss:h-full"><img src="https://img.youtube.com/vi/'+res[i]['youtube_id']+'/hqdefault.jpg" /></div><div class="text-xs ss:text-base" style="width: calc(100% - 200px)"><div class="flex justify-start"><p class="mt-2 mb-1">'+res[i]['movie_title']+'</p></div><div class="flex items-center"><img class="w-8 h-8 mx-2 rounded-full" src="https://bemaped.sakuraweb.com/storage/'+res[i]['icon_img']+'" alt=""><span class="user_name">'+res[i]['name']+'</span></div></div></div></button></div>');
+                                cardAction(map,res[i]['lat'],res[i]['lon'],res[i]);
+                            }
+                        })
+                        //通信が失敗したとき
+                        .fail((error)=>{
+                            console.log(error)
+                        })
+                    });
+                });
+
+                //キャンセルボタンを押したときの動作
+                $("#cancel").on("click", function() {
+                    $('svg').remove();
+                    searching=0;
+                    selectedVideo=-1;
+                    $('#card').empty();
+                    if (document.getElementById("search_word").value!='') {
+                        document.getElementById("search_word").value='';
+                        map.deletePin();
+                        $(function(){
+                            $.ajax({
+                                type: "get", //HTTP通信の種類
+                                url:'/search?search_word='+document.getElementById("search_word").value
+                            })
+                            //通信が成功したとき
+                            .done((res)=>{
+                                map.deletePin();
+                                mappingFunction(map,res);
+                            })
+                            //通信が失敗したとき
+                            .fail((error)=>{
+                                console.log(error)
+                            })
+                        });
+                    }
+                });
             }
         </script>
     </body> 
