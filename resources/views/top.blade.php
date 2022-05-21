@@ -259,10 +259,11 @@
                     const lon = position.coords.longitude;
                     map.pinLayer(lat,lon);
                     <?php
-                    if (!isset($_GET["user_id"])) {
-                        echo
-                        "map.changeMap(lat, lon);";
-                    }
+                    // ここを一時的に削除（ワイナリーフェスタ終わったあとは塩尻スタートにする意味がなくなるので要検討）
+                    // if (!isset($_GET["user_id"])) {
+                    //     echo
+                    //     "map.changeMap(lat, lon);";
+                    // }
                     ?>
                 });
                 
