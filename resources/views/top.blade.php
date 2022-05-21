@@ -125,8 +125,8 @@
             const cardAction = (map,lat,lon,el) => { //カードにマウスオン、マウスアウトでピンが動画ピンに変化
                 if(windowWidth > windowSm){
                     $('#'+el['spot_id']).on('mouseover', function(){
-                        map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div>');
-                        map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
+                        map.infoboxHtml(lat, lon, '<a href="/view?spot_id='+el['spot_id']+'"><div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px;" style="user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div></a>');
+                        map.infoboxHtml(lat, lon, '<a href="/view?spot_id='+el['spot_id']+'"><svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></a>');
                     }) 
                     $('.view_button').on('mouseout', function(){
                         $('#info_id'+el['spot_id']).remove();
@@ -138,7 +138,7 @@
                         $('svg').remove();
                         map.changeMap(lat,lon);
                         selectedVideo=el['spot_id'];
-                        map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
+                        map.infoboxHtml(lat, lon, '<a href="/view?spot_id='+el['spot_id']+'"><svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></a>');
                     } else {
                         window.location.href = "/view?spot_id="+el['spot_id'];
                     }
@@ -194,7 +194,7 @@
                     cardAction(map,lat,lon,el);
                     map.onPin(x,"click", function(){
                         $('svg').remove();
-                        map.infoboxHtml(lat, lon, '<svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>');
+                        map.infoboxHtml(lat, lon, '<a href="/view?spot_id='+el['spot_id']+'"><svg class="absolute animate-bounce w-6 h-6 text-gray-900 -left-3 -top-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></a>');
                         selectedVideo=el['spot_id'];
                         if(windowWidth <= windowSm){map.changeMap(lat,lon)};
                         if (searching==0) {
@@ -215,7 +215,7 @@
                     });
                     map.onPin(x, "mouseover", function () {
                         if($(window).width() > windowSm){
-                            map.infoboxHtml(lat, lon, '<div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div>');
+                            map.infoboxHtml(lat, lon, '<a href="/view?spot_id='+el['spot_id']+'"><div id="info_id'+el["spot_id"]+'" style="width: 300px; background-color: #fff; position:absolute; top:-250px; left:-145px; user-select:none;"><div class="h-3/4 overflow-hidden flex items-center mt-1"><img width="315" height="170" src="https://img.youtube.com/vi/'+el['youtube_id']+'/hqdefault.jpg" alt="" /></div></div></a>');
                             let y = $('#'+el['spot_id']+'').position();
                             let z = $('#non_height').scrollLeft();
                             var pos = y.left + z;
